@@ -1,733 +1,2716 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeVortex Pro | Advanced Financial Terminal</title>
-    <!-- External Icons & Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- All CSS Styles Embedded Here -->
-    <style>
-        :root {
-            --bg-dark-0: #080a0f;
-            --bg-dark-1: #11141d;
-            --bg-dark-2: #1b202e;
-            --bg-dark-3: #262c3d;
-            --border-color: #232936;
-            --border-highlight: #333d52;
-            --text-main: #f0f3f8;
-            --text-muted: #78859e;
-            --text-dim: #4c566a;
-            --trade-green: #00c076;
-            --trade-green-glow: rgba(0, 192, 118, 0.15);
-            --trade-red: #ff3b5c;
-            --trade-red-glow: rgba(255, 59, 92, 0.15);
-            --accent-blue: #2962ff;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
+  <meta charset="UTF-8">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: var(--font-sans);
-            user-select: none;
-        }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-        body {
-            background-color: var(--bg-dark-0);
-            color: var(--text-main);
-            height: 100vh;
-            overflow: hidden;
-        }
+  <meta
+    name="description"
+    content="GOLD X Premium Trading Terminal"
+  >
 
-        /* Top Bar Header */
-        .terminal-header {
-            height: 52px;
-            background: var(--bg-dark-1);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-        }
+  <meta
+    name="theme-color"
+    content="#05070c"
+  >
 
-        .brand-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+  <title>GOLD X | Premium Trading Terminal</title>
 
-        .logo {
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-        }
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
 
-        .logo-icon { color: var(--accent-blue); margin-right: 6px; }
-        .logo .highlight { color: var(--accent-blue); }
-        .logo .badge {
-            background: var(--bg-dark-3);
-            font-size: 10px;
-            padding: 2px 5px;
-            border-radius: 3px;
-            color: var(--text-muted);
-        }
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
-        .pair-selector {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-dark-2);
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-        }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
 
-        .pair-type {
-            font-size: 10px;
-            background: var(--accent-blue);
-            padding: 1px 4px;
-            border-radius: 2px;
-        }
-
-        .market-ticker-tape {
-            display: flex;
-            gap: 24px;
-        }
-
-        .ticker-item {
-            display: flex;
-            flex-direction: column;
-            font-size: 11px;
-        }
-
-        .ticker-item .label { color: var(--text-muted); margin-bottom: 2px; }
-        .ticker-item .value { font-family: var(--font-mono); font-weight: 500; }
-
-        .user-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .connection-status {
-            font-size: 11px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-dot.online {
-            width: 6px;
-            height: 6px;
-            background: var(--trade-green);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--trade-green);
-        }
-
-        .btn {
-            padding: 6px 14px;
-            border-radius: 4px;
-            border: none;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-deposit {
-            background: var(--accent-blue);
-            color: white;
-        }
-
-        .btn-deposit:hover { background: #1e52e0; }
-
-        /* Main Workspace Terminal Layout */
-        .terminal-workspace {
-            display: grid;
-            grid-template-columns: 240px 1fr 280px 280px;
-            grid-template-rows: calc(100vh - 252px) 200px;
-            gap: 1px;
-            background: var(--border-color);
-            height: calc(100vh - 52px);
-        }
-
-        .panel {
-            background: var(--bg-dark-1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .panel-header {
-            height: 36px;
-            padding: 0 12px;
-            background: var(--bg-dark-2);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        /* Watchlist Styles */
-        .watchlist-panel { grid-column: 1; grid-row: 1; }
-        .tab-group { display: flex; gap: 4px; }
-        .tab-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            padding: 4px 8px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-        .tab-btn.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
-
-        .watchlist-table-wrapper { overflow-y: auto; height: 100%; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
-        .data-table th { color: var(--text-muted); padding: 8px 12px; position: sticky; top: 0; background: var(--bg-dark-1); }
-        .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--bg-dark-2); font-family: var(--font-mono); }
-        .data-table tbody tr:hover { background: var(--bg-dark-2); cursor: pointer; }
-
-        /* Chart Section */
-        .chart-panel { grid-column: 2; grid-row: 1; }
-        .chart-toolbar {
-            height: 36px;
-            background: var(--bg-dark-2);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 12px;
-        }
-        .timeframes { display: flex; gap: 4px; }
-        .tf-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .tf-btn.active, .tf-btn:hover { background: var(--bg-dark-3); color: var(--text-main); }
-        .chart-container { flex: 1; height: 100%; }
-
-        /* Orderbook Section */
-        .orderbook-panel { grid-column: 3; grid-row: 1; }
-        .orderbook-table-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            padding: 6px 12px;
-            font-size: 10px;
-            color: var(--text-muted);
-        }
-        .orderbook-list { flex: 1; overflow-y: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
-        .ob-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            padding: 2px 12px;
-            font-size: 11px;
-            font-family: var(--font-mono);
-            position: relative;
-        }
-        .ob-row .depth-bg {
-            position: absolute;
-            right: 0; top: 0; bottom: 0;
-            z-index: 0;
-            opacity: 0.25;
-        }
-        .asks-list .depth-bg { background: var(--trade-red); }
-        .bids-list .depth-bg { background: var(--trade-green); }
-        .ob-row span { z-index: 1; }
-
-        .market-spread-bar {
-            padding: 8px 12px;
-            background: var(--bg-dark-2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        /* Order Form Panel */
-        .execution-panel { grid-column: 4; grid-row: 1 / span 2; }
-        .execution-tabs { display: flex; }
-        .tab-execution {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            background: var(--bg-dark-2);
-            color: var(--text-muted);
-        }
-        .tab-execution.buy-tab.active { background: var(--trade-green); color: white; }
-        .tab-execution.sell-tab.active { background: var(--trade-red); color: white; }
-
-        .execution-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-        .order-type-tabs { display: flex; gap: 12px; font-size: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .type-btn { color: var(--text-muted); cursor: pointer; }
-        .type-btn.active { color: var(--text-main); font-weight: 600; }
-
-        .input-field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .input-wrapper {
-            display: flex;
-            background: var(--bg-dark-2);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 8px 12px;
-        }
-        .input-wrapper input {
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            outline: none;
-        }
-        .input-wrapper .unit { font-size: 11px; color: var(--text-muted); }
-
-        .percentage-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .chip {
-            background: var(--bg-dark-2);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 4px;
-            font-size: 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .chip:hover { background: var(--bg-dark-3); color: var(--text-main); }
-
-        .account-metrics { font-size: 11px; display: flex; flex-direction: column; gap: 6px; }
-        .metric-row { display: flex; justify-content: space-between; color: var(--text-muted); }
-
-        .btn-execute {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .buy-bg { background: var(--trade-green); color: white; box-shadow: 0 0 12px var(--trade-green-glow); }
-        .sell-bg { background: var(--trade-red); color: white; box-shadow: 0 0 12px var(--trade-red-glow); }
-
-        /* Positions Panel */
-        .positions-panel { grid-column: 1 / span 3; grid-row: 2; }
-        .panel-tabs { display: flex; background: var(--bg-dark-2); border-bottom: 1px solid var(--border-color); }
-        .tab-pos {
-            padding: 10px 16px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .tab-pos.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
-        .badge-count { background: var(--bg-dark-3); padding: 1px 5px; border-radius: 10px; font-size: 10px; }
-
-        .tag { padding: 2px 4px; border-radius: 2px; font-size: 9px; font-weight: 700; }
-        .tag.green { background: var(--trade-green-glow); color: var(--trade-green); }
-
-        .price-up, .green { color: var(--trade-green) !important; }
-        .price-down, .red { color: var(--trade-red) !important; }
-        .font-mono { font-family: var(--font-mono); }
-
-        .btn-sm {
-            background: var(--bg-dark-3);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 4px 8px;
-            border-radius: 3px;
-            font-size: 10px;
-            cursor: pointer;
-        }
-        .btn-sm:hover { background: var(--border-highlight); }
-    </style>
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
-<body class="dark-theme">
 
-    <!-- Top Navigation Bar -->
-    <header class="terminal-header">
-        <div class="brand-section">
-            <div class="logo">
-                <i class="fa-solid fa-chart-line logo-icon"></i>
-                <span class="brand-name">TRADE<span class="highlight">VORTEX</span> <span class="badge">PRO</span></span>
-            </div>
-            <div class="pair-selector">
-                <i class="fa-solid fa-star favorite-star"></i>
-                <span class="current-pair">BTC/USDT</span>
-                <span class="pair-type">PERPETUAL</span>
-                <i class="fa-solid fa-chevron-down dropdown-icon"></i>
-            </div>
+<body>
+
+  <!-- =========================================
+       GOLD X APPLICATION
+       ========================================= -->
+
+  <div id="app">
+
+    <!-- =========================================
+         LOADING SCREEN
+         ========================================= -->
+
+    <div
+      id="loadingScreen"
+      class="loading-screen"
+    >
+
+      <div class="loading-logo">
+        <div class="gold-x-logo">
+          GX
         </div>
+      </div>
 
-        <div class="market-ticker-tape">
-            <div class="ticker-item">
-                <span class="label">Mark Price</span>
-                <span class="value price-up" id="ticker-price">$64,280.50</span>
-            </div>
-            <div class="ticker-item">
-                <span class="label">24h Change</span>
-                <span class="value price-up">+ $1,840.20 (+2.95%)</span>
-            </div>
-            <div class="ticker-item">
-                <span class="label">24h High</span>
-                <span class="value">$65,100.00</span>
-            </div>
-            <div class="ticker-item">
-                <span class="label">24h Low</span>
-                <span class="value">$62,400.00</span>
-            </div>
-            <div class="ticker-item">
-                <span class="label">24h Volume(BTC)</span>
-                <span class="value">42,891.12 BTC</span>
-            </div>
-        </div>
+      <h1>
+        GOLD <span>X</span>
+      </h1>
 
-        <div class="user-actions">
-            <div class="connection-status">
-                <span class="status-dot online"></span> WS Connected
-            </div>
-            <button class="btn btn-deposit"><i class="fa-solid fa-wallet"></i> Deposit</button>
-            <div class="avatar-dropdown">
-                <i class="fa-solid fa-circle-user avatar"></i>
-            </div>
-        </div>
-    </header>
+      <p>
+        PREMIUM TRADING TERMINAL
+      </p>
 
-    <!-- Main Workspace Dashboard Grid -->
-    <div class="terminal-workspace">
+      <div class="loading-bar">
+        <div
+          id="loadingProgress"
+          class="loading-progress"
+        ></div>
+      </div>
 
-        <!-- Watchlist Side Panel -->
-        <aside class="panel watchlist-panel">
-            <div class="panel-header">
-                <div class="tab-group">
-                    <button class="tab-btn active">Crypto</button>
-                    <button class="tab-btn">Forex</button>
-                    <button class="tab-btn">Stocks</button>
-                </div>
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            </div>
-            <div class="watchlist-table-wrapper">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Pair</th>
-                            <th>Price</th>
-                            <th>24h %</th>
-                        </tr>
-                    </thead>
-                    <tbody id="watchlist-body">
-                        <tr class="active-row">
-                            <td class="pair-name"><i class="fa-solid fa-star fav active"></i> BTC/USDT</td>
-                            <td class="price">64,280.50</td>
-                            <td class="change green">+2.95%</td>
-                        </tr>
-                        <tr>
-                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> ETH/USDT</td>
-                            <td class="price">3,450.25</td>
-                            <td class="change green">+1.82%</td>
-                        </tr>
-                        <tr>
-                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> SOL/USDT</td>
-                            <td class="price">142.10</td>
-                            <td class="change red">-1.45%</td>
-                        </tr>
-                        <tr>
-                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> BNB/USDT</td>
-                            <td class="price">580.90</td>
-                            <td class="change green">+0.45%</td>
-                        </tr>
-                        <tr>
-                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> XRP/USDT</td>
-                            <td class="price">0.5840</td>
-                            <td class="change red">-0.12%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </aside>
-
-        <!-- Trading Chart Section -->
-        <section class="panel chart-panel">
-            <div class="chart-toolbar">
-                <div class="timeframes">
-                    <button class="tf-btn">1m</button>
-                    <button class="tf-btn">15m</button>
-                    <button class="tf-btn active">1h</button>
-                    <button class="tf-btn">4h</button>
-                    <button class="tf-btn">1D</button>
-                </div>
-                <div class="chart-tools">
-                    <button class="tool-btn"><i class="fa-solid fa-chart-candlestick"></i></button>
-                    <button class="tool-btn"><i class="fa-solid fa-sliders"></i> Indicators</button>
-                </div>
-            </div>
-            <div class="chart-container">
-                <div id="tradingview_pro_widget"></div>
-            </div>
-        </section>
-
-        <!-- Order Book Section -->
-        <section class="panel orderbook-panel">
-            <div class="panel-header">
-                <h3>Order Book</h3>
-                <div class="precision-selector">
-                    <span>0.1</span> <i class="fa-solid fa-chevron-down"></i>
-                </div>
-            </div>
-            <div class="orderbook-table-header">
-                <span>Price (USDT)</span>
-                <span>Size (BTC)</span>
-                <span>Total</span>
-            </div>
-            
-            <div class="orderbook-list asks-list" id="asks-container"></div>
-
-            <div class="market-spread-bar">
-                <span class="current-price-display green" id="ob-live-price">64,280.50</span>
-                <span class="spread-val">Spread: 0.10</span>
-            </div>
-
-            <div class="orderbook-list bids-list" id="bids-container"></div>
-        </section>
-
-        <!-- Trade Execution Panel -->
-        <section class="panel execution-panel">
-            <div class="execution-tabs">
-                <button class="tab-execution buy-tab active" id="btn-buy-mode">BUY</button>
-                <button class="tab-execution sell-tab" id="btn-sell-mode">SELL</button>
-            </div>
-            
-            <div class="execution-body">
-                <div class="order-type-tabs">
-                    <span class="type-btn active">Limit</span>
-                    <span class="type-btn">Market</span>
-                    <span class="type-btn">Stop-Limit</span>
-                </div>
-
-                <div class="leverage-slider-container">
-                    <div class="leverage-header">
-                        <span>Margin Mode</span>
-                        <span class="leverage-val">Cross 20x</span>
-                    </div>
-                </div>
-
-                <form id="order-execution-form">
-                    <div class="input-field">
-                        <label>Price</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="input-price" value="64280.50" step="0.1">
-                            <span class="unit">USDT</span>
-                        </div>
-                    </div>
-
-                    <div class="input-field">
-                        <label>Amount</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="input-amount" placeholder="0.00" step="0.001">
-                            <span class="unit">BTC</span>
-                        </div>
-                    </div>
-
-                    <div class="percentage-chips">
-                        <button type="button" class="chip">25%</button>
-                        <button type="button" class="chip">50%</button>
-                        <button type="button" class="chip">75%</button>
-                        <button type="button" class="chip">100%</button>
-                    </div>
-
-                    <div class="account-metrics">
-                        <div class="metric-row">
-                            <span>Avail Balance</span>
-                            <span>25,480.00 USDT</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>Max Buy</span>
-                            <span>7.92 BTC</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>Est. Fee</span>
-                            <span>0.02%</span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-execute buy-bg" id="btn-submit-order">Buy / Long BTC</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Open Positions & History Panel -->
-        <section class="panel positions-panel">
-            <div class="panel-tabs">
-                <button class="tab-pos active">Positions <span class="badge-count">1</span></button>
-                <button class="tab-pos">Open Orders <span class="badge-count">2</span></button>
-                <button class="tab-pos">Order History</button>
-                <button class="tab-pos">Trade History</button>
-            </div>
-            <div class="positions-table-wrapper">
-                <table class="data-table pos-table">
-                    <thead>
-                        <tr>
-                            <th>Symbol</th>
-                            <th>Size</th>
-                            <th>Entry Price</th>
-                            <th>Mark Price</th>
-                            <th>Liq. Price</th>
-                            <th>Margin Ratio</th>
-                            <th>PNL (ROE %)</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="tag green">LONG</span> <strong>BTCUSDT</strong> <span class="sub-text">20x</span></td>
-                            <td>0.50 BTC</td>
-                            <td>62,400.00</td>
-                            <td>64,280.50</td>
-                            <td>52,110.00</td>
-                            <td>1.25%</td>
-                            <td class="green font-mono">+ $940.25 (+30.13%)</td>
-                            <td><button class="btn-sm btn-close-pos">Market Close</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+      <small>
+        Initializing terminal...
+      </small>
 
     </div>
 
-    <!-- External Script Library -->
-    <script src="https://s3.tradingview.com/tv.js"></script>
-    
-    <!-- Embedded JS App Engine -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
 
-            // Initialize TradingView Real-time Chart
-            let tvWidget = new TradingView.widget({
-                "autosize": true,
-                "symbol": "BINANCE:BTCUSDT",
-                "interval": "60",
-                "timezone": "Etc/UTC",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "toolbar_bg": "#1b202e",
-                "enable_publishing": false,
-                "hide_side_toolbar": false,
-                "allow_symbol_change": true,
-                "container_id": "tradingview_pro_widget"
-            });
+    <!-- =========================================
+         TOP NAVIGATION
+         ========================================= -->
 
-            // Order Book Dynamic Rendering Engine
-            const asksContainer = document.getElementById('asks-container');
-            const bidsContainer = document.getElementById('bids-container');
+    <header class="topbar">
 
-            function renderOrderBookData() {
-                const basePrice = 64280.50;
-                let asksHTML = '';
-                let bidsHTML = '';
+      <div class="brand">
 
-                for (let i = 5; i >= 1; i--) {
-                    let p = (basePrice + i * 1.5).toFixed(2);
-                    let s = (Math.random() * 0.8 + 0.1).toFixed(3);
-                    let depth = Math.floor(Math.random() * 70 + 10);
-                    asksHTML += `
-                        <div class="ob-row">
-                            <span class="red">${p}</span>
-                            <span>${s}</span>
-                            <span>${(p * s / 1000).toFixed(2)}k</span>
-                            <div class="depth-bg" style="width: ${depth}%"></div>
-                        </div>`;
-                }
+        <div class="brand-symbol">
+          GX
+        </div>
 
-                for (let i = 1; i <= 5; i++) {
-                    let p = (basePrice - i * 1.5).toFixed(2);
-                    let s = (Math.random() * 0.8 + 0.1).toFixed(3);
-                    let depth = Math.floor(Math.random() * 70 + 10);
-                    bidsHTML += `
-                        <div class="ob-row">
-                            <span class="green">${p}</span>
-                            <span>${s}</span>
-                            <span>${(p * s / 1000).toFixed(2)}k</span>
-                            <div class="depth-bg" style="width: ${depth}%"></div>
-                        </div>`;
-                }
+        <div class="brand-text">
 
-                asksContainer.innerHTML = asksHTML;
-                bidsContainer.innerHTML = bidsHTML;
-            }
+          <div class="brand-name">
+            GOLD <span>X</span>
+          </div>
 
-            renderOrderBookData();
-            setInterval(renderOrderBookData, 1200);
+          <div class="brand-subtitle">
+            TRADING INTELLIGENCE
+          </div>
 
-            // Buy / Sell Mode Controller
-            const btnBuyMode = document.getElementById('btn-buy-mode');
-            const btnSellMode = document.getElementById('btn-sell-mode');
-            const btnSubmitOrder = document.getElementById('btn-submit-order');
+        </div>
 
-            btnBuyMode.addEventListener('click', () => {
-                btnBuyMode.classList.add('active');
-                btnSellMode.classList.remove('active');
-                btnSubmitOrder.textContent = 'Buy / Long BTC';
-                btnSubmitOrder.className = 'btn-execute buy-bg';
-            });
+      </div>
 
-            btnSellMode.addEventListener('click', () => {
-                btnSellMode.classList.add('active');
-                btnBuyMode.classList.remove('active');
-                btnSubmitOrder.textContent = 'Sell / Short BTC';
-                btnSubmitOrder.className = 'btn-execute sell-bg';
-            });
 
-            // Direct Binance WebSocket Live Stream
-            const binanceSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
-            const livePriceElement = document.getElementById('ticker-price');
-            const obLivePriceElement = document.getElementById('ob-live-price');
+      <div class="top-center">
 
-            binanceSocket.onmessage = (event) => {
-                const trade = JSON.parse(event.data);
-                const price = parseFloat(trade.p).toFixed(2);
-                
-                livePriceElement.textContent = `$${price}`;
-                obLivePriceElement.textContent = price;
+        <div class="market-status">
 
-                if (trade.m) {
-                    livePriceElement.className = 'value price-down';
-                    obLivePriceElement.className = 'current-price-display red';
-                } else {
-                    livePriceElement.className = 'value price-up';
-                    obLivePriceElement.className = 'current-price-display green';
-                }
-            };
+          <span class="status-dot"></span>
 
-            // Order Submission Notification Logic
-            document.getElementById('order-execution-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const amt = document.getElementById('input-amount').value;
-                const side = btnBuyMode.classList.contains('active') ? 'BUY' : 'SELL';
-                if(amt > 0) {
-                    alert(`[ORDER SUBMITTED]\nSide: ${side}\nAmount: ${amt} BTC\nStatus: Pending Execution Engine`);
-                } else {
-                    alert('Please enter a valid order amount.');
-                }
-            });
+          <span>
+            MARKET
+          </span>
 
-        });
-    </script>
+          <strong>
+            ONLINE
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <button
+          id="searchButton"
+          class="top-button"
+          type="button"
+        >
+          🔍
+        </button>
+
+        <button
+          id="notificationButton"
+          class="top-button"
+          type="button"
+        >
+          🔔
+          <span class="notification-count">
+            3
+          </span>
+        </button>
+
+        <button
+          id="themeButton"
+          class="top-button"
+          type="button"
+        >
+          ☾
+        </button>
+
+        <div class="user-profile">
+
+          <div class="user-avatar">
+            GX
+          </div>
+
+          <div class="user-info">
+
+            <strong>
+              GOLD X
+            </strong>
+
+            <small>
+              Trader
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN LAYOUT
+         ========================================= -->
+
+    <div class="main-layout">
+
+
+      <!-- =======================================
+           SIDEBAR
+           ======================================= -->
+
+      <aside
+        id="sidebar"
+        class="sidebar"
+      >
+
+        <div class="sidebar-section">
+
+          <div class="sidebar-label">
+            WORKSPACE
+          </div>
+
+          <nav class="sidebar-nav">
+
+            <a
+              href="#dashboard"
+              class="nav-link active"
+              data-page="dashboard"
+            >
+              <span class="nav-icon">
+                ◈
+              </span>
+
+              <span>
+                Dashboard
+              </span>
+            </a>
+
+
+            <a
+              href="#markets"
+              class="nav-link"
+              data-page="markets"
+            >
+              <span class="nav-icon">
+                ◉
+              </span>
+
+              <span>
+                Markets
+              </span>
+            </a>
+
+
+            <a
+              href="#terminal"
+              class="nav-link"
+              data-page="terminal"
+            >
+              <span class="nav-icon">
+                ▣
+              </span>
+
+              <span>
+                Trading Terminal
+              </span>
+            </a>
+
+
+            <a
+              href="#signals"
+              class="nav-link"
+              data-page="signals"
+            >
+              <span class="nav-icon">
+                ⚡
+              </span>
+
+              <span>
+                Signals
+              </span>
+
+              <span class="nav-badge">
+                4
+              </span>
+
+            </a>
+
+
+            <a
+              href="#watchlist"
+              class="nav-link"
+              data-page="watchlist"
+            >
+              <span class="nav-icon">
+                ★
+              </span>
+
+              <span>
+                Watchlist
+              </span>
+
+            </a>
+
+          </nav>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+          <div class="sidebar-label">
+            ANALYTICS
+          </div>
+
+          <nav class="sidebar-nav">
+
+            <a
+              href="#risk"
+              class="nav-link"
+              data-page="risk"
+            >
+              <span class="nav-icon">
+                ◫
+              </span>
+
+              <span>
+                Risk Lab
+              </span>
+
+            </a>
+
+
+            <a
+              href="#journal"
+              class="nav-link"
+              data-page="journal"
+            >
+              <span class="nav-icon">
+                ✎
+              </span>
+
+              <span>
+                Trade Journal
+              </span>
+
+            </a>
+
+
+            <a
+              href="#performance"
+              class="nav-link"
+              data-page="performance"
+            >
+              <span class="nav-icon">
+                ↗
+              </span>
+
+              <span>
+                Performance
+              </span>
+
+            </a>
+
+
+            <a
+              href="#calendar"
+              class="nav-link"
+              data-page="calendar"
+            >
+              <span class="nav-icon">
+                □
+              </span>
+
+              <span>
+                Economic Calendar
+              </span>
+
+            </a>
+
+          </nav>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+          <div class="sidebar-label">
+            SYSTEM
+          </div>
+
+          <nav class="sidebar-nav">
+
+            <a
+              href="#news"
+              class="nav-link"
+              data-page="news"
+            >
+              <span class="nav-icon">
+                ▤
+              </span>
+
+              <span>
+                Market News
+              </span>
+
+            </a>
+
+
+            <a
+              href="#settings"
+              class="nav-link"
+              data-page="settings"
+            >
+              <span class="nav-icon">
+                ⚙
+              </span>
+
+              <span>
+                Settings
+              </span>
+
+            </a>
+
+          </nav>
+
+        </div>
+
+
+        <!-- Sidebar account card -->
+
+        <div class="sidebar-account">
+
+          <div class="account-icon">
+            ◈
+          </div>
+
+          <div class="account-details">
+
+            <span>
+              ACCOUNT
+            </span>
+
+            <strong>
+              DEMO TERMINAL
+            </strong>
+
+          </div>
+
+          <div class="account-status">
+            ●
+          </div>
+
+        </div>
+
+
+        <div class="sidebar-footer">
+
+          <span>
+            GOLD X v1.0
+          </span>
+
+          <span>
+            2026
+          </span>
+
+        </div>
+
+      </aside>
+
+
+      <!-- =======================================
+           MAIN CONTENT
+           ======================================= -->
+
+      <main class="content">
+
+
+        <!-- =====================================
+             DASHBOARD
+             ===================================== -->
+
+        <section
+          id="dashboard"
+          class="page-section"
+        >
+
+          <!-- Hero -->
+
+          <div class="hero-section">
+
+            <div class="hero-content">
+
+              <div class="eyebrow">
+                PREMIUM MARKET INTELLIGENCE
+              </div>
+
+              <h1>
+                Trade with
+                <span>
+                  precision.
+                </span>
+              </h1>
+
+              <p>
+                Welcome to GOLD X — your advanced
+                trading workspace for market analysis,
+                risk planning and disciplined execution.
+              </p>
+
+              <div class="hero-buttons">
+
+                <a
+                  href="#terminal"
+                  class="button button-primary"
+                >
+                  Open Terminal
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="#risk"
+                  class="button button-secondary"
+                >
+                  Risk Calculator
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <div class="hero-visual">
+
+              <div class="hero-orbit orbit-one"></div>
+
+              <div class="hero-orbit orbit-two"></div>
+
+              <div class="hero-core">
+
+                <strong>
+                  GX
+                </strong>
+
+                <small>
+                  APEX
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Market Cards -->
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                MARKET PULSE
+              </span>
+
+              <h2>
+                Live Watchboard
+              </h2>
+
+            </div>
+
+            <span class="live-label">
+              ● LIVE
+            </span>
+
+          </div>
+
+
+          <div
+            id="marketGrid"
+            class="market-grid"
+          >
+
+            <!-- XAUUSD -->
+
+            <article class="market-card">
+
+              <div class="market-card-top">
+
+                <div class="asset">
+
+                  <div class="asset-icon gold">
+                    Au
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      XAUUSD
+                    </strong>
+
+                    <small>
+                      Gold / US Dollar
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <span class="market-tag">
+                  GOLD
+                </span>
+
+              </div>
+
+              <div class="market-price">
+                <span id="goldPrice">
+                  Loading...
+                </span>
+              </div>
+
+              <div
+                id="goldChange"
+                class="market-change up"
+              >
+                --
+              </div>
+
+              <div class="mini-chart">
+                <svg
+                  viewBox="0 0 300 70"
+                  preserveAspectRatio="none"
+                >
+
+                  <polyline
+                    points="0,58 20,54 40,60 60,43 80,48 100,34 120,39 140,26 160,30 180,22 200,27 220,15 240,20 260,12 280,18 300,8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+
+                </svg>
+              </div>
+
+            </article>
+
+
+            <!-- Bitcoin -->
+
+            <article class="market-card">
+
+              <div class="market-card-top">
+
+                <div class="asset">
+
+                  <div class="asset-icon crypto">
+                    ₿
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      BTCUSD
+                    </strong>
+
+                    <small>
+                      Bitcoin / US Dollar
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <span class="market-tag">
+                  CRYPTO
+                </span>
+
+              </div>
+
+              <div class="market-price">
+                <span id="btcPrice">
+                  Loading...
+                </span>
+              </div>
+
+              <div
+                id="btcChange"
+                class="market-change up"
+              >
+                --
+              </div>
+
+              <div class="mini-chart">
+
+                <svg
+                  viewBox="0 0 300 70"
+                  preserveAspectRatio="none"
+                >
+
+                  <polyline
+                    points="0,48 20,45 40,52 60,30 80,35 100,43 120,28 140,33 160,19 180,24 200,14 220,20 240,13 260,25 280,18 300,11"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+
+                </svg>
+
+              </div>
+
+            </article>
+
+
+            <!-- EURUSD -->
+
+            <article class="market-card">
+
+              <div class="market-card-top">
+
+                <div class="asset">
+
+                  <div class="asset-icon forex">
+                    €
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      EURUSD
+                    </strong>
+
+                    <small>
+                      Euro / US Dollar
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <span class="market-tag">
+                  FOREX
+                </span>
+
+              </div>
+
+              <div class="market-price">
+                <span id="eurPrice">
+                  1.1680
+                </span>
+              </div>
+
+              <div class="market-change up">
+                +0.18%
+              </div>
+
+              <div class="mini-chart">
+
+                <svg
+                  viewBox="0 0 300 70"
+                  preserveAspectRatio="none"
+                >
+
+                  <polyline
+                    points="0,40 20,42 40,36 60,39 80,28 100,34 120,26 140,31 160,24 180,29 200,21 220,25 240,18 260,23 280,17 300,19"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+
+                </svg>
+
+              </div>
+
+            </article>
+
+
+            <!-- NASDAQ -->
+
+            <article class="market-card">
+
+              <div class="market-card-top">
+
+                <div class="asset">
+
+                  <div class="asset-icon index">
+                    NQ
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      NAS100
+                    </strong>
+
+                    <small>
+                      Nasdaq 100
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <span class="market-tag">
+                  INDEX
+                </span>
+
+              </div>
+
+              <div class="market-price">
+                <span>
+                  LIVE
+                </span>
+              </div>
+
+              <div class="market-change up">
+                MARKET OPEN
+              </div>
+
+              <div class="mini-chart">
+
+                <svg
+                  viewBox="0 0 300 70"
+                  preserveAspectRatio="none"
+                >
+
+                  <polyline
+                    points="0,55 20,48 40,50 60,39 80,42 100,31 120,37 140,23 160,28 180,18 200,25 220,14 240,20 260,9 280,15 300,7"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+
+                </svg>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- Dashboard Grid -->
+
+          <div class="dashboard-grid">
+
+
+            <!-- Market Bias -->
+
+            <div class="panel signal-panel">
+
+              <div class="panel-header">
+
+                <div>
+
+                  <span class="panel-eyebrow">
+                    APEX ENGINE
+                  </span>
+
+                  <h3>
+                    Market Bias
+                  </h3>
+
+                </div>
+
+                <span class="engine-status">
+                  ● ACTIVE
+                </span>
+
+              </div>
+
+
+              <div class="bias-main">
+
+                <div class="bias-circle">
+
+                  <div>
+                    <strong>
+                      WAIT
+                    </strong>
+
+                    <small>
+                      CONFIRMATION
+                    </small>
+                  </div>
+
+                </div>
+
+
+                <div class="bias-info">
+
+                  <div class="confidence-header">
+
+                    <span>
+                      Confidence
+                    </span>
+
+                    <strong>
+                      58%
+                    </strong>
+
+                  </div>
+
+                  <div class="confidence-bar">
+
+                    <div
+                      style="width:58%"
+                    ></div>
+
+                  </div>
+
+                  <p>
+                    No high-confidence setup is
+                    being claimed. Confirm structure,
+                    momentum and risk before entering.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <div class="signal-matrix">
+
+                <div>
+
+                  <span>
+                    Trend
+                  </span>
+
+                  <strong>
+                    NEUTRAL
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    Momentum
+                  </span>
+
+                  <strong>
+                    MODERATE
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    Structure
+                  </span>
+
+                  <strong>
+                    RANGE
+                  </strong>
+
+                </div>
+
+                <div>
+
+                  <span>
+                    Risk
+                  </span>
+
+                  <strong class="positive">
+                    CONTROLLED
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Quick Levels -->
+
+            <div class="panel">
+
+              <div class="panel-header">
+
+                <div>
+
+                  <span class="panel-eyebrow">
+                    TRADE PLAN
+                  </span>
+
+                  <h3>
+                    Quick Levels
+                  </h3>
+
+                </div>
+
+                <span class="panel-icon">
+                  ◇
+                </span>
+
+              </div>
+
+
+              <div class="levels">
+
+                <div class="level-row">
+
+                  <span>
+                    Entry
+                  </span>
+
+                  <strong>
+                    Confirm
+                  </strong>
+
+                </div>
+
+                <div class="level-row">
+
+                  <span>
+                    Stop Loss
+                  </span>
+
+                  <strong class="negative">
+                    Define First
+                  </strong>
+
+                </div>
+
+                <div class="level-row">
+
+                  <span>
+                    Target 1
+                  </span>
+
+                  <strong class="positive">
+                    1R
+                  </strong>
+
+                </div>
+
+                <div class="level-row">
+
+                  <span>
+                    Target 2
+                  </span>
+
+                  <strong class="positive">
+                    2R
+                  </strong>
+
+                </div>
+
+                <div class="level-row">
+
+                  <span>
+                    Target 3
+                  </span>
+
+                  <strong class="positive">
+                    3R
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- Technical Diagnostics -->
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                TECHNICAL STACK
+              </span>
+
+              <h2>
+                Market Diagnostics
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="indicator-grid">
+
+
+            <div class="indicator-card">
+
+              <span>
+                RSI (14)
+              </span>
+
+              <strong>
+                52.4
+              </strong>
+
+              <small class="neutral">
+                NEUTRAL
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                EMA 20
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                CHART DATA
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                EMA 50
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                CHART DATA
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                MACD
+              </span>
+
+              <strong>
+                NEUTRAL
+              </strong>
+
+              <small class="neutral">
+                WAIT
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                TREND
+              </span>
+
+              <strong>
+                NEUTRAL
+              </strong>
+
+              <small class="neutral">
+                RANGE
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                MOMENTUM
+              </span>
+
+              <strong>
+                52%
+              </strong>
+
+              <small>
+                MODERATE
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                SUPPORT
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                CONFIRM ON CHART
+              </small>
+
+            </div>
+
+
+            <div class="indicator-card">
+
+              <span>
+                RESISTANCE
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                CONFIRM ON CHART
+              </small>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             TRADING TERMINAL
+             ===================================== -->
+
+        <section
+          id="terminal"
+          class="page-section terminal-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                PROFESSIONAL TERMINAL
+              </span>
+
+              <h2>
+                XAUUSD Trading Chart
+              </h2>
+
+            </div>
+
+            <div class="terminal-actions">
+
+              <button
+                class="small-button"
+                type="button"
+              >
+                1m
+              </button>
+
+              <button
+                class="small-button"
+                type="button"
+              >
+                5m
+              </button>
+
+              <button
+                class="small-button active"
+                type="button"
+              >
+                15m
+              </button>
+
+              <button
+                class="small-button"
+                type="button"
+              >
+                1H
+              </button>
+
+              <button
+                class="small-button"
+                type="button"
+              >
+                4H
+              </button>
+
+              <button
+                class="small-button"
+                type="button"
+              >
+                1D
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="terminal-grid">
+
+
+            <!-- Chart -->
+
+            <div class="chart-panel panel">
+
+              <div class="chart-header">
+
+                <div class="chart-symbol">
+
+                  <div class="chart-asset-icon">
+                    Au
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      XAUUSD
+                    </strong>
+
+                    <small>
+                      Gold / US Dollar
+                    </small>
+
+                  </div>
+
+                </div>
+
+
+                <div class="chart-tools">
+
+                  <button type="button">
+                    ⊕
+                  </button>
+
+                  <button type="button">
+                    ⚙
+                  </button>
+
+                  <button type="button">
+                    ⛶
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              <div class="chart-container">
+
+                <!-- TradingView -->
+
+                <div
+                  class="tradingview-widget-container"
+                  style="height:100%;width:100%"
+                >
+
+                  <div
+                    class="tradingview-widget-container__widget"
+                    style="height:100%;width:100%"
+                  ></div>
+
+                  <script
+                    type="text/javascript"
+                    src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+                    async
+                  >
+                  {
+                    "autosize": true,
+                    "symbol": "OANDA:XAUUSD",
+                    "interval": "15",
+                    "timezone": "Asia/Colombo",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "en",
+                    "allow_symbol_change": true,
+                    "calendar": false,
+                    "hide_side_toolbar": false,
+                    "hide_top_toolbar": false,
+                    "hide_legend": false,
+                    "save_image": false,
+                    "hide_volume": true,
+                    "support_host": "https://www.tradingview.com"
+                  }
+                  </script>
+
+                </div>
+
+              </div>
+
+
+              <div class="chart-footer">
+
+                <span>
+                  Chart powered by TradingView
+                </span>
+
+                <span id="chartSync">
+                  Terminal ready
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- Terminal Side -->
+
+            <aside class="terminal-sidebar">
+
+
+              <div class="panel">
+
+                <div class="panel-header">
+
+                  <div>
+
+                    <span class="panel-eyebrow">
+                      MARKET
+                    </span>
+
+                    <h3>
+                      XAUUSD
+                    </h3>
+
+                  </div>
+
+                  <span class="positive">
+                    LIVE
+                  </span>
+
+                </div>
+
+
+                <div class="big-price">
+
+                  <span id="terminalGoldPrice">
+                    Loading...
+                  </span>
+
+                </div>
+
+
+                <div class="price-row">
+
+                  <span>
+                    Session
+                  </span>
+
+                  <strong>
+                    Active
+                  </strong>
+
+                </div>
+
+
+                <div class="price-row">
+
+                  <span>
+                    Spread
+                  </span>
+
+                  <strong>
+                    Live
+                  </strong>
+
+                </div>
+
+
+                <div class="price-row">
+
+                  <span>
+                    Symbol
+                  </span>
+
+                  <strong>
+                    OANDA:XAUUSD
+                  </strong>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel">
+
+                <div class="panel-header">
+
+                  <div>
+
+                    <span class="panel-eyebrow">
+                      WATCHLIST
+                    </span>
+
+                    <h3>
+                      Favorites
+                    </h3>
+
+                  </div>
+
+                </div>
+
+
+                <div class="terminal-watchlist">
+
+                  <div class="watch-item">
+
+                    <span>
+                      XAUUSD
+                    </span>
+
+                    <strong>
+                      GOLD
+                    </strong>
+
+                  </div>
+
+                  <div class="watch-item">
+
+                    <span>
+                      BTCUSD
+                    </span>
+
+                    <strong>
+                      BTC
+                    </strong>
+
+                  </div>
+
+                  <div class="watch-item">
+
+                    <span>
+                      EURUSD
+                    </span>
+
+                    <strong>
+                      EUR
+                    </strong>
+
+                  </div>
+
+                  <div class="watch-item">
+
+                    <span>
+                      NAS100
+                    </span>
+
+                    <strong>
+                      NQ
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+            </aside>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             RISK LAB
+             ===================================== -->
+
+        <section
+          id="risk"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                RISK MANAGEMENT
+              </span>
+
+              <h2>
+                GOLD X Risk Lab
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="two-column-grid">
+
+
+            <div class="panel calculator-panel">
+
+              <div class="panel-header">
+
+                <div>
+
+                  <span class="panel-eyebrow">
+                    POSITION PLANNER
+                  </span>
+
+                  <h3>
+                    Risk Calculator
+                  </h3>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-grid">
+
+                <label>
+
+                  Account Balance
+
+                  <input
+                    id="accountBalance"
+                    type="number"
+                    value="10000"
+                    min="0"
+                  >
+
+                </label>
+
+
+                <label>
+
+                  Risk %
+
+                  <input
+                    id="riskPercent"
+                    type="number"
+                    value="1"
+                    min="0"
+                    step="0.1"
+                  >
+
+                </label>
+
+
+                <label>
+
+                  Entry Price
+
+                  <input
+                    id="entryPrice"
+                    type="number"
+                    value="0"
+                    min="0"
+                    step="0.01"
+                  >
+
+                </label>
+
+
+                <label>
+
+                  Stop Loss
+
+                  <input
+                    id="stopPrice"
+                    type="number"
+                    value="0"
+                    min="0"
+                    step="0.01"
+                  >
+
+                </label>
+
+              </div>
+
+
+              <button
+                id="calculateRisk"
+                class="button button-primary full-button"
+                type="button"
+              >
+                Calculate Risk
+              </button>
+
+
+              <div
+                id="riskResult"
+                class="calculator-result"
+              >
+                Enter your values to calculate
+                maximum planned loss.
+              </div>
+
+
+              <p class="disclaimer">
+                Educational calculator only.
+                Always verify position size and
+                contract specifications with your broker.
+              </p>
+
+            </div>
+
+
+            <div class="panel checklist-panel">
+
+              <div class="panel-header">
+
+                <div>
+
+                  <span class="panel-eyebrow">
+                    DISCIPLINE
+                  </span>
+
+                  <h3>
+                    Before You Trade
+                  </h3>
+
+                </div>
+
+              </div>
+
+
+              <div
+                id="tradeChecklist"
+                class="trade-checklist"
+              >
+
+                <label>
+                  <input type="checkbox">
+                  <span>
+                    I know my setup and invalidation.
+                  </span>
+                </label>
+
+                <label>
+                  <input type="checkbox">
+                  <span>
+                    My risk is defined before entry.
+                  </span>
+                </label>
+
+                <label>
+                  <input type="checkbox">
+                  <span>
+                    The trade follows my plan.
+                  </span>
+                </label>
+
+                <label>
+                  <input type="checkbox">
+                  <span>
+                    I checked important market events.
+                  </span>
+                </label>
+
+                <label>
+                  <input type="checkbox">
+                  <span>
+                    I am not entering because of FOMO.
+                  </span>
+                </label>
+
+              </div>
+
+
+              <button
+                id="resetChecklist"
+                class="button button-secondary full-button"
+                type="button"
+              >
+                Reset Checklist
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SIGNALS
+             ===================================== -->
+
+        <section
+          id="signals"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                MARKET INTELLIGENCE
+              </span>
+
+              <h2>
+                Signal Center
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="signal-grid">
+
+
+            <article class="signal-card panel">
+
+              <div class="signal-top">
+
+                <span class="signal-symbol">
+                  XAUUSD
+                </span>
+
+                <span class="signal-neutral">
+                  WAIT
+                </span>
+
+              </div>
+
+              <h3>
+                Gold Structure
+              </h3>
+
+              <p>
+                Wait for clear structure confirmation
+                before considering an entry.
+              </p>
+
+              <div class="signal-footer">
+
+                <span>
+                  Confidence
+                </span>
+
+                <strong>
+                  58%
+                </strong>
+
+              </div>
+
+            </article>
+
+
+            <article class="signal-card panel">
+
+              <div class="signal-top">
+
+                <span class="signal-symbol">
+                  BTCUSD
+                </span>
+
+                <span class="signal-positive">
+                  WATCH
+                </span>
+
+              </div>
+
+              <h3>
+                Bitcoin Momentum
+              </h3>
+
+              <p>
+                Monitor momentum and key support/
+                resistance zones.
+              </p>
+
+              <div class="signal-footer">
+
+                <span>
+                  Confidence
+                </span>
+
+                <strong>
+                  61%
+                </strong>
+
+              </div>
+
+            </article>
+
+
+            <article class="signal-card panel">
+
+              <div class="signal-top">
+
+                <span class="signal-symbol">
+                  EURUSD
+                </span>
+
+                <span class="signal-neutral">
+                  NEUTRAL
+                </span>
+
+              </div>
+
+              <h3>
+                Forex Structure
+              </h3>
+
+              <p>
+                Market conditions remain mixed.
+                Confirmation is required.
+              </p>
+
+              <div class="signal-footer">
+
+                <span>
+                  Confidence
+                </span>
+
+                <strong>
+                  54%
+                </strong>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             JOURNAL
+             ===================================== -->
+
+        <section
+          id="journal"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                PRIVATE LOG
+              </span>
+
+              <h2>
+                Trade Journal
+              </h2>
+
+            </div>
+
+            <button
+              id="addJournal"
+              class="button button-primary"
+              type="button"
+            >
+              + Add Note
+            </button>
+
+          </div>
+
+
+          <div class="panel journal-panel">
+
+            <textarea
+              id="journalInput"
+              class="journal-input"
+              placeholder="Write your market thesis, setup, invalidation, emotions or post-trade review..."
+            ></textarea>
+
+
+            <div
+              id="journalList"
+              class="journal-list"
+            ></div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             PERFORMANCE
+             ===================================== -->
+
+        <section
+          id="performance"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                PERFORMANCE
+              </span>
+
+              <h2>
+                Trading Analytics
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="stats-grid">
+
+            <div class="stat-card panel">
+
+              <span>
+                TOTAL TRADES
+              </span>
+
+              <strong>
+                0
+              </strong>
+
+              <small>
+                Start your journal
+              </small>
+
+            </div>
+
+
+            <div class="stat-card panel">
+
+              <span>
+                WIN RATE
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                Not enough data
+              </small>
+
+            </div>
+
+
+            <div class="stat-card panel">
+
+              <span>
+                PROFIT FACTOR
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                Not enough data
+              </small>
+
+            </div>
+
+
+            <div class="stat-card panel">
+
+              <span>
+                MAX DRAWDOWN
+              </span>
+
+              <strong>
+                --
+              </strong>
+
+              <small>
+                Not enough data
+              </small>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             ECONOMIC CALENDAR
+             ===================================== -->
+
+        <section
+          id="calendar"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                EVENTS
+              </span>
+
+              <h2>
+                Economic Calendar
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="calendar-list">
+
+              <div class="calendar-row">
+
+                <span>
+                  TIME
+                </span>
+
+                <span>
+                  EVENT
+                </span>
+
+                <span>
+                  IMPACT
+                </span>
+
+                <span>
+                  STATUS
+                </span>
+
+              </div>
+
+
+              <div class="calendar-row">
+
+                <span>
+                  --
+                </span>
+
+                <strong>
+                  Market event data
+                </strong>
+
+                <span class="neutral">
+                  CHECK
+                </span>
+
+                <span>
+                  External data
+                </span>
+
+              </div>
+
+
+              <div class="calendar-row">
+
+                <span>
+                  --
+                </span>
+
+                <strong>
+                  Verify before trading
+                </strong>
+
+                <span class="negative">
+                  HIGH
+                </span>
+
+                <span>
+                  Review
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             NEWS
+             ===================================== -->
+
+        <section
+          id="news"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                INTELLIGENCE
+              </span>
+
+              <h2>
+                Market Notes
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="news-grid">
+
+
+            <article class="news-card panel">
+
+              <span class="news-number">
+                01
+              </span>
+
+              <div>
+
+                <h3>
+                  Structure First
+                </h3>
+
+                <p>
+                  Identify trend, range and invalidation
+                  before searching for an entry.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="news-card panel">
+
+              <span class="news-number">
+                02
+              </span>
+
+              <div>
+
+                <h3>
+                  Risk Second
+                </h3>
+
+                <p>
+                  Position size should follow the amount
+                  you are willing to lose.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="news-card panel">
+
+              <span class="news-number">
+                03
+              </span>
+
+              <div>
+
+                <h3>
+                  Confirmation Matters
+                </h3>
+
+                <p>
+                  Avoid forcing a trade simply because
+                  the market is moving.
+                </p>
+
+              </div>
+
+            </article>
+
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             WATCHLIST
+             ===================================== -->
+
+        <section
+          id="watchlist"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                FAVORITES
+              </span>
+
+              <h2>
+                My Watchlist
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel watchlist-table">
+
+            <div class="watch-table-head">
+
+              <span>
+                SYMBOL
+              </span>
+
+              <span>
+                MARKET
+              </span>
+
+              <span>
+                STATUS
+              </span>
+
+              <span>
+                ACTION
+              </span>
+
+            </div>
+
+
+            <div class="watch-table-row">
+
+              <strong>
+                XAUUSD
+              </strong>
+
+              <span>
+                Gold
+              </span>
+
+              <span class="positive">
+                ACTIVE
+              </span>
+
+              <button
+                type="button"
+                class="small-button"
+              >
+                VIEW
+              </button>
+
+            </div>
+
+
+            <div class="watch-table-row">
+
+              <strong>
+                BTCUSD
+              </strong>
+
+              <span>
+                Crypto
+              </span>
+
+              <span class="positive">
+                ACTIVE
+              </span>
+
+              <button
+                type="button"
+                class="small-button"
+              >
+                VIEW
+              </button>
+
+            </div>
+
+
+            <div class="watch-table-row">
+
+              <strong>
+                EURUSD
+              </strong>
+
+              <span>
+                Forex
+              </span>
+
+              <span class="positive">
+                ACTIVE
+              </span>
+
+              <button
+                type="button"
+                class="small-button"
+              >
+                VIEW
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SETTINGS
+             ===================================== -->
+
+        <section
+          id="settings"
+          class="page-section"
+        >
+
+          <div class="section-header">
+
+            <div>
+
+              <span class="section-eyebrow">
+                CONTROL CENTER
+              </span>
+
+              <h2>
+                GOLD X Settings
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="settings-grid">
+
+
+            <button
+              class="setting-card panel"
+              id="themeSetting"
+              type="button"
+            >
+
+              <span class="setting-icon">
+                ◐
+              </span>
+
+              <strong>
+                Appearance
+              </strong>
+
+              <small>
+                Switch dark / light mode
+              </small>
+
+            </button>
+
+
+            <button
+              class="setting-card panel"
+              id="fullscreenSetting"
+              type="button"
+            >
+
+              <span class="setting-icon">
+                ⛶
+              </span>
+
+              <strong>
+                Fullscreen
+              </strong>
+
+              <small>
+                Expand terminal workspace
+              </small>
+
+            </button>
+
+
+            <button
+              class="setting-card panel"
+              id="clearJournal"
+              type="button"
+            >
+
+              <span class="setting-icon">
+                ⌫
+              </span>
+
+              <strong>
+                Clear Journal
+              </strong>
+
+              <small>
+                Delete local journal notes
+              </small>
+
+            </button>
+
+
+            <button
+              class="setting-card panel"
+              id="resetApplication"
+              type="button"
+            >
+
+              <span class="setting-icon">
+                ↻
+              </span>
+
+              <strong>
+                Reset Terminal
+              </strong>
+
+              <small>
+                Restore default settings
+              </small>
+
+            </button>
+
+          </div>
+
+        </section>
+
+
+      </main>
+
+    </div>
+
+
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
+
+    <footer class="site-footer">
+
+      <div class="footer-brand">
+        GOLD <span>X</span>
+      </div>
+
+      <p>
+        Premium Trading Intelligence Terminal
+      </p>
+
+      <small>
+        Market information is for educational and
+        informational purposes only. GOLD X does not
+        guarantee trading results or investment returns.
+      </small>
+
+      <div class="footer-line">
+        © 2026 GOLD X. All rights reserved.
+      </div>
+
+    </footer>
+
+
+    <!-- =========================================
+         NOTIFICATION PANEL
+         ========================================= -->
+
+    <div
+      id="notificationPanel"
+      class="notification-panel"
+    >
+
+      <div class="notification-header">
+
+        <strong>
+          Notifications
+        </strong>
+
+        <button
+          id="closeNotifications"
+          type="button"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="notification-item">
+
+        <span class="notification-icon">
+          ⚡
+        </span>
+
+        <div>
+
+          <strong>
+            Terminal Ready
+          </strong>
+
+          <p>
+            GOLD X is ready for analysis.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="notification-item">
+
+        <span class="notification-icon">
+          ◈
+        </span>
+
+        <div>
+
+          <strong>
+            Risk Reminder
+          </strong>
+
+          <p>
+            Define your risk before every trade.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="notification-item">
+
+        <span class="notification-icon">
+          ●
+        </span>
+
+        <div>
+
+          <strong>
+            Market Status
+          </strong>
+
+          <p>
+            Check current market conditions.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================================
+         SEARCH MODAL
+         ========================================= -->
+
+    <div
+      id="searchModal"
+      class="modal-overlay"
+    >
+
+      <div class="search-modal">
+
+        <div class="search-modal-header">
+
+          <strong>
+            Search GOLD X
+          </strong>
+
+          <button
+            id="closeSearch"
+            type="button"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <input
+          id="globalSearch"
+          type="search"
+          placeholder="Search dashboard, markets, risk, journal..."
+        >
+
+
+        <div
+          id="searchResults"
+          class="search-results"
+        >
+
+          <div>
+            Try:
+            <strong>
+              XAUUSD
+            </strong>
+          </div>
+
+          <div>
+            Try:
+            <strong>
+              Risk
+            </strong>
+          </div>
+
+          <div>
+            Try:
+              <strong>
+                Journal
+              </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- =========================================
+       JAVASCRIPT
+       ========================================= -->
+
+  <script src="script.js"></script>
+
 </body>
 </html>
