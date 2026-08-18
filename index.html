@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Delta Apex Trading Analysis</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b1020;
+    color: #fff;
+}
+
+header {
+    background: #11182d;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #26304a;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #00e5a0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 25px;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+select, button {
+    background: #161f38;
+    color: white;
+    border: 1px solid #34405f;
+    padding: 12px 18px;
+    border-radius: 8px;
+}
+
+button {
+    background: #00b982;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #00d99a;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.card {
+    background: #11182d;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #26304a;
+}
+
+.card h4 {
+    color: #8d99b5;
+    margin-bottom: 10px;
+}
+
+.value {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.buy {
+    color: #00e5a0;
+}
+
+.sell {
+    color: #ff5263;
+}
+
+.neutral {
+    color: #ffc857;
+}
+
+.chart-box {
+    margin-top: 20px;
+    background: #11182d;
+    padding: 20px;
+    border-radius: 12px;
+    height: 400px;
+}
+
+.analysis {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.analysis ul {
+    list-style: none;
+    line-height: 2;
+}
+
+.disclaimer {
+    margin-top: 25px;
+    padding: 15px;
+    background: #241e16;
+    border: 1px solid #6b552c;
+    color: #d8c9a5;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+@media(max-width: 800px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .analysis {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 500px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        Delta <span>Apex</span>
+    </div>
+
+    <div>
+        Trading Analysis
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="controls">
+
+        <select id="symbol">
+            <option value="XAUUSD">XAUUSD - Gold</option>
+            <option value="BTCUSD">BTCUSD - Bitcoin</option>
+            <option value="EURUSD">EURUSD - Euro</option>
+        </select>
+
+        <button onclick="runAnalysis()">
+            Run Analysis
+        </button>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <h4>Current Price</h4>
+            <div class="value" id="price">
+                0.00
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>Market Trend</h4>
+            <div class="value buy" id="trend">
+                Bullish
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>Signal</h4>
+            <div class="value buy" id="signal">
+                BUY
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>RSI</h4>
+            <div class="value" id="rsi">
+                0
+            </div>
+        </div>
+
+    </div>
+
+    <div class="chart-box">
+        <canvas id="priceChart"></canvas>
+    </div>
+
+    <div class="analysis">
+
+        <div class="card">
+
+            <h3>Trade Setup</h3>
+
+            <br>
+
+            <ul>
+                <li>
+                    Entry:
+                    <strong id="entry">0</strong>
+                </li>
+
+                <li>
+                    Stop Loss:
+                    <strong id="sl">0</strong>
+                </li>
+
+                <li>
+                    Take Profit 1:
+                    <strong id="tp1">0</strong>
+                </li>
+
+                <li>
+                    Take Profit 2:
+                    <strong id="tp2">0</strong>
+                </li>
+
+                <li>
+                    Risk / Reward:
+                    <strong id="rr">1:2</strong>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Technical Analysis</h3>
+
+            <br>
+
+            <ul>
+                <li>
+                    EMA 20:
+                    <strong id="ema20">0</strong>
+                </li>
+
+                <li>
+                    EMA 50:
+                    <strong id="ema50">0</strong>
+                </li>
+
+                <li>
+                    Support:
+                    <strong id="support">0</strong>
+                </li>
+
+                <li>
+                    Resistance:
+                    <strong id="resistance">0</strong>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="disclaimer">
+        ⚠️ Trading involves significant risk. This website is for
+        educational and informational purposes only and does not
+        constitute financial advice. Always perform your own research
+        and risk management before trading.
+    </div>
+
+</div>
+
+<script>
+
+let chart;
+
+function randomPrice(symbol) {
+
+    if(symbol === "XAUUSD") {
+        return 3300 + Math.random() * 100;
+    }
+
+    if(symbol === "BTCUSD") {
+        return 100000 + Math.random() * 10000;
+    }
+
+    return 1.15 + Math.random() * 0.05;
+}
+
+
+function runAnalysis() {
+
+    const symbol =
+        document.getElementById("symbol").value;
+
+    const price =
+        randomPrice(symbol);
+
+    const rsi =
+        Math.floor(35 + Math.random() * 45);
+
+    let signal;
+
+    if(rsi < 45) {
+        signal = "BUY";
+    }
+    else if(rsi > 65) {
+        signal = "SELL";
+    }
+    else {
+        signal = "WAIT";
+    }
+
+    let trend =
+        signal === "BUY"
+        ? "Bullish"
+        : signal === "SELL"
+        ? "Bearish"
+        : "Neutral";
+
+
+    let distance;
+
+    if(symbol === "XAUUSD") {
+        distance = 8;
+    }
+    else if(symbol === "BTCUSD") {
+        distance = 1000;
+    }
+    else {
+        distance = 0.005;
+    }
+
+
+    let entry = price;
+
+    let sl;
+    let tp1;
+    let tp2;
+
+    if(signal === "BUY") {
+
+        sl = entry - distance;
+        tp1 = entry + distance * 2;
+        tp2 = entry + distance * 3;
+
+    } else {
+
+        sl = entry + distance;
+        tp1 = entry - distance * 2;
+        tp2 = entry - distance * 3;
+
+    }
+
+
+    let ema20 =
+        price * (0.995 + Math.random() * 0.01);
+
+    let ema50 =
+        price * (0.985 + Math.random() * 0.02);
+
+    let support =
+        price - distance * 1.5;
+
+    let resistance =
+        price + distance * 1.5;
+
+
+    document.getElementById("price")
+        .innerText = price.toFixed(
+            symbol === "EURUSD" ? 5 : 2
+        );
+
+    document.getElementById("rsi")
+        .innerText = rsi;
+
+
+    const signalElement =
+        document.getElementById("signal");
+
+    signalElement.innerText = signal;
+
+    signalElement.className =
+        "value " +
+        (
+            signal === "BUY"
+            ? "buy"
+            : signal === "SELL"
+            ? "sell"
+            : "neutral"
+        );
+
+
+    const trendElement =
+        document.getElementById("trend");
+
+    trendElement.innerText = trend;
+
+    trendElement.className =
+        "value " +
+        (
+            trend === "Bullish"
+            ? "buy"
+            : trend === "Bearish"
+            ? "sell"
+            : "neutral"
+        );
+
+
+    document.getElementById("entry")
+        .innerText = entry.toFixed(2);
+
+    document.getElementById("sl")
+        .innerText = sl.toFixed(2);
+
+    document.getElementById("tp1")
+        .innerText = tp1.toFixed(2);
+
+    document.getElementById("tp2")
+        .innerText = tp2.toFixed(2);
+
+    document.getElementById("ema20")
+        .innerText = ema20.toFixed(2);
+
+    document.getElementById("ema50")
+        .innerText = ema50.toFixed(2);
+
+    document.getElementById("support")
+        .innerText = support.toFixed(2);
+
+    document.getElementById("resistance")
+        .innerText = resistance.toFixed(2);
+
+
+    createChart(price);
+
+}
+
+
+function createChart(price) {
+
+    const labels = [];
+
+    const data = [];
+
+    let current = price;
+
+    for(let i = 0; i < 50; i++) {
+
+        labels.push(i + 1);
+
+        current +=
+            (Math.random() - 0.48)
+            * (price * 0.003);
+
+        data.push(current);
+    }
+
+
+    if(chart) {
+        chart.destroy();
+    }
+
+
+    const ctx =
+        document
+        .getElementById("priceChart")
+        .getContext("2d");
+
+
+    chart = new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [{
+                label: "Price",
+                data: data,
+                borderWidth: 2,
+                tension: 0.3,
+                fill: false
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    labels: {
+                        color: "#ffffff"
+                    }
+                }
+
+            },
+
+            scales: {
+
+                x: {
+                    ticks: {
+                        color: "#8d99b5"
+                    }
+                },
+
+                y: {
+                    ticks: {
+                        color: "#8d99b5"
+                    }
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+
+runAnalysis();
+
+</script>
+
+</body>
+</html>
