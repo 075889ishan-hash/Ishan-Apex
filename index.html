@@ -4,13 +4,362 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeVortex Pro | Advanced Financial Terminal</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- External Icons & Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- All CSS Styles Embedded Here -->
+    <style>
+        :root {
+            --bg-dark-0: #080a0f;
+            --bg-dark-1: #11141d;
+            --bg-dark-2: #1b202e;
+            --bg-dark-3: #262c3d;
+            --border-color: #232936;
+            --border-highlight: #333d52;
+            --text-main: #f0f3f8;
+            --text-muted: #78859e;
+            --text-dim: #4c566a;
+            --trade-green: #00c076;
+            --trade-green-glow: rgba(0, 192, 118, 0.15);
+            --trade-red: #ff3b5c;
+            --trade-red-glow: rgba(255, 59, 92, 0.15);
+            --accent-blue: #2962ff;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-sans);
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark-0);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Bar Header */
+        .terminal-header {
+            height: 52px;
+            background: var(--bg-dark-1);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-icon { color: var(--accent-blue); margin-right: 6px; }
+        .logo .highlight { color: var(--accent-blue); }
+        .logo .badge {
+            background: var(--bg-dark-3);
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: var(--text-muted);
+        }
+
+        .pair-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-dark-2);
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pair-type {
+            font-size: 10px;
+            background: var(--accent-blue);
+            padding: 1px 4px;
+            border-radius: 2px;
+        }
+
+        .market-ticker-tape {
+            display: flex;
+            gap: 24px;
+        }
+
+        .ticker-item {
+            display: flex;
+            flex-direction: column;
+            font-size: 11px;
+        }
+
+        .ticker-item .label { color: var(--text-muted); margin-bottom: 2px; }
+        .ticker-item .value { font-family: var(--font-mono); font-weight: 500; }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .connection-status {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot.online {
+            width: 6px;
+            height: 6px;
+            background: var(--trade-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--trade-green);
+        }
+
+        .btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: none;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-deposit {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-deposit:hover { background: #1e52e0; }
+
+        /* Main Workspace Terminal Layout */
+        .terminal-workspace {
+            display: grid;
+            grid-template-columns: 240px 1fr 280px 280px;
+            grid-template-rows: calc(100vh - 252px) 200px;
+            gap: 1px;
+            background: var(--border-color);
+            height: calc(100vh - 52px);
+        }
+
+        .panel {
+            background: var(--bg-dark-1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            height: 36px;
+            padding: 0 12px;
+            background: var(--bg-dark-2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Watchlist Styles */
+        .watchlist-panel { grid-column: 1; grid-row: 1; }
+        .tab-group { display: flex; gap: 4px; }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .tab-btn.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
+
+        .watchlist-table-wrapper { overflow-y: auto; height: 100%; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
+        .data-table th { color: var(--text-muted); padding: 8px 12px; position: sticky; top: 0; background: var(--bg-dark-1); }
+        .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--bg-dark-2); font-family: var(--font-mono); }
+        .data-table tbody tr:hover { background: var(--bg-dark-2); cursor: pointer; }
+
+        /* Chart Section */
+        .chart-panel { grid-column: 2; grid-row: 1; }
+        .chart-toolbar {
+            height: 36px;
+            background: var(--bg-dark-2);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+        }
+        .timeframes { display: flex; gap: 4px; }
+        .tf-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .tf-btn.active, .tf-btn:hover { background: var(--bg-dark-3); color: var(--text-main); }
+        .chart-container { flex: 1; height: 100%; }
+
+        /* Orderbook Section */
+        .orderbook-panel { grid-column: 3; grid-row: 1; }
+        .orderbook-table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 6px 12px;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .orderbook-list { flex: 1; overflow-y: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+        .ob-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 2px 12px;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            position: relative;
+        }
+        .ob-row .depth-bg {
+            position: absolute;
+            right: 0; top: 0; bottom: 0;
+            z-index: 0;
+            opacity: 0.25;
+        }
+        .asks-list .depth-bg { background: var(--trade-red); }
+        .bids-list .depth-bg { background: var(--trade-green); }
+        .ob-row span { z-index: 1; }
+
+        .market-spread-bar {
+            padding: 8px 12px;
+            background: var(--bg-dark-2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Order Form Panel */
+        .execution-panel { grid-column: 4; grid-row: 1 / span 2; }
+        .execution-tabs { display: flex; }
+        .tab-execution {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--bg-dark-2);
+            color: var(--text-muted);
+        }
+        .tab-execution.buy-tab.active { background: var(--trade-green); color: white; }
+        .tab-execution.sell-tab.active { background: var(--trade-red); color: white; }
+
+        .execution-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+        .order-type-tabs { display: flex; gap: 12px; font-size: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .type-btn { color: var(--text-muted); cursor: pointer; }
+        .type-btn.active { color: var(--text-main); font-weight: 600; }
+
+        .input-field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .input-wrapper {
+            display: flex;
+            background: var(--bg-dark-2);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 12px;
+        }
+        .input-wrapper input {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            outline: none;
+        }
+        .input-wrapper .unit { font-size: 11px; color: var(--text-muted); }
+
+        .percentage-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .chip {
+            background: var(--bg-dark-2);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 4px;
+            font-size: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .chip:hover { background: var(--bg-dark-3); color: var(--text-main); }
+
+        .account-metrics { font-size: 11px; display: flex; flex-direction: column; gap: 6px; }
+        .metric-row { display: flex; justify-content: space-between; color: var(--text-muted); }
+
+        .btn-execute {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .buy-bg { background: var(--trade-green); color: white; box-shadow: 0 0 12px var(--trade-green-glow); }
+        .sell-bg { background: var(--trade-red); color: white; box-shadow: 0 0 12px var(--trade-red-glow); }
+
+        /* Positions Panel */
+        .positions-panel { grid-column: 1 / span 3; grid-row: 2; }
+        .panel-tabs { display: flex; background: var(--bg-dark-2); border-bottom: 1px solid var(--border-color); }
+        .tab-pos {
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .tab-pos.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
+        .badge-count { background: var(--bg-dark-3); padding: 1px 5px; border-radius: 10px; font-size: 10px; }
+
+        .tag { padding: 2px 4px; border-radius: 2px; font-size: 9px; font-weight: 700; }
+        .tag.green { background: var(--trade-green-glow); color: var(--trade-green); }
+
+        .price-up, .green { color: var(--trade-green) !important; }
+        .price-down, .red { color: var(--trade-red) !important; }
+        .font-mono { font-family: var(--font-mono); }
+
+        .btn-sm {
+            background: var(--bg-dark-3);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .btn-sm:hover { background: var(--border-highlight); }
+    </style>
 </head>
 <body class="dark-theme">
 
-    <!-- Top Navigation Terminal Header -->
+    <!-- Top Navigation Bar -->
     <header class="terminal-header">
         <div class="brand-section">
             <div class="logo">
@@ -62,7 +411,7 @@
     <!-- Main Workspace Dashboard Grid -->
     <div class="terminal-workspace">
 
-        <!-- Left Navigation / Watchlist Panel -->
+        <!-- Watchlist Side Panel -->
         <aside class="panel watchlist-panel">
             <div class="panel-header">
                 <div class="tab-group">
@@ -112,7 +461,7 @@
             </div>
         </aside>
 
-        <!-- Central Analytics & Interactive Charting Area -->
+        <!-- Trading Chart Section -->
         <section class="panel chart-panel">
             <div class="chart-toolbar">
                 <div class="timeframes">
@@ -132,7 +481,7 @@
             </div>
         </section>
 
-        <!-- Right Side Order Book & Depth Market -->
+        <!-- Order Book Section -->
         <section class="panel orderbook-panel">
             <div class="panel-header">
                 <h3>Order Book</h3>
@@ -146,20 +495,17 @@
                 <span>Total</span>
             </div>
             
-            <!-- Asks (Sells) -->
             <div class="orderbook-list asks-list" id="asks-container"></div>
 
-            <!-- Current Market Price Spread Bar -->
             <div class="market-spread-bar">
                 <span class="current-price-display green" id="ob-live-price">64,280.50</span>
                 <span class="spread-val">Spread: 0.10</span>
             </div>
 
-            <!-- Bids (Buys) -->
             <div class="orderbook-list bids-list" id="bids-container"></div>
         </section>
 
-        <!-- Trading Terminal Execution Form Panel -->
+        <!-- Trade Execution Panel -->
         <section class="panel execution-panel">
             <div class="execution-tabs">
                 <button class="tab-execution buy-tab active" id="btn-buy-mode">BUY</button>
@@ -224,7 +570,7 @@
             </div>
         </section>
 
-        <!-- Bottom Panel: Positions, Open Orders & Trading Logs -->
+        <!-- Open Positions & History Panel -->
         <section class="panel positions-panel">
             <div class="panel-tabs">
                 <button class="tab-pos active">Positions <span class="badge-count">1</span></button>
@@ -264,472 +610,124 @@
 
     </div>
 
-    <!-- Scripts -->
+    <!-- External Script Library -->
     <script src="https://s3.tradingview.com/tv.js"></script>
-    <script src="script.js"></script>
+    
+    <!-- Embedded JS App Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Initialize TradingView Real-time Chart
+            let tvWidget = new TradingView.widget({
+                "autosize": true,
+                "symbol": "BINANCE:BTCUSDT",
+                "interval": "60",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#1b202e",
+                "enable_publishing": false,
+                "hide_side_toolbar": false,
+                "allow_symbol_change": true,
+                "container_id": "tradingview_pro_widget"
+            });
+
+            // Order Book Dynamic Rendering Engine
+            const asksContainer = document.getElementById('asks-container');
+            const bidsContainer = document.getElementById('bids-container');
+
+            function renderOrderBookData() {
+                const basePrice = 64280.50;
+                let asksHTML = '';
+                let bidsHTML = '';
+
+                for (let i = 5; i >= 1; i--) {
+                    let p = (basePrice + i * 1.5).toFixed(2);
+                    let s = (Math.random() * 0.8 + 0.1).toFixed(3);
+                    let depth = Math.floor(Math.random() * 70 + 10);
+                    asksHTML += `
+                        <div class="ob-row">
+                            <span class="red">${p}</span>
+                            <span>${s}</span>
+                            <span>${(p * s / 1000).toFixed(2)}k</span>
+                            <div class="depth-bg" style="width: ${depth}%"></div>
+                        </div>`;
+                }
+
+                for (let i = 1; i <= 5; i++) {
+                    let p = (basePrice - i * 1.5).toFixed(2);
+                    let s = (Math.random() * 0.8 + 0.1).toFixed(3);
+                    let depth = Math.floor(Math.random() * 70 + 10);
+                    bidsHTML += `
+                        <div class="ob-row">
+                            <span class="green">${p}</span>
+                            <span>${s}</span>
+                            <span>${(p * s / 1000).toFixed(2)}k</span>
+                            <div class="depth-bg" style="width: ${depth}%"></div>
+                        </div>`;
+                }
+
+                asksContainer.innerHTML = asksHTML;
+                bidsContainer.innerHTML = bidsHTML;
+            }
+
+            renderOrderBookData();
+            setInterval(renderOrderBookData, 1200);
+
+            // Buy / Sell Mode Controller
+            const btnBuyMode = document.getElementById('btn-buy-mode');
+            const btnSellMode = document.getElementById('btn-sell-mode');
+            const btnSubmitOrder = document.getElementById('btn-submit-order');
+
+            btnBuyMode.addEventListener('click', () => {
+                btnBuyMode.classList.add('active');
+                btnSellMode.classList.remove('active');
+                btnSubmitOrder.textContent = 'Buy / Long BTC';
+                btnSubmitOrder.className = 'btn-execute buy-bg';
+            });
+
+            btnSellMode.addEventListener('click', () => {
+                btnSellMode.classList.add('active');
+                btnBuyMode.classList.remove('active');
+                btnSubmitOrder.textContent = 'Sell / Short BTC';
+                btnSubmitOrder.className = 'btn-execute sell-bg';
+            });
+
+            // Direct Binance WebSocket Live Stream
+            const binanceSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
+            const livePriceElement = document.getElementById('ticker-price');
+            const obLivePriceElement = document.getElementById('ob-live-price');
+
+            binanceSocket.onmessage = (event) => {
+                const trade = JSON.parse(event.data);
+                const price = parseFloat(trade.p).toFixed(2);
+                
+                livePriceElement.textContent = `$${price}`;
+                obLivePriceElement.textContent = price;
+
+                if (trade.m) {
+                    livePriceElement.className = 'value price-down';
+                    obLivePriceElement.className = 'current-price-display red';
+                } else {
+                    livePriceElement.className = 'value price-up';
+                    obLivePriceElement.className = 'current-price-display green';
+                }
+            };
+
+            // Order Submission Notification Logic
+            document.getElementById('order-execution-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const amt = document.getElementById('input-amount').value;
+                const side = btnBuyMode.classList.contains('active') ? 'BUY' : 'SELL';
+                if(amt > 0) {
+                    alert(`[ORDER SUBMITTED]\nSide: ${side}\nAmount: ${amt} BTC\nStatus: Pending Execution Engine`);
+                } else {
+                    alert('Please enter a valid order amount.');
+                }
+            });
+
+        });
+    </script>
 </body>
 </html>
-:root {
-    --bg-dark-0: #080a0f;
-    --bg-dark-1: #11141d;
-    --bg-dark-2: #1b202e;
-    --bg-dark-3: #262c3d;
-    
-    --border-color: #232936;
-    --border-highlight: #333d52;
-
-    --text-main: #f0f3f8;
-    --text-muted: #78859e;
-    --text-dim: #4c566a;
-
-    --trade-green: #00c076;
-    --trade-green-glow: rgba(0, 192, 118, 0.15);
-    --trade-red: #ff3b5c;
-    --trade-red-glow: rgba(255, 59, 92, 0.15);
-    --accent-blue: #2962ff;
-
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--font-sans);
-    user-select: none;
-}
-
-body {
-    background-color: var(--bg-dark-0);
-    color: var(--text-main);
-    height: 100vh;
-    overflow: hidden;
-}
-
-/* Glassmorphism & High-Density Layout */
-.terminal-header {
-    height: 52px;
-    background: var(--bg-dark-1);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-}
-
-.brand-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.logo {
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.5px;
-}
-
-.logo-icon { color: var(--accent-blue); margin-right: 6px; }
-.logo .highlight { color: var(--accent-blue); }
-.logo .badge {
-    background: var(--bg-dark-3);
-    font-size: 10px;
-    padding: 2px 5px;
-    border-radius: 3px;
-    color: var(--text-muted);
-}
-
-.pair-selector {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg-dark-2);
-    padding: 6px 12px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.pair-type {
-    font-size: 10px;
-    background: var(--accent-blue);
-    padding: 1px 4px;
-    border-radius: 2px;
-}
-
-.market-ticker-tape {
-    display: flex;
-    gap: 24px;
-}
-
-.ticker-item {
-    display: flex;
-    flex-direction: column;
-    font-size: 11px;
-}
-
-.ticker-item .label { color: var(--text-muted); margin-bottom: 2px; }
-.ticker-item .value { font-family: var(--font-mono); font-weight: 500; }
-
-.user-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.connection-status {
-    font-size: 11px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.status-dot.online {
-    width: 6px;
-    height: 6px;
-    background: var(--trade-green);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--trade-green);
-}
-
-.btn {
-    padding: 6px 14px;
-    border-radius: 4px;
-    border: none;
-    font-weight: 600;
-    font-size: 12px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-deposit {
-    background: var(--accent-blue);
-    color: white;
-}
-
-.btn-deposit:hover { background: #1e52e0; }
-
-/* Grid Workspace Structure */
-.terminal-workspace {
-    display: grid;
-    grid-template-columns: 240px 1fr 280px 280px;
-    grid-template-rows: calc(100vh - 252px) 200px;
-    gap: 1px;
-    background: var(--border-color);
-    height: calc(100vh - 52px);
-}
-
-.panel {
-    background: var(--bg-dark-1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.panel-header {
-    height: 36px;
-    padding: 0 12px;
-    background: var(--bg-dark-2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-/* Watchlist Styling */
-.watchlist-panel { grid-column: 1; grid-row: 1; }
-.tab-group { display: flex; gap: 4px; }
-.tab-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    padding: 4px 8px;
-    font-size: 11px;
-    cursor: pointer;
-}
-.tab-btn.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
-
-.watchlist-table-wrapper { overflow-y: auto; height: 100%; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
-.data-table th { color: var(--text-muted); padding: 8px 12px; position: sticky; top: 0; background: var(--bg-dark-1); }
-.data-table td { padding: 8px 12px; border-bottom: 1px solid var(--bg-dark-2); font-family: var(--font-mono); }
-.data-table tbody tr:hover { background: var(--bg-dark-2); cursor: pointer; }
-
-/* Chart Panel Layout */
-.chart-panel { grid-column: 2; grid-row: 1; }
-.chart-toolbar {
-    height: 36px;
-    background: var(--bg-dark-2);
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-}
-.timeframes { display: flex; gap: 4px; }
-.tf-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.tf-btn.active, .tf-btn:hover { background: var(--bg-dark-3); color: var(--text-main); }
-.chart-container { flex: 1; height: 100%; }
-
-/* Orderbook High-Density Styling */
-.orderbook-panel { grid-column: 3; grid-row: 1; }
-.orderbook-table-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 6px 12px;
-    font-size: 10px;
-    color: var(--text-muted);
-}
-.orderbook-list { flex: 1; overflow-y: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
-.ob-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 2px 12px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    position: relative;
-}
-.ob-row .depth-bg {
-    position: absolute;
-    right: 0; top: 0; bottom: 0;
-    z-index: 0;
-    opacity: 0.25;
-}
-.asks-list .depth-bg { background: var(--trade-red); }
-.bids-list .depth-bg { background: var(--trade-green); }
-.ob-row span { z-index: 1; }
-
-.market-spread-bar {
-    padding: 8px 12px;
-    background: var(--bg-dark-2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-/* Execution Form Styling */
-.execution-panel { grid-column: 4; grid-row: 1 / span 2; }
-.execution-tabs { display: flex; }
-.tab-execution {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    background: var(--bg-dark-2);
-    color: var(--text-muted);
-}
-.tab-execution.buy-tab.active { background: var(--trade-green); color: white; }
-.tab-execution.sell-tab.active { background: var(--trade-red); color: white; }
-
-.execution-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-.order-type-tabs { display: flex; gap: 12px; font-size: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-.type-btn { color: var(--text-muted); cursor: pointer; }
-.type-btn.active { color: var(--text-main); font-weight: 600; }
-
-.input-field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-.input-wrapper {
-    display: flex;
-    background: var(--bg-dark-2);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 8px 12px;
-}
-.input-wrapper input {
-    width: 100%;
-    background: none;
-    border: none;
-    color: var(--text-main);
-    font-family: var(--font-mono);
-    outline: none;
-}
-.input-wrapper .unit { font-size: 11px; color: var(--text-muted); }
-
-.percentage-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.chip {
-    background: var(--bg-dark-2);
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-    padding: 4px;
-    font-size: 10px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.chip:hover { background: var(--bg-dark-3); color: var(--text-main); }
-
-.account-metrics { font-size: 11px; display: flex; flex-direction: column; gap: 6px; }
-.metric-row { display: flex; justify-content: space-between; color: var(--text-muted); }
-
-.btn-execute {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-}
-.buy-bg { background: var(--trade-green); color: white; box-shadow: 0 0 12px var(--trade-green-glow); }
-.sell-bg { background: var(--trade-red); color: white; box-shadow: 0 0 12px var(--trade-red-glow); }
-
-/* Positions Panel Styling */
-.positions-panel { grid-column: 1 / span 3; grid-row: 2; }
-.panel-tabs { display: flex; background: var(--bg-dark-2); border-bottom: 1px solid var(--border-color); }
-.tab-pos {
-    padding: 10px 16px;
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 12px;
-    cursor: pointer;
-}
-.tab-pos.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
-.badge-count { background: var(--bg-dark-3); padding: 1px 5px; border-radius: 10px; font-size: 10px; }
-
-.tag { padding: 2px 4px; border-radius: 2px; font-size: 9px; font-weight: 700; }
-.tag.green { background: var(--trade-green-glow); color: var(--trade-green); }
-
-.price-up, .green { color: var(--trade-green) !important; }
-.price-down, .red { color: var(--trade-red) !important; }
-.font-mono { font-family: var(--font-mono); }
-
-.btn-sm {
-    background: var(--bg-dark-3);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    padding: 4px 8px;
-    border-radius: 3px;
-    font-size: 10px;
-    cursor: pointer;
-}
-.btn-sm:hover { background: var(--border-highlight); }
-document.addEventListener('DOMContentLoaded', () => {
-
-    // 1. Initialize High-Performance TradingView Chart Engine
-    let tvWidget = new TradingView.widget({
-        "autosize": true,
-        "symbol": "BINANCE:BTCUSDT",
-        "interval": "60",
-        "timezone": "Etc/UTC",
-        "theme": "dark",
-        "style": "1",
-        "locale": "en",
-        "toolbar_bg": "#1b202e",
-        "enable_publishing": false,
-        "hide_side_toolbar": false,
-        "allow_symbol_change": true,
-        "container_id": "tradingview_pro_widget"
-    });
-
-    // 2. Real-time Orderbook Engine Generator
-    const asksContainer = document.getElementById('asks-container');
-    const bidsContainer = document.getElementById('bids-container');
-
-    function renderOrderBookData() {
-        const basePrice = 64280.50;
-        let asksHTML = '';
-        let bidsHTML = '';
-
-        // Generate Simulated Real-time Ask Depth
-        for (let i = 5; i >= 1; i--) {
-            let p = (basePrice + i * 1.5).toFixed(2);
-            let s = (Math.random() * 0.8 + 0.1).toFixed(3);
-            let depth = Math.floor(Math.random() * 70 + 10);
-            asksHTML += `
-                <div class="ob-row">
-                    <span class="red">${p}</span>
-                    <span>${s}</span>
-                    <span>${(p * s / 1000).toFixed(2)}k</span>
-                    <div class="depth-bg" style="width: ${depth}%"></div>
-                </div>`;
-        }
-
-        // Generate Simulated Real-time Bid Depth
-        for (let i = 1; i <= 5; i++) {
-            let p = (basePrice - i * 1.5).toFixed(2);
-            let s = (Math.random() * 0.8 + 0.1).toFixed(3);
-            let depth = Math.floor(Math.random() * 70 + 10);
-            bidsHTML += `
-                <div class="ob-row">
-                    <span class="green">${p}</span>
-                    <span>${s}</span>
-                    <span>${(p * s / 1000).toFixed(2)}k</span>
-                    <div class="depth-bg" style="width: ${depth}%"></div>
-                </div>`;
-        }
-
-        asksContainer.innerHTML = asksHTML;
-        bidsContainer.innerHTML = bidsHTML;
-    }
-
-    renderOrderBookData();
-    setInterval(renderOrderBookData, 1200); // Dynamic Market Speed Tick
-
-    // 3. Execution Tab Toggle (Buy / Sell Order Panel)
-    const btnBuyMode = document.getElementById('btn-buy-mode');
-    const btnSellMode = document.getElementById('btn-sell-mode');
-    const btnSubmitOrder = document.getElementById('btn-submit-order');
-
-    btnBuyMode.addEventListener('click', () => {
-        btnBuyMode.classList.add('active');
-        btnSellMode.classList.remove('active');
-        btnSubmitOrder.textContent = 'Buy / Long BTC';
-        btnSubmitOrder.className = 'btn-execute buy-bg';
-    });
-
-    btnSellMode.addEventListener('click', () => {
-        btnSellMode.classList.add('active');
-        btnBuyMode.classList.remove('active');
-        btnSubmitOrder.textContent = 'Sell / Short BTC';
-        btnSubmitOrder.className = 'btn-execute sell-bg';
-    });
-
-    // 4. Live Socket Data Processing (Binance Direct Market Connection)
-    const binanceSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
-    const livePriceElement = document.getElementById('ticker-price');
-    const obLivePriceElement = document.getElementById('ob-live-price');
-
-    binanceSocket.onmessage = (event) => {
-        const trade = JSON.parse(event.data);
-        const price = parseFloat(trade.p).toFixed(2);
-        
-        livePriceElement.textContent = `$${price}`;
-        obLivePriceElement.textContent = price;
-
-        if (trade.m) {
-            livePriceElement.className = 'value price-down';
-            obLivePriceElement.className = 'current-price-display red';
-        } else {
-            livePriceElement.className = 'value price-up';
-            obLivePriceElement.className = 'current-price-display green';
-        }
-    };
-
-    // Form Submission Interactive Notification
-    document.getElementById('order-execution-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const amt = document.getElementById('input-amount').value;
-        const side = btnBuyMode.classList.contains('active') ? 'BUY' : 'SELL';
-        if(amt > 0) {
-            alert(`[ORDER PLACED]\nType: ${side}\nAmount: ${amt} BTC\nExecution: Immediate Limit Engine`);
-        } else {
-            alert('Please specify order size.');
-        }
-    });
-
-});
