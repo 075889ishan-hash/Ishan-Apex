@@ -4,466 +4,1128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delta Apex Trading Analysis</title>
+<title>ISHAN APEX | Trading Analysis</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    background: #0b1020;
-    color: #fff;
+body{
+    background:#060914;
+    color:#ffffff;
+    min-height:100vh;
 }
 
-header {
-    background: #11182d;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #26304a;
+header{
+    background:#0b1020;
+    border-bottom:1px solid #202a43;
+    padding:18px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:1px;
 }
 
-.logo span {
-    color: #00e5a0;
+.logo span{
+    color:#d6a84f;
 }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 25px;
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#9ba7c0;
+    font-size:13px;
 }
 
-.controls {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#20d695;
+    box-shadow:0 0 10px #20d695;
 }
 
-select, button {
-    background: #161f38;
-    color: white;
-    border: 1px solid #34405f;
-    padding: 12px 18px;
-    border-radius: 8px;
+.container{
+    width:92%;
+    max-width:1250px;
+    margin:auto;
+    padding:28px 0 50px;
 }
 
-button {
-    background: #00b982;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
+.hero{
+    margin-bottom:25px;
 }
 
-button:hover {
-    background: #00d99a;
+.hero h1{
+    font-size:34px;
+    margin-bottom:8px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+.hero p{
+    color:#8995ae;
 }
 
-.card {
-    background: #11182d;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #26304a;
+.controls{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
 }
 
-.card h4 {
-    color: #8d99b5;
-    margin-bottom: 10px;
+select,
+button{
+    border:1px solid #293452;
+    background:#10172a;
+    color:white;
+    padding:13px 18px;
+    border-radius:9px;
+    font-size:14px;
 }
 
-.value {
-    font-size: 25px;
-    font-weight: bold;
+select{
+    min-width:190px;
 }
 
-.buy {
-    color: #00e5a0;
+button{
+    background:#c89a43;
+    border:none;
+    color:#080b12;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.sell {
-    color: #ff5263;
+button:hover{
+    background:#e1b760;
 }
 
-.neutral {
-    color: #ffc857;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
 }
 
-.chart-box {
-    margin-top: 20px;
-    background: #11182d;
-    padding: 20px;
-    border-radius: 12px;
-    height: 400px;
+.card{
+    background:#0d1425;
+    border:1px solid #202a43;
+    border-radius:13px;
+    padding:20px;
 }
 
-.analysis {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+.card-title{
+    color:#7f8ba5;
+    font-size:13px;
+    margin-bottom:10px;
 }
 
-.analysis ul {
-    list-style: none;
-    line-height: 2;
+.big{
+    font-size:27px;
+    font-weight:bold;
 }
 
-.disclaimer {
-    margin-top: 25px;
-    padding: 15px;
-    background: #241e16;
-    border: 1px solid #6b552c;
-    color: #d8c9a5;
-    border-radius: 8px;
-    font-size: 13px;
+.green{
+    color:#20d695;
 }
 
-@media(max-width: 800px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
+.red{
+    color:#ff5365;
+}
+
+.yellow{
+    color:#e0b455;
+}
+
+.chart-card{
+    margin-top:18px;
+    background:#0d1425;
+    border:1px solid #202a43;
+    border-radius:13px;
+    padding:20px;
+}
+
+.chart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.chart-header h2{
+    font-size:19px;
+}
+
+.timeframes{
+    display:flex;
+    gap:5px;
+}
+
+.timeframes button{
+    padding:7px 10px;
+    background:#151e34;
+    color:#9aa6bf;
+    border:1px solid #293452;
+}
+
+.chart-container{
+    height:390px;
+}
+
+.setup-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:18px;
+}
+
+.setup h2{
+    font-size:19px;
+    margin-bottom:18px;
+}
+
+.rows{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px;
+    background:#10182b;
+    border-radius:8px;
+}
+
+.row span{
+    color:#8b97af;
+}
+
+.analysis-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-top:18px;
+}
+
+.indicator{
+    text-align:center;
+}
+
+.indicator-value{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+.signal-box{
+    margin-top:18px;
+    background:#0d1425;
+    border:1px solid #202a43;
+    border-radius:13px;
+    padding:25px;
+    text-align:center;
+}
+
+.signal-label{
+    color:#8b97af;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.signal{
+    font-size:42px;
+    font-weight:900;
+}
+
+.confidence{
+    margin-top:10px;
+    color:#8b97af;
+}
+
+.progress{
+    width:100%;
+    height:7px;
+    background:#202a43;
+    border-radius:20px;
+    margin-top:14px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:72%;
+    background:#20d695;
+}
+
+.news{
+    margin-top:18px;
+}
+
+.news-item{
+    margin-top:10px;
+    padding:14px;
+    background:#10182b;
+    border-radius:8px;
+    color:#aab4c8;
+}
+
+footer{
+    text-align:center;
+    color:#65718a;
+    padding:25px;
+    border-top:1px solid #202a43;
+    font-size:12px;
+}
+
+.disclaimer{
+    margin-top:18px;
+    padding:15px;
+    background:#18150e;
+    border:1px solid #4b3b1d;
+    border-radius:9px;
+    color:#b6a780;
+    font-size:12px;
+    line-height:1.6;
+}
+
+@media(max-width:900px){
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .analysis {
-        grid-template-columns: 1fr;
+    .analysis-grid{
+        grid-template-columns:repeat(2,1fr);
     }
+
 }
 
-@media(max-width: 500px) {
-    .grid {
-        grid-template-columns: 1fr;
+@media(max-width:650px){
+
+    header{
+        padding:15px 4%;
     }
 
-    header {
-        padding: 15px;
+    .logo{
+        font-size:20px;
     }
 
-    .container {
-        padding: 15px;
+    .status{
+        font-size:11px;
     }
+
+    .container{
+        width:94%;
+        padding-top:20px;
+    }
+
+    .hero h1{
+        font-size:27px;
+    }
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .setup-grid{
+        grid-template-columns:1fr;
+    }
+
+    .analysis-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .chart-container{
+        height:300px;
+    }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
+
     <div class="logo">
-        Delta <span>Apex</span>
+        ISHAN <span>APEX</span>
     </div>
 
-    <div>
-        Trading Analysis
+    <div class="status">
+        <div class="dot"></div>
+        Market Dashboard
     </div>
+
 </header>
 
+
 <div class="container">
+
+    <div class="hero">
+
+        <h1>Trading Analysis Dashboard</h1>
+
+        <p>
+            Smart technical market analysis for Forex & Crypto
+        </p>
+
+    </div>
+
 
     <div class="controls">
 
         <select id="symbol">
-            <option value="XAUUSD">XAUUSD - Gold</option>
-            <option value="BTCUSD">BTCUSD - Bitcoin</option>
-            <option value="EURUSD">EURUSD - Euro</option>
+
+            <option value="XAUUSD">
+                XAUUSD — Gold
+            </option>
+
+            <option value="BTCUSD">
+                BTCUSD — Bitcoin
+            </option>
+
+            <option value="EURUSD">
+                EURUSD — Euro
+            </option>
+
         </select>
 
         <button onclick="runAnalysis()">
-            Run Analysis
+            Analyze Market
         </button>
 
     </div>
 
-    <div class="grid">
+
+    <div class="cards">
 
         <div class="card">
-            <h4>Current Price</h4>
-            <div class="value" id="price">
+
+            <div class="card-title">
+                CURRENT PRICE
+            </div>
+
+            <div class="big" id="price">
                 0.00
             </div>
+
         </div>
 
+
         <div class="card">
-            <h4>Market Trend</h4>
-            <div class="value buy" id="trend">
+
+            <div class="card-title">
+                MARKET TREND
+            </div>
+
+            <div class="big green" id="trend">
+                BULLISH
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                RSI
+            </div>
+
+            <div class="big" id="rsi">
+                50
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                MARKET SESSION
+            </div>
+
+            <div class="big yellow">
+                ACTIVE
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="signal-box">
+
+        <div class="signal-label">
+            AI-ASSISTED MARKET BIAS
+        </div>
+
+        <div class="signal green" id="signal">
+            BUY
+        </div>
+
+        <div class="confidence">
+            Confidence:
+            <strong id="confidence">
+                72%
+            </strong>
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="confidenceBar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+
+            <h2 id="chartTitle">
+                XAUUSD Chart
+            </h2>
+
+            <div class="timeframes">
+
+                <button>
+                    15M
+                </button>
+
+                <button>
+                    1H
+                </button>
+
+                <button>
+                    4H
+                </button>
+
+                <button>
+                    1D
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="chart-container">
+
+            <canvas id="priceChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="setup-grid">
+
+
+        <div class="card setup">
+
+            <h2>
+                Trade Setup
+            </h2>
+
+            <div class="rows">
+
+                <div class="row">
+                    <span>Entry</span>
+                    <strong id="entry">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Stop Loss</span>
+                    <strong class="red" id="sl">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Take Profit 1</span>
+                    <strong class="green" id="tp1">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Take Profit 2</span>
+                    <strong class="green" id="tp2">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Take Profit 3</span>
+                    <strong class="green" id="tp3">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Risk / Reward</span>
+                    <strong>
+                        1 : 2
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card setup">
+
+            <h2>
+                Market Levels
+            </h2>
+
+            <div class="rows">
+
+                <div class="row">
+                    <span>Support 1</span>
+                    <strong id="support1">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Support 2</span>
+                    <strong id="support2">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Resistance 1</span>
+                    <strong id="resistance1">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>Resistance 2</span>
+                    <strong id="resistance2">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>EMA 20</span>
+                    <strong id="ema20">
+                        0.00
+                    </strong>
+                </div>
+
+                <div class="row">
+                    <span>EMA 50</span>
+                    <strong id="ema50">
+                        0.00
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="analysis-grid">
+
+        <div class="card indicator">
+
+            <div class="card-title">
+                RSI
+            </div>
+
+            <div
+                class="indicator-value"
+                id="rsi2">
+                50
+            </div>
+
+        </div>
+
+
+        <div class="card indicator">
+
+            <div class="card-title">
+                MACD
+            </div>
+
+            <div
+                class="indicator-value green"
+                id="macd">
                 Bullish
             </div>
+
         </div>
 
-        <div class="card">
-            <h4>Signal</h4>
-            <div class="value buy" id="signal">
-                BUY
+
+        <div class="card indicator">
+
+            <div class="card-title">
+                EMA TREND
             </div>
-        </div>
 
-        <div class="card">
-            <h4>RSI</h4>
-            <div class="value" id="rsi">
-                0
+            <div
+                class="indicator-value green"
+                id="emaTrend">
+                Bullish
             </div>
+
+        </div>
+
+
+        <div class="card indicator">
+
+            <div class="card-title">
+                MOMENTUM
+            </div>
+
+            <div
+                class="indicator-value green"
+                id="momentum">
+                Strong
+            </div>
+
         </div>
 
     </div>
 
-    <div class="chart-box">
-        <canvas id="priceChart"></canvas>
-    </div>
 
-    <div class="analysis">
+    <div class="card news">
 
-        <div class="card">
+        <h2>
+            Market Information
+        </h2>
 
-            <h3>Trade Setup</h3>
-
-            <br>
-
-            <ul>
-                <li>
-                    Entry:
-                    <strong id="entry">0</strong>
-                </li>
-
-                <li>
-                    Stop Loss:
-                    <strong id="sl">0</strong>
-                </li>
-
-                <li>
-                    Take Profit 1:
-                    <strong id="tp1">0</strong>
-                </li>
-
-                <li>
-                    Take Profit 2:
-                    <strong id="tp2">0</strong>
-                </li>
-
-                <li>
-                    Risk / Reward:
-                    <strong id="rr">1:2</strong>
-                </li>
-            </ul>
-
+        <div class="news-item">
+            Technical analysis is based on price action,
+            trend and momentum indicators.
         </div>
 
-        <div class="card">
-
-            <h3>Technical Analysis</h3>
-
-            <br>
-
-            <ul>
-                <li>
-                    EMA 20:
-                    <strong id="ema20">0</strong>
-                </li>
-
-                <li>
-                    EMA 50:
-                    <strong id="ema50">0</strong>
-                </li>
-
-                <li>
-                    Support:
-                    <strong id="support">0</strong>
-                </li>
-
-                <li>
-                    Resistance:
-                    <strong id="resistance">0</strong>
-                </li>
-            </ul>
-
+        <div class="news-item">
+            Always confirm important economic news before
+            entering a trade.
         </div>
 
     </div>
+
 
     <div class="disclaimer">
-        ⚠️ Trading involves significant risk. This website is for
-        educational and informational purposes only and does not
-        constitute financial advice. Always perform your own research
-        and risk management before trading.
+
+        ⚠️ <strong>Risk Warning:</strong>
+        Trading financial markets involves significant risk.
+        This website is provided for educational and informational
+        purposes only. The displayed signals are demo calculations
+        and are not financial advice. Never risk money you cannot
+        afford to lose.
+
     </div>
 
 </div>
+
+
+<footer>
+
+    © 2026 ISHAN APEX — Smart Market Analysis
+
+</footer>
+
 
 <script>
 
 let chart;
 
-function randomPrice(symbol) {
 
-    if(symbol === "XAUUSD") {
+/* ------------------------------
+   DEMO PRICE GENERATOR
+--------------------------------*/
+
+function getPrice(symbol){
+
+    if(symbol === "XAUUSD"){
         return 3300 + Math.random() * 100;
     }
 
-    if(symbol === "BTCUSD") {
-        return 100000 + Math.random() * 10000;
+    if(symbol === "BTCUSD"){
+        return 105000 + Math.random() * 5000;
     }
 
-    return 1.15 + Math.random() * 0.05;
+    return 1.15000 + Math.random() * 0.03000;
+
 }
 
 
-function runAnalysis() {
+/* ------------------------------
+   ANALYSIS ENGINE
+--------------------------------*/
+
+function runAnalysis(){
 
     const symbol =
         document.getElementById("symbol").value;
 
     const price =
-        randomPrice(symbol);
+        getPrice(symbol);
 
-    const rsi =
-        Math.floor(35 + Math.random() * 45);
+
+    let decimals =
+        symbol === "EURUSD"
+        ? 5
+        : 2;
+
+
+    let rsi =
+        Math.floor(
+            30 + Math.random() * 45
+        );
+
 
     let signal;
 
-    if(rsi < 45) {
+    if(rsi < 42){
+
         signal = "BUY";
+
     }
-    else if(rsi > 65) {
+    else if(rsi > 65){
+
         signal = "SELL";
+
     }
-    else {
+    else{
+
         signal = "WAIT";
+
     }
 
-    let trend =
-        signal === "BUY"
-        ? "Bullish"
-        : signal === "SELL"
-        ? "Bearish"
-        : "Neutral";
+
+    let trend;
+
+    if(signal === "BUY"){
+
+        trend = "BULLISH";
+
+    }
+    else if(signal === "SELL"){
+
+        trend = "BEARISH";
+
+    }
+    else{
+
+        trend = "NEUTRAL";
+
+    }
 
 
     let distance;
 
-    if(symbol === "XAUUSD") {
+    if(symbol === "XAUUSD"){
+
         distance = 8;
+
     }
-    else if(symbol === "BTCUSD") {
-        distance = 1000;
+    else if(symbol === "BTCUSD"){
+
+        distance = 1200;
+
     }
-    else {
-        distance = 0.005;
+    else{
+
+        distance = 0.004;
+
     }
 
 
-    let entry = price;
+    let entry =
+        price;
+
 
     let sl;
     let tp1;
     let tp2;
+    let tp3;
 
-    if(signal === "BUY") {
 
-        sl = entry - distance;
-        tp1 = entry + distance * 2;
-        tp2 = entry + distance * 3;
+    if(signal === "BUY"){
 
-    } else {
+        sl =
+            entry - distance;
 
-        sl = entry + distance;
-        tp1 = entry - distance * 2;
-        tp2 = entry - distance * 3;
+        tp1 =
+            entry + distance * 2;
+
+        tp2 =
+            entry + distance * 3;
+
+        tp3 =
+            entry + distance * 4;
+
+    }
+    else if(signal === "SELL"){
+
+        sl =
+            entry + distance;
+
+        tp1 =
+            entry - distance * 2;
+
+        tp2 =
+            entry - distance * 3;
+
+        tp3 =
+            entry - distance * 4;
+
+    }
+    else{
+
+        sl =
+            entry - distance;
+
+        tp1 =
+            entry + distance * 2;
+
+        tp2 =
+            entry + distance * 3;
+
+        tp3 =
+            entry + distance * 4;
 
     }
 
 
     let ema20 =
-        price * (0.995 + Math.random() * 0.01);
+        price *
+        (
+            0.997 +
+            Math.random() * 0.006
+        );
+
 
     let ema50 =
-        price * (0.985 + Math.random() * 0.02);
+        price *
+        (
+            0.990 +
+            Math.random() * 0.015
+        );
 
-    let support =
-        price - distance * 1.5;
 
-    let resistance =
-        price + distance * 1.5;
+    let support1 =
+        price - distance;
 
+    let support2 =
+        price - distance * 2;
+
+    let resistance1 =
+        price + distance;
+
+    let resistance2 =
+        price + distance * 2;
+
+
+    let confidence =
+        Math.floor(
+            60 + Math.random() * 35
+        );
+
+
+    /* PRICE */
 
     document.getElementById("price")
-        .innerText = price.toFixed(
-            symbol === "EURUSD" ? 5 : 2
-        );
-
-    document.getElementById("rsi")
-        .innerText = rsi;
+        .innerText =
+        price.toFixed(decimals);
 
 
-    const signalElement =
-        document.getElementById("signal");
-
-    signalElement.innerText = signal;
-
-    signalElement.className =
-        "value " +
-        (
-            signal === "BUY"
-            ? "buy"
-            : signal === "SELL"
-            ? "sell"
-            : "neutral"
-        );
-
+    /* TREND */
 
     const trendElement =
         document.getElementById("trend");
 
-    trendElement.innerText = trend;
+    trendElement.innerText =
+        trend;
+
 
     trendElement.className =
-        "value " +
+        "big " +
         (
-            trend === "Bullish"
-            ? "buy"
-            : trend === "Bearish"
-            ? "sell"
-            : "neutral"
+            trend === "BULLISH"
+            ? "green"
+            : trend === "BEARISH"
+            ? "red"
+            : "yellow"
         );
 
 
+    /* SIGNAL */
+
+    const signalElement =
+        document.getElementById("signal");
+
+    signalElement.innerText =
+        signal;
+
+
+    signalElement.className =
+        "signal " +
+        (
+            signal === "BUY"
+            ? "green"
+            : signal === "SELL"
+            ? "red"
+            : "yellow"
+        );
+
+
+    /* RSI */
+
+    document.getElementById("rsi")
+        .innerText = rsi;
+
+    document.getElementById("rsi2")
+        .innerText = rsi;
+
+
+    /* CONFIDENCE */
+
+    document.getElementById("confidence")
+        .innerText =
+        confidence + "%";
+
+
+    document.getElementById("confidenceBar")
+        .style.width =
+        confidence + "%";
+
+
+    /* SETUP */
+
     document.getElementById("entry")
-        .innerText = entry.toFixed(2);
+        .innerText =
+        entry.toFixed(decimals);
 
     document.getElementById("sl")
-        .innerText = sl.toFixed(2);
+        .innerText =
+        sl.toFixed(decimals);
 
     document.getElementById("tp1")
-        .innerText = tp1.toFixed(2);
+        .innerText =
+        tp1.toFixed(decimals);
 
     document.getElementById("tp2")
-        .innerText = tp2.toFixed(2);
+        .innerText =
+        tp2.toFixed(decimals);
+
+    document.getElementById("tp3")
+        .innerText =
+        tp3.toFixed(decimals);
+
+
+    /* LEVELS */
+
+    document.getElementById("support1")
+        .innerText =
+        support1.toFixed(decimals);
+
+    document.getElementById("support2")
+        .innerText =
+        support2.toFixed(decimals);
+
+    document.getElementById("resistance1")
+        .innerText =
+        resistance1.toFixed(decimals);
+
+    document.getElementById("resistance2")
+        .innerText =
+        resistance2.toFixed(decimals);
+
 
     document.getElementById("ema20")
-        .innerText = ema20.toFixed(2);
+        .innerText =
+        ema20.toFixed(decimals);
 
     document.getElementById("ema50")
-        .innerText = ema50.toFixed(2);
+        .innerText =
+        ema50.toFixed(decimals);
 
-    document.getElementById("support")
-        .innerText = support.toFixed(2);
 
-    document.getElementById("resistance")
-        .innerText = resistance.toFixed(2);
+    /* OTHER INDICATORS */
+
+    const macd =
+        document.getElementById("macd");
+
+    const emaTrend =
+        document.getElementById("emaTrend");
+
+    const momentum =
+        document.getElementById("momentum");
+
+
+    if(signal === "BUY"){
+
+        macd.innerText =
+            "Bullish";
+
+        emaTrend.innerText =
+            "Bullish";
+
+        momentum.innerText =
+            "Strong";
+
+    }
+    else if(signal === "SELL"){
+
+        macd.innerText =
+            "Bearish";
+
+        emaTrend.innerText =
+            "Bearish";
+
+        momentum.innerText =
+            "Strong";
+
+    }
+    else{
+
+        macd.innerText =
+            "Neutral";
+
+        emaTrend.innerText =
+            "Neutral";
+
+        momentum.innerText =
+            "Normal";
+
+    }
+
+
+    document.getElementById("chartTitle")
+        .innerText =
+        symbol + " Chart";
 
 
     createChart(price);
@@ -471,28 +1133,46 @@ function runAnalysis() {
 }
 
 
-function createChart(price) {
+/* ------------------------------
+   CHART
+--------------------------------*/
 
-    const labels = [];
+function createChart(price){
 
-    const data = [];
+    let labels = [];
 
-    let current = price;
+    let prices = [];
 
-    for(let i = 0; i < 50; i++) {
+    let current =
+        price;
 
-        labels.push(i + 1);
+
+    for(let i = 0; i < 60; i++){
+
+        labels.push(
+            i + 1
+        );
+
 
         current +=
-            (Math.random() - 0.48)
-            * (price * 0.003);
+            (
+                Math.random() - 0.48
+            ) *
+            price *
+            0.003;
 
-        data.push(current);
+
+        prices.push(
+            current
+        );
+
     }
 
 
-    if(chart) {
+    if(chart){
+
         chart.destroy();
+
     }
 
 
@@ -502,66 +1182,107 @@ function createChart(price) {
         .getContext("2d");
 
 
-    chart = new Chart(ctx, {
+    chart =
+        new Chart(
+            ctx,
+            {
 
-        type: "line",
+                type:"line",
 
-        data: {
+                data:{
 
-            labels: labels,
+                    labels:labels,
 
-            datasets: [{
-                label: "Price",
-                data: data,
-                borderWidth: 2,
-                tension: 0.3,
-                fill: false
-            }]
+                    datasets:[{
 
-        },
+                        label:"Market Price",
 
-        options: {
+                        data:prices,
 
-            responsive: true,
+                        borderWidth:2,
 
-            maintainAspectRatio: false,
+                        tension:0.3,
 
-            plugins: {
+                        pointRadius:0,
 
-                legend: {
-                    labels: {
-                        color: "#ffffff"
-                    }
-                }
+                        fill:false
 
-            },
+                    }]
 
-            scales: {
-
-                x: {
-                    ticks: {
-                        color: "#8d99b5"
-                    }
                 },
 
-                y: {
-                    ticks: {
-                        color: "#8d99b5"
+
+                options:{
+
+                    responsive:true,
+
+                    maintainAspectRatio:false,
+
+                    plugins:{
+
+                        legend:{
+
+                            labels:{
+
+                                color:"#ffffff"
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales:{
+
+                        x:{
+
+                            ticks:{
+
+                                color:"#6f7b95"
+
+                            },
+
+                            grid:{
+
+                                color:"#172039"
+
+                            }
+
+                        },
+
+
+                        y:{
+
+                            ticks:{
+
+                                color:"#6f7b95"
+
+                            },
+
+                            grid:{
+
+                                color:"#172039"
+
+                            }
+
+                        }
+
                     }
+
                 }
 
             }
-
-        }
-
-    });
+        );
 
 }
 
+
+/* INITIAL LOAD */
 
 runAnalysis();
 
 </script>
 
 </body>
-</html>
+    </html>
