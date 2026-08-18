@@ -1,2716 +1,3208 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    <meta charset="UTF-8">
 
-  <meta
-    name="description"
-    content="GOLD X Premium Trading Terminal"
-  >
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-  <meta
-    name="theme-color"
-    content="#05070c"
-  >
+    <meta
+        name="theme-color"
+        content="#070a10"
+    >
 
-  <title>GOLD X | Premium Trading Terminal</title>
+    <meta
+        name="description"
+        content="GOLD X — Premium Trading Dashboard"
+    >
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+    <title>GOLD X — Premium Trading</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
+    <!-- =====================================================
+         GOOGLE FONT
+         ===================================================== -->
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         MAIN CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+
+    <!-- =====================================================
+         EXTRA GOLD X BASE STYLES
+         ===================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: #070a10;
+            color: #e7ebf2;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =================================================
+           GOLD X VARIABLES
+           ================================================= */
+
+        :root {
+
+            --gold:
+                #d6a84f;
+
+            --gold-light:
+                #f0ca73;
+
+            --gold-dark:
+                #9f762b;
+
+            --green:
+                #39d98a;
+
+            --red:
+                #ff5d6c;
+
+            --blue:
+                #5ca8ff;
+
+            --bg:
+                #070a10;
+
+            --panel:
+                #0c1119;
+
+            --panel-2:
+                #101722;
+
+            --border:
+                rgba(255,255,255,0.07);
+
+            --text:
+                #f4f6fa;
+
+            --text-soft:
+                #cbd2dd;
+
+            --text-muted:
+                #7c8798;
+
+            --topbar-height:
+                64px;
+
+            --sidebar-width:
+                245px;
+
+            --transition:
+                180ms ease;
+        }
+
+
+        /* =================================================
+           TOP BAR
+           ================================================= */
+
+        .topbar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height:
+                var(--topbar-height);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 18px;
+
+            background:
+                rgba(7,10,16,0.92);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            backdrop-filter:
+                blur(18px);
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .brand-symbol {
+
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 10px;
+
+            color: #090b10;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold-light),
+                    var(--gold-dark)
+                );
+
+            font-size: 17px;
+            font-weight: 900;
+
+            box-shadow:
+                0 0 25px
+                rgba(214,168,79,0.16);
+        }
+
+
+        .brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .brand-name {
+
+            color:
+                var(--gold-light);
+
+            font-size: 15px;
+
+            font-weight: 900;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .brand-subtitle {
+
+            margin-top: 2px;
+
+            color:
+                var(--text-muted);
+
+            font-size: 6px;
+
+            font-weight: 700;
+
+            letter-spacing: 2px;
+        }
+
+
+        .top-center {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+        }
+
+
+        .market-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color:
+                var(--text-muted);
+
+            font-size: 8px;
+
+            font-weight: 700;
+        }
+
+
+        .status-dot {
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background:
+                var(--green);
+
+            box-shadow:
+                0 0 10px
+                rgba(57,217,138,0.6);
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .top-button {
+
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+
+            place-items: center;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 9px;
+
+            color:
+                var(--text-soft);
+
+            background:
+                rgba(255,255,255,0.025);
+        }
+
+
+        .top-button:hover {
+
+            color:
+                var(--gold-light);
+
+            border-color:
+                rgba(214,168,79,0.3);
+        }
+
+
+        .user-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding-left: 10px;
+
+            border-left:
+                1px solid
+                var(--border);
+        }
+
+
+        .user-avatar {
+
+            width: 34px;
+            height: 34px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 50%;
+
+            color:
+                #090b10;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold-light),
+                    var(--gold)
+                );
+
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+
+        .user-info {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .user-info strong {
+
+            color:
+                var(--text-soft);
+
+            font-size: 8px;
+        }
+
+
+        .user-info small {
+
+            margin-top: 2px;
+
+            color:
+                var(--green);
+
+            font-size: 6px;
+
+            font-weight: 800;
+        }
+
+
+        /* =================================================
+           SIDEBAR
+           ================================================= */
+
+        .main-layout {
+
+            min-height: 100vh;
+
+            padding-top:
+                var(--topbar-height);
+        }
+
+
+        .sidebar {
+
+            position: fixed;
+
+            top:
+                var(--topbar-height);
+
+            left: 0;
+            bottom: 0;
+
+            width:
+                var(--sidebar-width);
+
+            padding:
+                20px 12px;
+
+            background:
+                #090d14;
+
+            border-right:
+                1px solid
+                var(--border);
+
+            overflow-y: auto;
+
+            z-index: 800;
+        }
+
+
+        .sidebar-label {
+
+            padding:
+                0 12px;
+
+            margin:
+                4px 0 9px;
+
+            color:
+                #4f5968;
+
+            font-size: 7px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .nav-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+        }
+
+
+        .nav-link {
+
+            position: relative;
+
+            min-height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            padding:
+                0 12px;
+
+            border-radius: 8px;
+
+            color:
+                var(--text-muted);
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            transition:
+                var(--transition);
+        }
+
+
+        .nav-link:hover {
+
+            color:
+                var(--text-soft);
+
+            background:
+                rgba(255,255,255,0.035);
+        }
+
+
+        .nav-link.active {
+
+            color:
+                var(--gold-light);
+
+            background:
+                rgba(214,168,79,0.08);
+        }
+
+
+        .nav-link.active::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            top: 8px;
+            bottom: 8px;
+
+            width: 2px;
+
+            border-radius: 3px;
+
+            background:
+                var(--gold);
+        }
+
+
+        .nav-icon {
+
+            width: 19px;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+
+        .sidebar-divider {
+
+            height: 1px;
+
+            margin:
+                16px 10px;
+
+            background:
+                var(--border);
+        }
+
+
+        .sidebar-account {
+
+            margin-top: 18px;
+
+            padding: 13px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,0.018);
+        }
+
+
+        .sidebar-account-title {
+
+            color:
+                var(--text-muted);
+
+            font-size: 7px;
+
+            font-weight: 700;
+        }
+
+
+        .sidebar-account-value {
+
+            margin-top: 5px;
+
+            color:
+                var(--gold-light);
+
+            font-size: 15px;
+
+            font-weight: 900;
+        }
+
+
+        .sidebar-account-status {
+
+            margin-top: 6px;
+
+            color:
+                var(--green);
+
+            font-size: 7px;
+
+            font-weight: 800;
+        }
+
+
+        /* =================================================
+           CONTENT
+           ================================================= */
+
+        .content {
+
+            width:
+                calc(
+                    100% - var(--sidebar-width)
+                );
+
+            margin-left:
+                var(--sidebar-width);
+
+            padding:
+                28px 30px 60px;
+        }
+
+
+        /* =================================================
+           HERO
+           ================================================= */
+
+        .hero-section {
+
+            position: relative;
+
+            min-height: 330px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            padding:
+                45px;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(214,168,79,0.13);
+
+            border-radius: 18px;
+
+            background:
+                radial-gradient(
+                    circle at 75% 45%,
+                    rgba(214,168,79,0.08),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #0d131d,
+                    #080b11
+                );
+        }
+
+
+        .hero-section::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                );
+
+            background-size:
+                32px 32px;
+
+            opacity: .35;
+
+            pointer-events: none;
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 650px;
+        }
+
+
+        .eyebrow {
+
+            color:
+                var(--gold);
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .hero-content h1 {
+
+            margin:
+                10px 0 12px;
+
+            color:
+                var(--text);
+
+            font-size:
+                clamp(42px, 6vw, 76px);
+
+            line-height: .95;
+
+            letter-spacing:
+                -3px;
+        }
+
+
+        .hero-content h1 span {
+
+            color:
+                var(--gold-light);
+        }
+
+
+        .hero-content p {
+
+            max-width: 540px;
+
+            margin: 0;
+
+            color:
+                var(--text-muted);
+
+            font-size: 10px;
+
+            line-height: 1.8;
+        }
+
+
+        .hero-buttons {
+
+            display: flex;
+
+            gap: 9px;
+
+            margin-top: 22px;
+        }
+
+
+        .button {
+
+            min-height: 39px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                0 16px;
+
+            border-radius: 8px;
+
+            border:
+                1px solid
+                var(--border);
+
+            color:
+                var(--text-soft);
+
+            background:
+                rgba(255,255,255,0.03);
+
+            font-size: 8px;
+
+            font-weight: 800;
+        }
+
+
+        .button-primary {
+
+            color:
+                #090b10;
+
+            border-color:
+                var(--gold);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold-light),
+                    var(--gold)
+                );
+        }
+
+
+        .button:hover {
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =================================================
+           HERO VISUAL
+           ================================================= */
+
+        .hero-visual {
+
+            position: relative;
+
+            width: 290px;
+            height: 290px;
+
+            display: grid;
+
+            place-items: center;
+
+            flex-shrink: 0;
+        }
+
+
+        .hero-core {
+
+            position: relative;
+
+            width: 115px;
+            height: 115px;
+
+            display: grid;
+
+            place-items: center;
+
+            border:
+                1px solid
+                rgba(214,168,79,0.4);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(214,168,79,0.18),
+                    rgba(214,168,79,0.03) 65%,
+                    transparent 70%
+                );
+
+            box-shadow:
+                0 0 50px
+                rgba(214,168,79,0.12);
+        }
+
+
+        .hero-core strong {
+
+            color:
+                var(--gold-light);
+
+            font-size: 29px;
+
+            font-weight: 900;
+        }
+
+
+        .orbit-one,
+        .orbit-two {
+
+            position: absolute;
+
+            border:
+                1px solid
+                rgba(214,168,79,0.12);
+
+            border-radius: 50%;
+
+            animation:
+                orbit 12s linear infinite;
+        }
+
+
+        .orbit-one {
+
+            width: 210px;
+            height: 210px;
+        }
+
+
+        .orbit-two {
+
+            width: 260px;
+            height: 260px;
+
+            animation-duration:
+                18s;
+
+            animation-direction:
+                reverse;
+        }
+
+
+        .orbit-one::before,
+        .orbit-two::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            top: 50%;
+            left: -4px;
+
+            border-radius: 50%;
+
+            background:
+                var(--gold);
+
+            box-shadow:
+                0 0 15px
+                rgba(214,168,79,0.7);
+        }
+
+
+        @keyframes orbit {
+
+            from {
+                transform:
+                    rotate(0deg);
+            }
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+        }
+
+
+        /* =================================================
+           SECTION
+           ================================================= */
+
+        .section-header {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin:
+                32px 0 14px;
+        }
+
+
+        .section-header h2 {
+
+            margin: 0;
+
+            color:
+                var(--text);
+
+            font-size: 19px;
+
+            letter-spacing: -.5px;
+        }
+
+
+        .section-header p {
+
+            margin: 0;
+
+            color:
+                var(--text-muted);
+
+            font-size: 8px;
+        }
+
+
+        /* =================================================
+           MARKET CARDS
+           ================================================= */
+
+        .market-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+
+        .market-card {
+
+            padding: 17px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 12px;
+
+            background:
+                var(--panel);
+
+            transition:
+                var(--transition);
+        }
+
+
+        .market-card:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(214,168,79,0.2);
+        }
+
+
+        .market-card-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .market-symbol {
+
+            color:
+                var(--text-soft);
+
+            font-size: 9px;
+
+            font-weight: 900;
+        }
+
+
+        .market-name {
+
+            margin-top: 3px;
+
+            color:
+                var(--text-muted);
+
+            font-size: 7px;
+        }
+
+
+        .market-price {
+
+            margin-top: 18px;
+
+            color:
+                var(--text);
+
+            font-size: 23px;
+
+            font-weight: 900;
+
+            letter-spacing: -.5px;
+        }
+
+
+        .market-change {
+
+            margin-top: 6px;
+
+            font-size: 8px;
+
+            font-weight: 800;
+        }
+
+
+        /* =================================================
+           PANELS
+           ================================================= */
+
+        .panel {
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 12px;
+
+            background:
+                var(--panel);
+
+            overflow: hidden;
+        }
+
+
+        .panel-header {
+
+            min-height: 54px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 16px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+
+        .panel-header strong {
+
+            color:
+                var(--text-soft);
+
+            font-size: 9px;
+
+            font-weight: 900;
+        }
+
+
+        .panel-body {
+
+            padding: 16px;
+        }
+
+
+        /* =================================================
+           TRADINGVIEW
+           ================================================= */
+
+        .tradingview-widget-container {
+
+            width: 100%;
+
+            height: 600px;
+
+            overflow: hidden;
+
+            border-radius: 12px;
+
+            background:
+                #080c13;
+        }
+
+
+        .tradingview-widget-container__widget {
+
+            width: 100%;
+
+            height: 100%;
+        }
+
+
+        /* =================================================
+           TWO COLUMN
+           ================================================= */
+
+        .two-column-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.6fr)
+                minmax(280px, .7fr);
+
+            gap: 14px;
+        }
+
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.7fr)
+                minmax(250px, .8fr);
+
+            gap: 14px;
+        }
+
+
+        /* =================================================
+           INDICATORS
+           ================================================= */
+
+        .indicator-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+
+        .indicator-card {
+
+            min-height: 110px;
+
+            padding: 15px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,0.018);
+        }
+
+
+        .indicator-card small {
+
+            color:
+                var(--text-muted);
+
+            font-size: 7px;
+
+            font-weight: 800;
+        }
+
+
+        .indicator-card strong {
+
+            display: block;
+
+            margin-top: 11px;
+
+            color:
+                var(--text-soft);
+
+            font-size: 17px;
+        }
+
+
+        /* =================================================
+           SIGNAL
+           ================================================= */
+
+        .signal-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+
+        .signal-card {
+
+            padding: 17px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 12px;
+
+            background:
+                var(--panel);
+        }
+
+
+        .signal-card strong {
+
+            color:
+                var(--text-soft);
+
+            font-size: 11px;
+        }
+
+
+        .signal-card p {
+
+            margin:
+                7px 0 0;
+
+            color:
+                var(--text-muted);
+
+            font-size: 8px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =================================================
+           TERMINAL
+           ================================================= */
+
+        .terminal-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                250px;
+
+            gap: 12px;
+        }
+
+
+        .chart-container {
+
+            height: 600px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            background:
+                #080c13;
+        }
+
+
+        .terminal-sidebar {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        /* =================================================
+           FORM
+           ================================================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+
+        .form-group label {
+
+            color:
+                var(--text-muted);
+
+            font-size: 7px;
+
+            font-weight: 800;
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            min-height: 38px;
+
+            padding:
+                0 10px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 7px;
+
+            outline: none;
+
+            color:
+                var(--text-soft);
+
+            background:
+                #090e16;
+
+            font-size: 8px;
+        }
+
+
+        .form-group textarea {
+
+            padding-top: 10px;
+
+            min-height: 90px;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            border-color:
+                rgba(214,168,79,0.4);
+        }
+
+
+        /* =================================================
+           STATS
+           ================================================= */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+
+        .stat-card {
+
+            padding: 15px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 10px;
+
+            background:
+                var(--panel);
+        }
+
+
+        .stat-card small {
+
+            color:
+                var(--text-muted);
+
+            font-size: 7px;
+        }
+
+
+        .stat-card strong {
+
+            display: block;
+
+            margin-top: 7px;
+
+            color:
+                var(--text-soft);
+
+            font-size: 19px;
+        }
+
+
+        /* =================================================
+           MOBILE BUTTON
+           ================================================= */
+
+        .mobile-menu-button {
+
+            display: none;
+
+            border: 0;
+
+            color:
+                var(--text-soft);
+
+            background:
+                transparent;
+        }
+
+
+        /* =================================================
+           OVERLAY
+           ================================================= */
+
+        .sidebar-overlay {
+
+            display: none;
+        }
+
+
+        /* =================================================
+           FOOTER
+           ================================================= */
+
+        .site-footer {
+
+            margin-left:
+                var(--sidebar-width);
+
+            padding:
+                24px 30px 35px;
+
+            border-top:
+                1px solid
+                var(--border);
+
+            color:
+                var(--text-muted);
+
+            font-size: 7px;
+
+            text-align: center;
+        }
+
+
+        /* =================================================
+           REVEAL
+           ================================================= */
+
+        .reveal {
+
+            opacity: 0;
+
+            transform:
+                translateY(10px);
+
+            transition:
+                opacity .5s ease,
+                transform .5s ease;
+        }
+
+
+        .reveal.visible {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-  <!-- =========================================
-       GOLD X APPLICATION
-       ========================================= -->
 
-  <div id="app">
+<!-- =======================================================
+     TOP BAR
+     ======================================================= -->
 
-    <!-- =========================================
-         LOADING SCREEN
-         ========================================= -->
+<header class="topbar">
 
-    <div
-      id="loadingScreen"
-      class="loading-screen"
-    >
-
-      <div class="loading-logo">
-        <div class="gold-x-logo">
-          GX
-        </div>
-      </div>
-
-      <h1>
-        GOLD <span>X</span>
-      </h1>
-
-      <p>
-        PREMIUM TRADING TERMINAL
-      </p>
-
-      <div class="loading-bar">
-        <div
-          id="loadingProgress"
-          class="loading-progress"
-        ></div>
-      </div>
-
-      <small>
-        Initializing terminal...
-      </small>
-
-    </div>
-
-
-    <!-- =========================================
-         TOP NAVIGATION
-         ========================================= -->
-
-    <header class="topbar">
-
-      <div class="brand">
+    <div class="brand">
 
         <div class="brand-symbol">
-          GX
+            GX
         </div>
 
         <div class="brand-text">
 
-          <div class="brand-name">
-            GOLD <span>X</span>
-          </div>
+            <div class="brand-name">
+                GOLD X
+            </div>
 
-          <div class="brand-subtitle">
-            TRADING INTELLIGENCE
-          </div>
+            <div class="brand-subtitle">
+                PREMIUM TRADING TERMINAL
+            </div>
 
         </div>
 
-      </div>
+    </div>
 
 
-      <div class="top-center">
+    <div class="top-center">
 
         <div class="market-status">
 
-          <span class="status-dot"></span>
+            <span class="status-dot"></span>
 
-          <span>
-            MARKET
-          </span>
+            <span data-online-status>
+                ONLINE
+            </span>
 
-          <strong>
-            ONLINE
-          </strong>
+            <span>
+                •
+            </span>
+
+            <span data-clock>
+                00:00:00
+            </span>
 
         </div>
 
-      </div>
+    </div>
 
 
-      <div class="top-actions">
-
-        <button
-          id="searchButton"
-          class="top-button"
-          type="button"
-        >
-          🔍
-        </button>
+    <div class="top-actions">
 
         <button
-          id="notificationButton"
-          class="top-button"
-          type="button"
+            class="mobile-menu-button"
+            type="button"
+            aria-label="Open menu"
         >
-          🔔
-          <span class="notification-count">
-            3
-          </span>
+            ☰
         </button>
 
+
         <button
-          id="themeButton"
-          class="top-button"
-          type="button"
+            class="top-button"
+            type="button"
+            data-notifications
+            aria-label="Notifications"
         >
-          ☾
+            ♢
         </button>
+
 
         <div class="user-profile">
 
-          <div class="user-avatar">
-            GX
-          </div>
-
-          <div class="user-info">
-
-            <strong>
-              GOLD X
-            </strong>
-
-            <small>
-              Trader
-            </small>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </header>
-
-
-    <!-- =========================================
-         MAIN LAYOUT
-         ========================================= -->
-
-    <div class="main-layout">
-
-
-      <!-- =======================================
-           SIDEBAR
-           ======================================= -->
-
-      <aside
-        id="sidebar"
-        class="sidebar"
-      >
-
-        <div class="sidebar-section">
-
-          <div class="sidebar-label">
-            WORKSPACE
-          </div>
-
-          <nav class="sidebar-nav">
-
-            <a
-              href="#dashboard"
-              class="nav-link active"
-              data-page="dashboard"
-            >
-              <span class="nav-icon">
-                ◈
-              </span>
-
-              <span>
-                Dashboard
-              </span>
-            </a>
-
-
-            <a
-              href="#markets"
-              class="nav-link"
-              data-page="markets"
-            >
-              <span class="nav-icon">
-                ◉
-              </span>
-
-              <span>
-                Markets
-              </span>
-            </a>
-
-
-            <a
-              href="#terminal"
-              class="nav-link"
-              data-page="terminal"
-            >
-              <span class="nav-icon">
-                ▣
-              </span>
-
-              <span>
-                Trading Terminal
-              </span>
-            </a>
-
-
-            <a
-              href="#signals"
-              class="nav-link"
-              data-page="signals"
-            >
-              <span class="nav-icon">
-                ⚡
-              </span>
-
-              <span>
-                Signals
-              </span>
-
-              <span class="nav-badge">
-                4
-              </span>
-
-            </a>
-
-
-            <a
-              href="#watchlist"
-              class="nav-link"
-              data-page="watchlist"
-            >
-              <span class="nav-icon">
-                ★
-              </span>
-
-              <span>
-                Watchlist
-              </span>
-
-            </a>
-
-          </nav>
-
-        </div>
-
-
-        <div class="sidebar-section">
-
-          <div class="sidebar-label">
-            ANALYTICS
-          </div>
-
-          <nav class="sidebar-nav">
-
-            <a
-              href="#risk"
-              class="nav-link"
-              data-page="risk"
-            >
-              <span class="nav-icon">
-                ◫
-              </span>
-
-              <span>
-                Risk Lab
-              </span>
-
-            </a>
-
-
-            <a
-              href="#journal"
-              class="nav-link"
-              data-page="journal"
-            >
-              <span class="nav-icon">
-                ✎
-              </span>
-
-              <span>
-                Trade Journal
-              </span>
-
-            </a>
-
-
-            <a
-              href="#performance"
-              class="nav-link"
-              data-page="performance"
-            >
-              <span class="nav-icon">
-                ↗
-              </span>
-
-              <span>
-                Performance
-              </span>
-
-            </a>
-
-
-            <a
-              href="#calendar"
-              class="nav-link"
-              data-page="calendar"
-            >
-              <span class="nav-icon">
-                □
-              </span>
-
-              <span>
-                Economic Calendar
-              </span>
-
-            </a>
-
-          </nav>
-
-        </div>
-
-
-        <div class="sidebar-section">
-
-          <div class="sidebar-label">
-            SYSTEM
-          </div>
-
-          <nav class="sidebar-nav">
-
-            <a
-              href="#news"
-              class="nav-link"
-              data-page="news"
-            >
-              <span class="nav-icon">
-                ▤
-              </span>
-
-              <span>
-                Market News
-              </span>
-
-            </a>
-
-
-            <a
-              href="#settings"
-              class="nav-link"
-              data-page="settings"
-            >
-              <span class="nav-icon">
-                ⚙
-              </span>
-
-              <span>
-                Settings
-              </span>
-
-            </a>
-
-          </nav>
-
-        </div>
-
-
-        <!-- Sidebar account card -->
-
-        <div class="sidebar-account">
-
-          <div class="account-icon">
-            ◈
-          </div>
-
-          <div class="account-details">
-
-            <span>
-              ACCOUNT
-            </span>
-
-            <strong>
-              DEMO TERMINAL
-            </strong>
-
-          </div>
-
-          <div class="account-status">
-            ●
-          </div>
-
-        </div>
-
-
-        <div class="sidebar-footer">
-
-          <span>
-            GOLD X v1.0
-          </span>
-
-          <span>
-            2026
-          </span>
-
-        </div>
-
-      </aside>
-
-
-      <!-- =======================================
-           MAIN CONTENT
-           ======================================= -->
-
-      <main class="content">
-
-
-        <!-- =====================================
-             DASHBOARD
-             ===================================== -->
-
-        <section
-          id="dashboard"
-          class="page-section"
-        >
-
-          <!-- Hero -->
-
-          <div class="hero-section">
-
-            <div class="hero-content">
-
-              <div class="eyebrow">
-                PREMIUM MARKET INTELLIGENCE
-              </div>
-
-              <h1>
-                Trade with
-                <span>
-                  precision.
-                </span>
-              </h1>
-
-              <p>
-                Welcome to GOLD X — your advanced
-                trading workspace for market analysis,
-                risk planning and disciplined execution.
-              </p>
-
-              <div class="hero-buttons">
-
-                <a
-                  href="#terminal"
-                  class="button button-primary"
-                >
-                  Open Terminal
-                  <span>→</span>
-                </a>
-
-                <a
-                  href="#risk"
-                  class="button button-secondary"
-                >
-                  Risk Calculator
-                </a>
-
-              </div>
-
+            <div class="user-avatar">
+                IX
             </div>
 
-
-            <div class="hero-visual">
-
-              <div class="hero-orbit orbit-one"></div>
-
-              <div class="hero-orbit orbit-two"></div>
-
-              <div class="hero-core">
+            <div class="user-info">
 
                 <strong>
-                  GX
+                    ISHAN APEX
                 </strong>
 
                 <small>
-                  APEX
+                    PREMIUM
                 </small>
 
-              </div>
-
             </div>
 
-          </div>
+        </div>
+
+    </div>
+
+</header>
 
 
-          <!-- Market Cards -->
+<!-- =======================================================
+     SIDEBAR
+     ======================================================= -->
 
-          <div class="section-header">
+<div class="sidebar-overlay"></div>
 
-            <div>
 
-              <span class="section-eyebrow">
-                MARKET PULSE
-              </span>
+<aside class="sidebar">
 
-              <h2>
-                Live Watchboard
-              </h2>
+    <div class="sidebar-label">
+        MAIN
+    </div>
 
-            </div>
 
-            <span class="live-label">
-              ● LIVE
+    <nav class="nav-list">
+
+        <a
+            class="nav-link active"
+            href="#dashboard"
+        >
+            <span class="nav-icon">
+                ◈
             </span>
 
-          </div>
-
-
-          <div
-            id="marketGrid"
-            class="market-grid"
-          >
-
-            <!-- XAUUSD -->
-
-            <article class="market-card">
-
-              <div class="market-card-top">
-
-                <div class="asset">
-
-                  <div class="asset-icon gold">
-                    Au
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      XAUUSD
-                    </strong>
-
-                    <small>
-                      Gold / US Dollar
-                    </small>
-
-                  </div>
-
-                </div>
-
-                <span class="market-tag">
-                  GOLD
-                </span>
-
-              </div>
-
-              <div class="market-price">
-                <span id="goldPrice">
-                  Loading...
-                </span>
-              </div>
-
-              <div
-                id="goldChange"
-                class="market-change up"
-              >
-                --
-              </div>
-
-              <div class="mini-chart">
-                <svg
-                  viewBox="0 0 300 70"
-                  preserveAspectRatio="none"
-                >
-
-                  <polyline
-                    points="0,58 20,54 40,60 60,43 80,48 100,34 120,39 140,26 160,30 180,22 200,27 220,15 240,20 260,12 280,18 300,8"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-
-                </svg>
-              </div>
-
-            </article>
-
-
-            <!-- Bitcoin -->
-
-            <article class="market-card">
-
-              <div class="market-card-top">
-
-                <div class="asset">
-
-                  <div class="asset-icon crypto">
-                    ₿
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      BTCUSD
-                    </strong>
-
-                    <small>
-                      Bitcoin / US Dollar
-                    </small>
-
-                  </div>
-
-                </div>
-
-                <span class="market-tag">
-                  CRYPTO
-                </span>
-
-              </div>
-
-              <div class="market-price">
-                <span id="btcPrice">
-                  Loading...
-                </span>
-              </div>
-
-              <div
-                id="btcChange"
-                class="market-change up"
-              >
-                --
-              </div>
-
-              <div class="mini-chart">
-
-                <svg
-                  viewBox="0 0 300 70"
-                  preserveAspectRatio="none"
-                >
-
-                  <polyline
-                    points="0,48 20,45 40,52 60,30 80,35 100,43 120,28 140,33 160,19 180,24 200,14 220,20 240,13 260,25 280,18 300,11"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-
-                </svg>
-
-              </div>
-
-            </article>
-
-
-            <!-- EURUSD -->
-
-            <article class="market-card">
-
-              <div class="market-card-top">
-
-                <div class="asset">
-
-                  <div class="asset-icon forex">
-                    €
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      EURUSD
-                    </strong>
-
-                    <small>
-                      Euro / US Dollar
-                    </small>
-
-                  </div>
-
-                </div>
-
-                <span class="market-tag">
-                  FOREX
-                </span>
-
-              </div>
-
-              <div class="market-price">
-                <span id="eurPrice">
-                  1.1680
-                </span>
-              </div>
-
-              <div class="market-change up">
-                +0.18%
-              </div>
-
-              <div class="mini-chart">
-
-                <svg
-                  viewBox="0 0 300 70"
-                  preserveAspectRatio="none"
-                >
-
-                  <polyline
-                    points="0,40 20,42 40,36 60,39 80,28 100,34 120,26 140,31 160,24 180,29 200,21 220,25 240,18 260,23 280,17 300,19"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-
-                </svg>
-
-              </div>
-
-            </article>
-
-
-            <!-- NASDAQ -->
-
-            <article class="market-card">
-
-              <div class="market-card-top">
-
-                <div class="asset">
-
-                  <div class="asset-icon index">
-                    NQ
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      NAS100
-                    </strong>
-
-                    <small>
-                      Nasdaq 100
-                    </small>
-
-                  </div>
-
-                </div>
-
-                <span class="market-tag">
-                  INDEX
-                </span>
-
-              </div>
-
-              <div class="market-price">
-                <span>
-                  LIVE
-                </span>
-              </div>
-
-              <div class="market-change up">
-                MARKET OPEN
-              </div>
-
-              <div class="mini-chart">
-
-                <svg
-                  viewBox="0 0 300 70"
-                  preserveAspectRatio="none"
-                >
-
-                  <polyline
-                    points="0,55 20,48 40,50 60,39 80,42 100,31 120,37 140,23 160,28 180,18 200,25 220,14 240,20 260,9 280,15 300,7"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  />
-
-                </svg>
-
-              </div>
-
-            </article>
-
-          </div>
-
-
-          <!-- Dashboard Grid -->
-
-          <div class="dashboard-grid">
-
-
-            <!-- Market Bias -->
-
-            <div class="panel signal-panel">
-
-              <div class="panel-header">
-
-                <div>
-
-                  <span class="panel-eyebrow">
-                    APEX ENGINE
-                  </span>
-
-                  <h3>
-                    Market Bias
-                  </h3>
-
-                </div>
-
-                <span class="engine-status">
-                  ● ACTIVE
-                </span>
-
-              </div>
-
-
-              <div class="bias-main">
-
-                <div class="bias-circle">
-
-                  <div>
-                    <strong>
-                      WAIT
-                    </strong>
-
-                    <small>
-                      CONFIRMATION
-                    </small>
-                  </div>
-
-                </div>
-
-
-                <div class="bias-info">
-
-                  <div class="confidence-header">
-
-                    <span>
-                      Confidence
-                    </span>
-
-                    <strong>
-                      58%
-                    </strong>
-
-                  </div>
-
-                  <div class="confidence-bar">
-
-                    <div
-                      style="width:58%"
-                    ></div>
-
-                  </div>
-
-                  <p>
-                    No high-confidence setup is
-                    being claimed. Confirm structure,
-                    momentum and risk before entering.
-                  </p>
-
-                </div>
-
-              </div>
-
-
-              <div class="signal-matrix">
-
-                <div>
-
-                  <span>
-                    Trend
-                  </span>
-
-                  <strong>
-                    NEUTRAL
-                  </strong>
-
-                </div>
-
-                <div>
-
-                  <span>
-                    Momentum
-                  </span>
-
-                  <strong>
-                    MODERATE
-                  </strong>
-
-                </div>
-
-                <div>
-
-                  <span>
-                    Structure
-                  </span>
-
-                  <strong>
-                    RANGE
-                  </strong>
-
-                </div>
-
-                <div>
-
-                  <span>
-                    Risk
-                  </span>
-
-                  <strong class="positive">
-                    CONTROLLED
-                  </strong>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <!-- Quick Levels -->
-
-            <div class="panel">
-
-              <div class="panel-header">
-
-                <div>
-
-                  <span class="panel-eyebrow">
-                    TRADE PLAN
-                  </span>
-
-                  <h3>
-                    Quick Levels
-                  </h3>
-
-                </div>
-
-                <span class="panel-icon">
-                  ◇
-                </span>
-
-              </div>
-
-
-              <div class="levels">
-
-                <div class="level-row">
-
-                  <span>
-                    Entry
-                  </span>
-
-                  <strong>
-                    Confirm
-                  </strong>
-
-                </div>
-
-                <div class="level-row">
-
-                  <span>
-                    Stop Loss
-                  </span>
-
-                  <strong class="negative">
-                    Define First
-                  </strong>
-
-                </div>
-
-                <div class="level-row">
-
-                  <span>
-                    Target 1
-                  </span>
-
-                  <strong class="positive">
-                    1R
-                  </strong>
-
-                </div>
-
-                <div class="level-row">
-
-                  <span>
-                    Target 2
-                  </span>
-
-                  <strong class="positive">
-                    2R
-                  </strong>
-
-                </div>
-
-                <div class="level-row">
-
-                  <span>
-                    Target 3
-                  </span>
-
-                  <strong class="positive">
-                    3R
-                  </strong>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-          </div>
-
-
-          <!-- Technical Diagnostics -->
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                TECHNICAL STACK
-              </span>
-
-              <h2>
-                Market Diagnostics
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="indicator-grid">
-
-
-            <div class="indicator-card">
-
-              <span>
-                RSI (14)
-              </span>
-
-              <strong>
-                52.4
-              </strong>
-
-              <small class="neutral">
-                NEUTRAL
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                EMA 20
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                CHART DATA
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                EMA 50
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                CHART DATA
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                MACD
-              </span>
-
-              <strong>
-                NEUTRAL
-              </strong>
-
-              <small class="neutral">
-                WAIT
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                TREND
-              </span>
-
-              <strong>
-                NEUTRAL
-              </strong>
-
-              <small class="neutral">
-                RANGE
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                MOMENTUM
-              </span>
-
-              <strong>
-                52%
-              </strong>
-
-              <small>
-                MODERATE
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                SUPPORT
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                CONFIRM ON CHART
-              </small>
-
-            </div>
-
-
-            <div class="indicator-card">
-
-              <span>
-                RESISTANCE
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                CONFIRM ON CHART
-              </small>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             TRADING TERMINAL
-             ===================================== -->
-
-        <section
-          id="terminal"
-          class="page-section terminal-section"
+            <span>
+                Dashboard
+            </span>
+        </a>
+
+
+        <a
+            class="nav-link"
+            href="#markets"
         >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                PROFESSIONAL TERMINAL
-              </span>
-
-              <h2>
-                XAUUSD Trading Chart
-              </h2>
-
-            </div>
-
-            <div class="terminal-actions">
-
-              <button
-                class="small-button"
-                type="button"
-              >
-                1m
-              </button>
-
-              <button
-                class="small-button"
-                type="button"
-              >
-                5m
-              </button>
-
-              <button
-                class="small-button active"
-                type="button"
-              >
-                15m
-              </button>
-
-              <button
-                class="small-button"
-                type="button"
-              >
-                1H
-              </button>
-
-              <button
-                class="small-button"
-                type="button"
-              >
-                4H
-              </button>
-
-              <button
-                class="small-button"
-                type="button"
-              >
-                1D
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="terminal-grid">
-
-
-            <!-- Chart -->
-
-            <div class="chart-panel panel">
-
-              <div class="chart-header">
-
-                <div class="chart-symbol">
-
-                  <div class="chart-asset-icon">
-                    Au
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      XAUUSD
-                    </strong>
-
-                    <small>
-                      Gold / US Dollar
-                    </small>
-
-                  </div>
-
-                </div>
-
-
-                <div class="chart-tools">
-
-                  <button type="button">
-                    ⊕
-                  </button>
-
-                  <button type="button">
-                    ⚙
-                  </button>
-
-                  <button type="button">
-                    ⛶
-                  </button>
-
-                </div>
-
-              </div>
-
-
-              <div class="chart-container">
-
-                <!-- TradingView -->
-
-                <div
-                  class="tradingview-widget-container"
-                  style="height:100%;width:100%"
-                >
-
-                  <div
-                    class="tradingview-widget-container__widget"
-                    style="height:100%;width:100%"
-                  ></div>
-
-                  <script
-                    type="text/javascript"
-                    src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
-                    async
-                  >
-                  {
-                    "autosize": true,
-                    "symbol": "OANDA:XAUUSD",
-                    "interval": "15",
-                    "timezone": "Asia/Colombo",
-                    "theme": "dark",
-                    "style": "1",
-                    "locale": "en",
-                    "allow_symbol_change": true,
-                    "calendar": false,
-                    "hide_side_toolbar": false,
-                    "hide_top_toolbar": false,
-                    "hide_legend": false,
-                    "save_image": false,
-                    "hide_volume": true,
-                    "support_host": "https://www.tradingview.com"
-                  }
-                  </script>
-
-                </div>
-
-              </div>
-
-
-              <div class="chart-footer">
-
-                <span>
-                  Chart powered by TradingView
-                </span>
-
-                <span id="chartSync">
-                  Terminal ready
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <!-- Terminal Side -->
-
-            <aside class="terminal-sidebar">
-
-
-              <div class="panel">
-
-                <div class="panel-header">
-
-                  <div>
-
-                    <span class="panel-eyebrow">
-                      MARKET
-                    </span>
-
-                    <h3>
-                      XAUUSD
-                    </h3>
-
-                  </div>
-
-                  <span class="positive">
-                    LIVE
-                  </span>
-
-                </div>
-
-
-                <div class="big-price">
-
-                  <span id="terminalGoldPrice">
-                    Loading...
-                  </span>
-
-                </div>
-
-
-                <div class="price-row">
-
-                  <span>
-                    Session
-                  </span>
-
-                  <strong>
-                    Active
-                  </strong>
-
-                </div>
-
-
-                <div class="price-row">
-
-                  <span>
-                    Spread
-                  </span>
-
-                  <strong>
-                    Live
-                  </strong>
-
-                </div>
-
-
-                <div class="price-row">
-
-                  <span>
-                    Symbol
-                  </span>
-
-                  <strong>
-                    OANDA:XAUUSD
-                  </strong>
-
-                </div>
-
-              </div>
-
-
-              <div class="panel">
-
-                <div class="panel-header">
-
-                  <div>
-
-                    <span class="panel-eyebrow">
-                      WATCHLIST
-                    </span>
-
-                    <h3>
-                      Favorites
-                    </h3>
-
-                  </div>
-
-                </div>
-
-
-                <div class="terminal-watchlist">
-
-                  <div class="watch-item">
-
-                    <span>
-                      XAUUSD
-                    </span>
-
-                    <strong>
-                      GOLD
-                    </strong>
-
-                  </div>
-
-                  <div class="watch-item">
-
-                    <span>
-                      BTCUSD
-                    </span>
-
-                    <strong>
-                      BTC
-                    </strong>
-
-                  </div>
-
-                  <div class="watch-item">
-
-                    <span>
-                      EURUSD
-                    </span>
-
-                    <strong>
-                      EUR
-                    </strong>
-
-                  </div>
-
-                  <div class="watch-item">
-
-                    <span>
-                      NAS100
-                    </span>
-
-                    <strong>
-                      NQ
-                    </strong>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-
-            </aside>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             RISK LAB
-             ===================================== -->
-
-        <section
-          id="risk"
-          class="page-section"
+            <span class="nav-icon">
+                ◉
+            </span>
+
+            <span>
+                Markets
+            </span>
+        </a>
+
+
+        <a
+            class="nav-link"
+            href="#signals"
         >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                RISK MANAGEMENT
-              </span>
-
-              <h2>
-                GOLD X Risk Lab
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="two-column-grid">
-
-
-            <div class="panel calculator-panel">
-
-              <div class="panel-header">
-
-                <div>
-
-                  <span class="panel-eyebrow">
-                    POSITION PLANNER
-                  </span>
-
-                  <h3>
-                    Risk Calculator
-                  </h3>
-
-                </div>
-
-              </div>
-
-
-              <div class="form-grid">
-
-                <label>
-
-                  Account Balance
-
-                  <input
-                    id="accountBalance"
-                    type="number"
-                    value="10000"
-                    min="0"
-                  >
-
-                </label>
-
-
-                <label>
-
-                  Risk %
-
-                  <input
-                    id="riskPercent"
-                    type="number"
-                    value="1"
-                    min="0"
-                    step="0.1"
-                  >
-
-                </label>
-
-
-                <label>
-
-                  Entry Price
-
-                  <input
-                    id="entryPrice"
-                    type="number"
-                    value="0"
-                    min="0"
-                    step="0.01"
-                  >
-
-                </label>
-
-
-                <label>
-
-                  Stop Loss
-
-                  <input
-                    id="stopPrice"
-                    type="number"
-                    value="0"
-                    min="0"
-                    step="0.01"
-                  >
-
-                </label>
-
-              </div>
-
-
-              <button
-                id="calculateRisk"
-                class="button button-primary full-button"
-                type="button"
-              >
-                Calculate Risk
-              </button>
-
-
-              <div
-                id="riskResult"
-                class="calculator-result"
-              >
-                Enter your values to calculate
-                maximum planned loss.
-              </div>
-
-
-              <p class="disclaimer">
-                Educational calculator only.
-                Always verify position size and
-                contract specifications with your broker.
-              </p>
-
-            </div>
-
-
-            <div class="panel checklist-panel">
-
-              <div class="panel-header">
-
-                <div>
-
-                  <span class="panel-eyebrow">
-                    DISCIPLINE
-                  </span>
-
-                  <h3>
-                    Before You Trade
-                  </h3>
-
-                </div>
-
-              </div>
-
-
-              <div
-                id="tradeChecklist"
-                class="trade-checklist"
-              >
-
-                <label>
-                  <input type="checkbox">
-                  <span>
-                    I know my setup and invalidation.
-                  </span>
-                </label>
-
-                <label>
-                  <input type="checkbox">
-                  <span>
-                    My risk is defined before entry.
-                  </span>
-                </label>
-
-                <label>
-                  <input type="checkbox">
-                  <span>
-                    The trade follows my plan.
-                  </span>
-                </label>
-
-                <label>
-                  <input type="checkbox">
-                  <span>
-                    I checked important market events.
-                  </span>
-                </label>
-
-                <label>
-                  <input type="checkbox">
-                  <span>
-                    I am not entering because of FOMO.
-                  </span>
-                </label>
-
-              </div>
-
-
-              <button
-                id="resetChecklist"
-                class="button button-secondary full-button"
-                type="button"
-              >
-                Reset Checklist
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             SIGNALS
-             ===================================== -->
-
-        <section
-          id="signals"
-          class="page-section"
+            <span class="nav-icon">
+                ⚡
+            </span>
+
+            <span>
+                Signals
+            </span>
+        </a>
+
+
+        <a
+            class="nav-link"
+            href="#terminal"
         >
+            <span class="nav-icon">
+                ◫
+            </span>
 
-          <div class="section-header">
+            <span>
+                Trading Terminal
+            </span>
+        </a>
 
-            <div>
-
-              <span class="section-eyebrow">
-                MARKET INTELLIGENCE
-              </span>
-
-              <h2>
-                Signal Center
-              </h2>
-
-            </div>
-
-          </div>
+    </nav>
 
 
-          <div class="signal-grid">
+    <div class="sidebar-divider"></div>
 
 
-            <article class="signal-card panel">
-
-              <div class="signal-top">
-
-                <span class="signal-symbol">
-                  XAUUSD
-                </span>
-
-                <span class="signal-neutral">
-                  WAIT
-                </span>
-
-              </div>
-
-              <h3>
-                Gold Structure
-              </h3>
-
-              <p>
-                Wait for clear structure confirmation
-                before considering an entry.
-              </p>
-
-              <div class="signal-footer">
-
-                <span>
-                  Confidence
-                </span>
-
-                <strong>
-                  58%
-                </strong>
-
-              </div>
-
-            </article>
+    <div class="sidebar-label">
+        TOOLS
+    </div>
 
 
-            <article class="signal-card panel">
+    <nav class="nav-list">
 
-              <div class="signal-top">
-
-                <span class="signal-symbol">
-                  BTCUSD
-                </span>
-
-                <span class="signal-positive">
-                  WATCH
-                </span>
-
-              </div>
-
-              <h3>
-                Bitcoin Momentum
-              </h3>
-
-              <p>
-                Monitor momentum and key support/
-                resistance zones.
-              </p>
-
-              <div class="signal-footer">
-
-                <span>
-                  Confidence
-                </span>
-
-                <strong>
-                  61%
-                </strong>
-
-              </div>
-
-            </article>
-
-
-            <article class="signal-card panel">
-
-              <div class="signal-top">
-
-                <span class="signal-symbol">
-                  EURUSD
-                </span>
-
-                <span class="signal-neutral">
-                  NEUTRAL
-                </span>
-
-              </div>
-
-              <h3>
-                Forex Structure
-              </h3>
-
-              <p>
-                Market conditions remain mixed.
-                Confirmation is required.
-              </p>
-
-              <div class="signal-footer">
-
-                <span>
-                  Confidence
-                </span>
-
-                <strong>
-                  54%
-                </strong>
-
-              </div>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             JOURNAL
-             ===================================== -->
-
-        <section
-          id="journal"
-          class="page-section"
+        <a
+            class="nav-link"
+            href="#calculator"
         >
+            <span class="nav-icon">
+                +
+            </span>
 
-          <div class="section-header">
+            <span>
+                Risk Calculator
+            </span>
+        </a>
 
-            <div>
 
-              <span class="section-eyebrow">
-                PRIVATE LOG
-              </span>
+        <a
+            class="nav-link"
+            href="#watchlist"
+        >
+            <span class="nav-icon">
+                ☆
+            </span>
 
-              <h2>
-                Trade Journal
-              </h2>
+            <span>
+                Watchlist
+            </span>
+        </a>
 
-            </div>
 
-            <button
-              id="addJournal"
-              class="button button-primary"
-              type="button"
+        <a
+            class="nav-link"
+            href="#settings"
+        >
+            <span class="nav-icon">
+                ⚙
+            </span>
+
+            <span>
+                Settings
+            </span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-account">
+
+        <div class="sidebar-account-title">
+            ACCOUNT EQUITY
+        </div>
+
+        <div class="sidebar-account-value">
+            $10,000.00
+        </div>
+
+        <div class="sidebar-account-status">
+            ● ACCOUNT ACTIVE
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
+<main class="main-layout">
+
+<section class="content">
+
+
+<!-- =======================================================
+     DASHBOARD HERO
+     ======================================================= -->
+
+<section
+    class="hero-section"
+    id="dashboard"
+>
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            PROFESSIONAL MARKET INTELLIGENCE
+        </div>
+
+
+        <h1>
+            GOLD
+            <span>X</span>
+        </h1>
+
+
+        <p>
+            A premium trading terminal built for
+            serious market analysis, live charts,
+            technical signals and disciplined risk
+            management.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                class="button button-primary"
+                href="#terminal"
             >
-              + Add Note
-            </button>
+                OPEN TERMINAL
+            </a>
 
-          </div>
 
-
-          <div class="panel journal-panel">
-
-            <textarea
-              id="journalInput"
-              class="journal-input"
-              placeholder="Write your market thesis, setup, invalidation, emotions or post-trade review..."
-            ></textarea>
-
-
-            <div
-              id="journalList"
-              class="journal-list"
-            ></div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             PERFORMANCE
-             ===================================== -->
-
-        <section
-          id="performance"
-          class="page-section"
-        >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                PERFORMANCE
-              </span>
-
-              <h2>
-                Trading Analytics
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="stats-grid">
-
-            <div class="stat-card panel">
-
-              <span>
-                TOTAL TRADES
-              </span>
-
-              <strong>
-                0
-              </strong>
-
-              <small>
-                Start your journal
-              </small>
-
-            </div>
-
-
-            <div class="stat-card panel">
-
-              <span>
-                WIN RATE
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                Not enough data
-              </small>
-
-            </div>
-
-
-            <div class="stat-card panel">
-
-              <span>
-                PROFIT FACTOR
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                Not enough data
-              </small>
-
-            </div>
-
-
-            <div class="stat-card panel">
-
-              <span>
-                MAX DRAWDOWN
-              </span>
-
-              <strong>
-                --
-              </strong>
-
-              <small>
-                Not enough data
-              </small>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             ECONOMIC CALENDAR
-             ===================================== -->
-
-        <section
-          id="calendar"
-          class="page-section"
-        >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                EVENTS
-              </span>
-
-              <h2>
-                Economic Calendar
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="panel">
-
-            <div class="calendar-list">
-
-              <div class="calendar-row">
-
-                <span>
-                  TIME
-                </span>
-
-                <span>
-                  EVENT
-                </span>
-
-                <span>
-                  IMPACT
-                </span>
-
-                <span>
-                  STATUS
-                </span>
-
-              </div>
-
-
-              <div class="calendar-row">
-
-                <span>
-                  --
-                </span>
-
-                <strong>
-                  Market event data
-                </strong>
-
-                <span class="neutral">
-                  CHECK
-                </span>
-
-                <span>
-                  External data
-                </span>
-
-              </div>
-
-
-              <div class="calendar-row">
-
-                <span>
-                  --
-                </span>
-
-                <strong>
-                  Verify before trading
-                </strong>
-
-                <span class="negative">
-                  HIGH
-                </span>
-
-                <span>
-                  Review
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             NEWS
-             ===================================== -->
-
-        <section
-          id="news"
-          class="page-section"
-        >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                INTELLIGENCE
-              </span>
-
-              <h2>
-                Market Notes
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="news-grid">
-
-
-            <article class="news-card panel">
-
-              <span class="news-number">
-                01
-              </span>
-
-              <div>
-
-                <h3>
-                  Structure First
-                </h3>
-
-                <p>
-                  Identify trend, range and invalidation
-                  before searching for an entry.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="news-card panel">
-
-              <span class="news-number">
-                02
-              </span>
-
-              <div>
-
-                <h3>
-                  Risk Second
-                </h3>
-
-                <p>
-                  Position size should follow the amount
-                  you are willing to lose.
-                </p>
-
-              </div>
-
-            </article>
-
-
-            <article class="news-card panel">
-
-              <span class="news-number">
-                03
-              </span>
-
-              <div>
-
-                <h3>
-                  Confirmation Matters
-                </h3>
-
-                <p>
-                  Avoid forcing a trade simply because
-                  the market is moving.
-                </p>
-
-              </div>
-
-            </article>
-
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             WATCHLIST
-             ===================================== -->
-
-        <section
-          id="watchlist"
-          class="page-section"
-        >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                FAVORITES
-              </span>
-
-              <h2>
-                My Watchlist
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="panel watchlist-table">
-
-            <div class="watch-table-head">
-
-              <span>
-                SYMBOL
-              </span>
-
-              <span>
-                MARKET
-              </span>
-
-              <span>
-                STATUS
-              </span>
-
-              <span>
-                ACTION
-              </span>
-
-            </div>
-
-
-            <div class="watch-table-row">
-
-              <strong>
-                XAUUSD
-              </strong>
-
-              <span>
-                Gold
-              </span>
-
-              <span class="positive">
-                ACTIVE
-              </span>
-
-              <button
-                type="button"
-                class="small-button"
-              >
-                VIEW
-              </button>
-
-            </div>
-
-
-            <div class="watch-table-row">
-
-              <strong>
-                BTCUSD
-              </strong>
-
-              <span>
-                Crypto
-              </span>
-
-              <span class="positive">
-                ACTIVE
-              </span>
-
-              <button
-                type="button"
-                class="small-button"
-              >
-                VIEW
-              </button>
-
-            </div>
-
-
-            <div class="watch-table-row">
-
-              <strong>
-                EURUSD
-              </strong>
-
-              <span>
-                Forex
-              </span>
-
-              <span class="positive">
-                ACTIVE
-              </span>
-
-              <button
-                type="button"
-                class="small-button"
-              >
-                VIEW
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =====================================
-             SETTINGS
-             ===================================== -->
-
-        <section
-          id="settings"
-          class="page-section"
-        >
-
-          <div class="section-header">
-
-            <div>
-
-              <span class="section-eyebrow">
-                CONTROL CENTER
-              </span>
-
-              <h2>
-                GOLD X Settings
-              </h2>
-
-            </div>
-
-          </div>
-
-
-          <div class="settings-grid">
-
-
-            <button
-              class="setting-card panel"
-              id="themeSetting"
-              type="button"
+            <a
+                class="button"
+                href="#markets"
             >
+                VIEW MARKETS
+            </a>
 
-              <span class="setting-icon">
-                ◐
-              </span>
-
-              <strong>
-                Appearance
-              </strong>
-
-              <small>
-                Switch dark / light mode
-              </small>
-
-            </button>
-
-
-            <button
-              class="setting-card panel"
-              id="fullscreenSetting"
-              type="button"
-            >
-
-              <span class="setting-icon">
-                ⛶
-              </span>
-
-              <strong>
-                Fullscreen
-              </strong>
-
-              <small>
-                Expand terminal workspace
-              </small>
-
-            </button>
-
-
-            <button
-              class="setting-card panel"
-              id="clearJournal"
-              type="button"
-            >
-
-              <span class="setting-icon">
-                ⌫
-              </span>
-
-              <strong>
-                Clear Journal
-              </strong>
-
-              <small>
-                Delete local journal notes
-              </small>
-
-            </button>
-
-
-            <button
-              class="setting-card panel"
-              id="resetApplication"
-              type="button"
-            >
-
-              <span class="setting-icon">
-                ↻
-              </span>
-
-              <strong>
-                Reset Terminal
-              </strong>
-
-              <small>
-                Restore default settings
-              </small>
-
-            </button>
-
-          </div>
-
-        </section>
-
-
-      </main>
+        </div>
 
     </div>
 
 
-    <!-- =========================================
-         FOOTER
-         ========================================= -->
+    <div class="hero-visual">
 
-    <footer class="site-footer">
+        <div class="orbit-two"></div>
 
-      <div class="footer-brand">
-        GOLD <span>X</span>
-      </div>
+        <div class="orbit-one"></div>
 
-      <p>
-        Premium Trading Intelligence Terminal
-      </p>
+        <div class="hero-core">
 
-      <small>
-        Market information is for educational and
-        informational purposes only. GOLD X does not
-        guarantee trading results or investment returns.
-      </small>
-
-      <div class="footer-line">
-        © 2026 GOLD X. All rights reserved.
-      </div>
-
-    </footer>
-
-
-    <!-- =========================================
-         NOTIFICATION PANEL
-         ========================================= -->
-
-    <div
-      id="notificationPanel"
-      class="notification-panel"
-    >
-
-      <div class="notification-header">
-
-        <strong>
-          Notifications
-        </strong>
-
-        <button
-          id="closeNotifications"
-          type="button"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <div class="notification-item">
-
-        <span class="notification-icon">
-          ⚡
-        </span>
-
-        <div>
-
-          <strong>
-            Terminal Ready
-          </strong>
-
-          <p>
-            GOLD X is ready for analysis.
-          </p>
+            <strong>
+                GX
+            </strong>
 
         </div>
-
-      </div>
-
-
-      <div class="notification-item">
-
-        <span class="notification-icon">
-          ◈
-        </span>
-
-        <div>
-
-          <strong>
-            Risk Reminder
-          </strong>
-
-          <p>
-            Define your risk before every trade.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="notification-item">
-
-        <span class="notification-icon">
-          ●
-        </span>
-
-        <div>
-
-          <strong>
-            Market Status
-          </strong>
-
-          <p>
-            Check current market conditions.
-          </p>
-
-        </div>
-
-      </div>
 
     </div>
 
+</section>
 
-    <!-- =========================================
-         SEARCH MODAL
-         ========================================= -->
 
-    <div
-      id="searchModal"
-      class="modal-overlay"
-    >
+<!-- =======================================================
+     MARKETS
+     ======================================================= -->
 
-      <div class="search-modal">
+<div
+    class="section-header"
+    id="markets"
+>
 
-        <div class="search-modal-header">
+    <div>
 
-          <strong>
-            Search GOLD X
-          </strong>
+        <h2>
+            Live Markets
+        </h2>
 
-          <button
-            id="closeSearch"
-            type="button"
-          >
-            ×
-          </button>
+        <p>
+            Market prices update automatically
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="market-grid">
+
+
+    <article class="market-card">
+
+        <div class="market-card-top">
+
+            <div>
+
+                <div class="market-symbol">
+                    XAUUSD
+                </div>
+
+                <div class="market-name">
+                    Gold / US Dollar
+                </div>
+
+            </div>
+
+            <span class="text-green">
+                ●
+            </span>
 
         </div>
-
-
-        <input
-          id="globalSearch"
-          type="search"
-          placeholder="Search dashboard, markets, risk, journal..."
-        >
 
 
         <div
-          id="searchResults"
-          class="search-results"
+            class="market-price"
+            data-price="XAUUSD"
         >
+            3345.20
+        </div>
 
-          <div>
-            Try:
-            <strong>
-              XAUUSD
-            </strong>
-          </div>
 
-          <div>
-            Try:
-            <strong>
-              Risk
-            </strong>
-          </div>
+        <div
+            class="market-change text-green"
+            data-change="XAUUSD"
+        >
+            +0.00%
+        </div>
 
-          <div>
-            Try:
-              <strong>
-                Journal
-              </strong>
-          </div>
+    </article>
+
+
+    <article class="market-card">
+
+        <div class="market-card-top">
+
+            <div>
+
+                <div class="market-symbol">
+                    BTCUSD
+                </div>
+
+                <div class="market-name">
+                    Bitcoin / US Dollar
+                </div>
+
+            </div>
+
+            <span class="text-green">
+                ●
+            </span>
 
         </div>
 
-      </div>
+
+        <div
+            class="market-price"
+            data-price="BTCUSD"
+        >
+            118,420.00
+        </div>
+
+
+        <div
+            class="market-change text-green"
+            data-change="BTCUSD"
+        >
+            +0.00%
+        </div>
+
+    </article>
+
+
+    <article class="market-card">
+
+        <div class="market-card-top">
+
+            <div>
+
+                <div class="market-symbol">
+                    EURUSD
+                </div>
+
+                <div class="market-name">
+                    Euro / US Dollar
+                </div>
+
+            </div>
+
+            <span class="text-green">
+                ●
+            </span>
+
+        </div>
+
+
+        <div
+            class="market-price"
+            data-price="EURUSD"
+        >
+            1.1684
+        </div>
+
+
+        <div
+            class="market-change text-green"
+            data-change="EURUSD"
+        >
+            +0.00%
+        </div>
+
+    </article>
+
+
+</div>
+
+
+<!-- =======================================================
+     TRADINGVIEW TERMINAL
+     ======================================================= -->
+
+<div
+    class="section-header"
+    id="terminal"
+>
+
+    <div>
+
+        <h2>
+            Trading Terminal
+        </h2>
+
+        <p>
+            XAUUSD • 15 Minute • Live TradingView Chart
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="terminal-grid">
+
+
+    <div class="chart-container">
+
+        <!-- TRADINGVIEW CHART -->
+
+        <div
+            class="tradingview-widget-container"
+            style="height:100%;width:100%;"
+        >
+
+            <div
+                class="tradingview-widget-container__widget"
+                style="height:100%;width:100%;"
+            ></div>
+
+
+            <script
+                type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+                async
+            >
+            {
+                "autosize": true,
+                "symbol": "OANDA:XAUUSD",
+                "interval": "15",
+                "timezone": "Asia/Colombo",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "hide_top_toolbar": false,
+                "hide_legend": false,
+                "save_image": true,
+                "calendar": false,
+                "hide_volume": false,
+                "support_host": "https://www.tradingview.com"
+            }
+            </script>
+
+        </div>
 
     </div>
 
 
-  </div>
+    <aside class="terminal-sidebar">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <strong>
+                    CURRENT MARKET
+                </strong>
+
+            </div>
 
 
-  <!-- =========================================
-       JAVASCRIPT
-       ========================================= -->
+            <div class="panel-body">
 
-  <script src="script.js"></script>
+                <div
+                    class="market-symbol"
+                    data-current-symbol
+                >
+                    XAUUSD
+                </div>
+
+
+                <div
+                    class="market-price"
+                    data-live-price
+                >
+                    3345.20
+                </div>
+
+
+                <div class="text-green">
+                    ● MARKET ACTIVE
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <strong>
+                    QUICK SYMBOLS
+                </strong>
+
+            </div>
+
+
+            <div class="panel-body">
+
+                <div class="nav-list">
+
+                    <button
+                        class="nav-link active"
+                        data-symbol="XAUUSD"
+                        type="button"
+                    >
+                        <span class="nav-icon">
+                            ◆
+                        </span>
+
+                        <span>
+                            XAUUSD
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="nav-link"
+                        data-symbol="BTCUSD"
+                        type="button"
+                    >
+                        <span class="nav-icon">
+                            ₿
+                        </span>
+
+                        <span>
+                            BTCUSD
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="nav-link"
+                        data-symbol="EURUSD"
+                        type="button"
+                    >
+                        <span class="nav-icon">
+                            €
+                        </span>
+
+                        <span>
+                            EURUSD
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+<!-- =======================================================
+     INDICATORS
+     ======================================================= -->
+
+<div class="section-header">
+
+    <div>
+
+        <h2>
+            Technical Intelligence
+        </h2>
+
+        <p>
+            GOLD X market overview
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="indicator-grid">
+
+
+    <div class="indicator-card">
+
+        <small>
+            RSI
+        </small>
+
+        <strong>
+            58.42
+        </strong>
+
+        <span class="text-green">
+            Bullish
+        </span>
+
+    </div>
+
+
+    <div class="indicator-card">
+
+        <small>
+            MACD
+        </small>
+
+        <strong>
+            +12.84
+        </strong>
+
+        <span class="text-green">
+            Positive
+        </span>
+
+    </div>
+
+
+    <div class="indicator-card">
+
+        <small>
+            EMA 50
+        </small>
+
+        <strong>
+            3328.40
+        </strong>
+
+        <span class="text-green">
+            Above
+        </span>
+
+    </div>
+
+
+    <div class="indicator-card">
+
+        <small>
+            Trend
+        </small>
+
+        <strong>
+            BUY
+        </strong>
+
+        <span class="text-green">
+            Strong
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     SIGNALS
+     ======================================================= -->
+
+<div
+    class="section-header"
+    id="signals"
+>
+
+    <div>
+
+        <h2>
+            GOLD X Signals
+        </h2>
+
+        <p>
+            Technical analysis dashboard
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="signal-grid">
+
+
+    <article class="signal-card">
+
+        <strong>
+            XAUUSD
+        </strong>
+
+        <p>
+            Market bias
+        </p>
+
+        <h3 class="text-green">
+            BUY
+        </h3>
+
+        <p>
+            Trend strength: 82%
+        </p>
+
+    </article>
+
+
+    <article class="signal-card">
+
+        <strong>
+            BTCUSD
+        </strong>
+
+        <p>
+            Market bias
+        </p>
+
+        <h3 class="text-green">
+            BUY
+        </h3>
+
+        <p>
+            Trend strength: 74%
+        </p>
+
+    </article>
+
+
+    <article class="signal-card">
+
+        <strong>
+            EURUSD
+        </strong>
+
+        <p>
+            Market bias
+        </p>
+
+        <h3 class="text-muted">
+            NEUTRAL
+        </h3>
+
+        <p>
+            Trend strength: 51%
+        </p>
+
+    </article>
+
+
+</div>
+
+
+<!-- =======================================================
+     RISK CALCULATOR
+     ======================================================= -->
+
+<div
+    class="section-header"
+    id="calculator"
+>
+
+    <div>
+
+        <h2>
+            Risk Calculator
+        </h2>
+
+        <p>
+            Calculate your maximum trade risk
+        </p>
+
+    </div>
+
+</div>
+
+
+<div
+    class="panel"
+    data-calculator
+>
+
+    <div class="panel-body">
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    ACCOUNT BALANCE
+                </label>
+
+                <input
+                    type="number"
+                    value="10000"
+                    data-balance
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    RISK %
+                </label>
+
+                <input
+                    type="number"
+                    value="1"
+                    step="0.1"
+                    data-risk
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    STOP LOSS
+                </label>
+
+                <input
+                    type="number"
+                    value="10"
+                    data-stop-loss
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    RISK AMOUNT
+                </label>
+
+                <input
+                    type="text"
+                    value="$100.00"
+                    data-risk-result
+                    readonly
+                >
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     END PART 1
+     ======================================================= -->
+
+</section>
+
+</main>
+
+
+<!-- =======================================================
+     FOOTER
+     ======================================================= -->
+
+<footer class="site-footer">
+
+    GOLD X © 2026 —
+    Premium Trading Dashboard
+
+</footer>
+
+
+<!-- =======================================================
+     JAVASCRIPT
+     ======================================================= -->
+
+<script src="script.js"></script>
 
 </body>
-</html>
+
+</html><!-- =======================================================
+     PART 2 — PREMIUM GOLD X FEATURES
+     ======================================================= -->
+
+<!-- WATCHLIST -->
+<div class="section-header" id="watchlist">
+
+    <div>
+        <h2>Premium Watchlist</h2>
+        <p>Track your favorite markets</p>
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <div class="panel-header">
+        <strong>MARKET WATCHLIST</strong>
+
+        <button
+            class="button button-primary"
+            type="button"
+            data-add-watchlist
+        >
+            + ADD
+        </button>
+    </div>
+
+    <div class="panel-body">
+
+        <div
+            id="watchlist-container"
+            class="market-grid"
+        >
+
+            <article class="market-card">
+
+                <div class="market-card-top">
+
+                    <div>
+                        <div class="market-symbol">
+                            XAUUSD
+                        </div>
+
+                        <div class="market-name">
+                            Gold / US Dollar
+                        </div>
+                    </div>
+
+                    <span class="text-green">
+                        LIVE
+                    </span>
+
+                </div>
+
+                <div
+                    class="market-price"
+                    data-watch-price="XAUUSD"
+                >
+                    3345.20
+                </div>
+
+                <div class="market-change text-green">
+                    +0.00%
+                </div>
+
+            </article>
+
+
+            <article class="market-card">
+
+                <div class="market-card-top">
+
+                    <div>
+                        <div class="market-symbol">
+                            BTCUSD
+                        </div>
+
+                        <div class="market-name">
+                            Bitcoin / US Dollar
+                        </div>
+                    </div>
+
+                    <span class="text-green">
+                        LIVE
+                    </span>
+
+                </div>
+
+                <div
+                    class="market-price"
+                    data-watch-price="BTCUSD"
+                >
+                    118420.00
+                </div>
+
+                <div class="market-change text-green">
+                    +0.00%
+                </div>
+
+            </article>
+
+
+            <article class="market-card">
+
+                <div class="market-card-top">
+
+                    <div>
+                        <div class="market-symbol">
+                            EURUSD
+                        </div>
+
+                        <div class="market-name">
+                            Euro / US Dollar
+                        </div>
+                    </div>
+
+                    <span class="text-green">
+                        LIVE
+                    </span>
+
+                </div>
+
+                <div
+                    class="market-price"
+                    data-watch-price="EURUSD"
+                >
+                    1.1684
+                </div>
+
+                <div class="market-change text-green">
+                    +0.00%
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PERFORMANCE -->
+<div class="section-header">
+
+    <div>
+        <h2>Performance Overview</h2>
+        <p>Trading account statistics</p>
+    </div>
+
+</div>
+
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <small>
+            TOTAL PROFIT
+        </small>
+
+        <strong class="text-green">
+            +$2,840
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <small>
+            WIN RATE
+        </small>
+
+        <strong>
+            78.4%
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <small>
+            TRADES
+        </small>
+
+        <strong>
+            126
+        </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <small>
+            MAX DRAWDOWN
+        </small>
+
+        <strong class="text-red">
+            -4.8%
+        </strong>
+
+    </div>
+
+</div>
+
+
+<!-- TRADE PLANNER -->
+<div class="section-header">
+
+    <div>
+        <h2>Trade Planner</h2>
+        <p>Plan your entry, stop loss and take profit</p>
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="panel-header">
+        <strong>NEW TRADE PLAN</strong>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    SYMBOL
+                </label>
+
+                <select data-trade-symbol>
+
+                    <option value="XAUUSD">
+                        XAUUSD
+                    </option>
+
+                    <option value="BTCUSD">
+                        BTCUSD
+                    </option>
+
+                    <option value="EURUSD">
+                        EURUSD
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    DIRECTION
+                </label>
+
+                <select data-trade-direction>
+
+                    <option value="BUY">
+                        BUY
+                    </option>
+
+                    <option value="SELL">
+                        SELL
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    ENTRY PRICE
+                </label>
+
+                <input
+                    type="number"
+                    placeholder="Enter entry"
+                    data-entry
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    STOP LOSS
+                </label>
+
+                <input
+                    type="number"
+                    placeholder="Enter stop loss"
+                    data-sl
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    TAKE PROFIT
+                </label>
+
+                <input
+                    type="number"
+                    placeholder="Enter take profit"
+                    data-tp
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    RISK / REWARD
+                </label>
+
+                <input
+                    type="text"
+                    value="—"
+                    readonly
+                    data-rr
+                >
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="hero-buttons"
+            style="margin-top:16px;"
+        >
+
+            <button
+                class="button button-primary"
+                type="button"
+                data-calculate-trade
+            >
+                CALCULATE TRADE
+            </button>
+
+            <button
+                class="button"
+                type="button"
+                data-clear-trade
+            >
+                CLEAR
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MARKET SESSION -->
+<div class="section-header">
+
+    <div>
+        <h2>Market Sessions</h2>
+        <p>Global trading session monitor</p>
+    </div>
+
+</div>
+
+
+<div class="signal-grid">
+
+    <article class="signal-card">
+
+        <strong>
+            🇬🇧 LONDON
+        </strong>
+
+        <p>
+            European session
+        </p>
+
+        <h3 class="text-green">
+            ACTIVE
+        </h3>
+
+    </article>
+
+
+    <article class="signal-card">
+
+        <strong>
+            🇺🇸 NEW YORK
+        </strong>
+
+        <p>
+            US session
+        </p>
+
+        <h3 class="text-muted">
+            UPCOMING
+        </h3>
+
+    </article>
+
+
+    <article class="signal-card">
+
+        <strong>
+            🇯🇵 TOKYO
+        </strong>
+
+        <p>
+            Asian session
+        </p>
+
+        <h3 class="text-muted">
+            CLOSED
+        </h3>
+
+    </article>
+
+</div>
+
+
+<!-- NEWS -->
+<div class="section-header">
+
+    <div>
+        <h2>Market Intelligence</h2>
+        <p>Important market events</p>
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="panel-body">
+
+        <div class="signal-grid">
+
+            <article class="signal-card">
+
+                <strong>
+                    GOLD
+                </strong>
+
+                <p>
+                    XAUUSD volatility monitor
+                </p>
+
+                <span class="text-green">
+                    BULLISH BIAS
+                </span>
+
+            </article>
+
+
+            <article class="signal-card">
+
+                <strong>
+                    USD
+                </strong>
+
+                <p>
+                    Dollar strength monitor
+                </p>
+
+                <span class="text-muted">
+                    MONITORING
+                </span>
+
+            </article>
+
+
+            <article class="signal-card">
+
+                <strong>
+                    RISK
+                </strong>
+
+                <p>
+                    Portfolio risk level
+                </p>
+
+                <span class="text-green">
+                    LOW
+                </span>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SETTINGS -->
+<div
+    class="section-header"
+    id="settings"
+>
+
+    <div>
+        <h2>Terminal Settings</h2>
+        <p>Customize your GOLD X experience</p>
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="panel-body">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    CHART THEME
+                </label>
+
+                <select data-theme>
+
+                    <option value="dark">
+                        Dark
+                    </option>
+
+                    <option value="light">
+                        Light
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    DEFAULT SYMBOL
+                </label>
+
+                <select data-default-symbol>
+
+                    <option value="XAUUSD">
+                        XAUUSD
+                    </option>
+
+                    <option value="BTCUSD">
+                        BTCUSD
+                    </option>
+
+                    <option value="EURUSD">
+                        EURUSD
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DISCLAIMER -->
+<div
+    class="panel"
+    style="margin-top:16px;"
+>
+
+    <div class="panel-body">
+
+        <strong>
+            ⚠️ Risk Notice
+        </strong>
+
+        <p
+            style="
+                color:var(--text-muted);
+                font-size:8px;
+                line-height:1.8;
+            "
+        >
+            GOLD X is a trading dashboard for market
+            information and educational purposes. Market
+            prices can change rapidly. Trading involves
+            significant risk and you can lose money.
+            Always verify prices and information with your
+            broker before making a trading decision.
+        </p>
+
+    </div>
+
+</div>
