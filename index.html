@@ -3,518 +3,733 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeVortex | Next-Gen Trading Platform</title>
+    <title>TradeVortex Pro | Advanced Financial Terminal</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header class="navbar">
-        <div class="logo">Trade<span>Vortex</span></div>
-        <nav>
-            <ul>
-                <li><a href="#">Markets</a></li>
-                <li><a href="#">Trade</a></li>
-                <li><a href="#">Portfolio</a></li>
-                <li><a href="#">Analytics</a></li>
-            </ul>
-        </nav>
-        <div class="user-profile">
-            <span class="balance">Balance: $25,480.00</span>
-            <button class="btn-deposit">Deposit</button>
+<body class="dark-theme">
+
+    <!-- Top Navigation Terminal Header -->
+    <header class="terminal-header">
+        <div class="brand-section">
+            <div class="logo">
+                <i class="fa-solid fa-chart-line logo-icon"></i>
+                <span class="brand-name">TRADE<span class="highlight">VORTEX</span> <span class="badge">PRO</span></span>
+            </div>
+            <div class="pair-selector">
+                <i class="fa-solid fa-star favorite-star"></i>
+                <span class="current-pair">BTC/USDT</span>
+                <span class="pair-type">PERPETUAL</span>
+                <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+            </div>
+        </div>
+
+        <div class="market-ticker-tape">
+            <div class="ticker-item">
+                <span class="label">Mark Price</span>
+                <span class="value price-up" id="ticker-price">$64,280.50</span>
+            </div>
+            <div class="ticker-item">
+                <span class="label">24h Change</span>
+                <span class="value price-up">+ $1,840.20 (+2.95%)</span>
+            </div>
+            <div class="ticker-item">
+                <span class="label">24h High</span>
+                <span class="value">$65,100.00</span>
+            </div>
+            <div class="ticker-item">
+                <span class="label">24h Low</span>
+                <span class="value">$62,400.00</span>
+            </div>
+            <div class="ticker-item">
+                <span class="label">24h Volume(BTC)</span>
+                <span class="value">42,891.12 BTC</span>
+            </div>
+        </div>
+
+        <div class="user-actions">
+            <div class="connection-status">
+                <span class="status-dot online"></span> WS Connected
+            </div>
+            <button class="btn btn-deposit"><i class="fa-solid fa-wallet"></i> Deposit</button>
+            <div class="avatar-dropdown">
+                <i class="fa-solid fa-circle-user avatar"></i>
+            </div>
         </div>
     </header>
 
-    <main class="trading-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="market-list">
-                <h3>Watchlist</h3>
-                <ul>
-                    <li class="active"><span>BTC/USD</span> <span class="green">+2.4%</span></li>
-                    <li><span>ETH/USD</span> <span class="green">+1.8%</span></li>
-                    <li><span>SOL/USD</span> <span class="red">-0.5%</span></li>
-                    <li><span>EUR/USD</span> <span class="green">+0.1%</span></li>
-                </ul>
+    <!-- Main Workspace Dashboard Grid -->
+    <div class="terminal-workspace">
+
+        <!-- Left Navigation / Watchlist Panel -->
+        <aside class="panel watchlist-panel">
+            <div class="panel-header">
+                <div class="tab-group">
+                    <button class="tab-btn active">Crypto</button>
+                    <button class="tab-btn">Forex</button>
+                    <button class="tab-btn">Stocks</button>
+                </div>
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+            <div class="watchlist-table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Pair</th>
+                            <th>Price</th>
+                            <th>24h %</th>
+                        </tr>
+                    </thead>
+                    <tbody id="watchlist-body">
+                        <tr class="active-row">
+                            <td class="pair-name"><i class="fa-solid fa-star fav active"></i> BTC/USDT</td>
+                            <td class="price">64,280.50</td>
+                            <td class="change green">+2.95%</td>
+                        </tr>
+                        <tr>
+                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> ETH/USDT</td>
+                            <td class="price">3,450.25</td>
+                            <td class="change green">+1.82%</td>
+                        </tr>
+                        <tr>
+                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> SOL/USDT</td>
+                            <td class="price">142.10</td>
+                            <td class="change red">-1.45%</td>
+                        </tr>
+                        <tr>
+                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> BNB/USDT</td>
+                            <td class="price">580.90</td>
+                            <td class="change green">+0.45%</td>
+                        </tr>
+                        <tr>
+                            <td class="pair-name"><i class="fa-solid fa-star fav"></i> XRP/USDT</td>
+                            <td class="price">0.5840</td>
+                            <td class="change red">-0.12%</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </aside>
 
-        <!-- Main Chart Section -->
-        <section class="chart-section">
-            <div class="chart-header">
-                <h2>BTC/USD - Bitcoin Real-time Chart</h2>
-                <div class="price-info">
-                    <span id="current-price" class="price">$64,230.50</span>
-                    <span class="change green">+ $1,420.00 (2.4%)</span>
+        <!-- Central Analytics & Interactive Charting Area -->
+        <section class="panel chart-panel">
+            <div class="chart-toolbar">
+                <div class="timeframes">
+                    <button class="tf-btn">1m</button>
+                    <button class="tf-btn">15m</button>
+                    <button class="tf-btn active">1h</button>
+                    <button class="tf-btn">4h</button>
+                    <button class="tf-btn">1D</button>
+                </div>
+                <div class="chart-tools">
+                    <button class="tool-btn"><i class="fa-solid fa-chart-candlestick"></i></button>
+                    <button class="tool-btn"><i class="fa-solid fa-sliders"></i> Indicators</button>
                 </div>
             </div>
-            <div class="chart-wrapper">
-                <!-- TradingView Widget Integration -->
-                <div class="tradingview-widget-container">
-                    <div id="tradingview_chart"></div>
-                </div>
+            <div class="chart-container">
+                <div id="tradingview_pro_widget"></div>
             </div>
         </section>
 
-        <!-- Order Book & Panel Section -->
-        <section class="right-panel">
-            <div class="order-book">
+        <!-- Right Side Order Book & Depth Market -->
+        <section class="panel orderbook-panel">
+            <div class="panel-header">
                 <h3>Order Book</h3>
-                <div class="order-header">
-                    <span>Price (USD)</span>
-                    <span>Size</span>
-                </div>
-                <div class="asks">
-                    <div class="row red-bg"><span>64,240.00</span><span>0.42</span></div>
-                    <div class="row red-bg"><span>64,235.50</span><span>1.15</span></div>
-                    <div class="row red-bg"><span>64,232.00</span><span>0.08</span></div>
-                </div>
-                <div class="spread">Spread: $1.50</div>
-                <div class="bids">
-                    <div class="row green-bg"><span>64,230.50</span><span>0.85</span></div>
-                    <div class="row green-bg"><span>64,228.00</span><span>2.30</span></div>
-                    <div class="row green-bg"><span>64,225.10</span><span>0.12</span></div>
+                <div class="precision-selector">
+                    <span>0.1</span> <i class="fa-solid fa-chevron-down"></i>
                 </div>
             </div>
+            <div class="orderbook-table-header">
+                <span>Price (USDT)</span>
+                <span>Size (BTC)</span>
+                <span>Total</span>
+            </div>
+            
+            <!-- Asks (Sells) -->
+            <div class="orderbook-list asks-list" id="asks-container"></div>
 
-            <div class="trade-panel">
-                <div class="tabs">
-                    <button class="tab-btn active" id="buy-tab">Buy</button>
-                    <button class="tab-btn" id="sell-tab">Sell</button>
+            <!-- Current Market Price Spread Bar -->
+            <div class="market-spread-bar">
+                <span class="current-price-display green" id="ob-live-price">64,280.50</span>
+                <span class="spread-val">Spread: 0.10</span>
+            </div>
+
+            <!-- Bids (Buys) -->
+            <div class="orderbook-list bids-list" id="bids-container"></div>
+        </section>
+
+        <!-- Trading Terminal Execution Form Panel -->
+        <section class="panel execution-panel">
+            <div class="execution-tabs">
+                <button class="tab-execution buy-tab active" id="btn-buy-mode">BUY</button>
+                <button class="tab-execution sell-tab" id="btn-sell-mode">SELL</button>
+            </div>
+            
+            <div class="execution-body">
+                <div class="order-type-tabs">
+                    <span class="type-btn active">Limit</span>
+                    <span class="type-btn">Market</span>
+                    <span class="type-btn">Stop-Limit</span>
                 </div>
-                <form id="trade-form">
-                    <div class="input-group">
-                        <label for="order-type">Order Type</label>
-                        <select id="order-type">
-                            <option value="limit">Limit Order</option>
-                            <option value="market">Market Order</option>
-                        </select>
+
+                <div class="leverage-slider-container">
+                    <div class="leverage-header">
+                        <span>Margin Mode</span>
+                        <span class="leverage-val">Cross 20x</span>
                     </div>
-                    <div class="input-group">
-                        <label for="price-input">Price</label>
-                        <input type="number" id="price-input" value="64230.50" step="0.01">
+                </div>
+
+                <form id="order-execution-form">
+                    <div class="input-field">
+                        <label>Price</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="input-price" value="64280.50" step="0.1">
+                            <span class="unit">USDT</span>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="amount-input">Amount</label>
-                        <input type="number" id="amount-input" placeholder="0.00" step="0.001">
+
+                    <div class="input-field">
+                        <label>Amount</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="input-amount" placeholder="0.00" step="0.001">
+                            <span class="unit">BTC</span>
+                        </div>
                     </div>
-                    <button type="submit" class="btn-execute buy">Execute Buy Order</button>
+
+                    <div class="percentage-chips">
+                        <button type="button" class="chip">25%</button>
+                        <button type="button" class="chip">50%</button>
+                        <button type="button" class="chip">75%</button>
+                        <button type="button" class="chip">100%</button>
+                    </div>
+
+                    <div class="account-metrics">
+                        <div class="metric-row">
+                            <span>Avail Balance</span>
+                            <span>25,480.00 USDT</span>
+                        </div>
+                        <div class="metric-row">
+                            <span>Max Buy</span>
+                            <span>7.92 BTC</span>
+                        </div>
+                        <div class="metric-row">
+                            <span>Est. Fee</span>
+                            <span>0.02%</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-execute buy-bg" id="btn-submit-order">Buy / Long BTC</button>
                 </form>
             </div>
         </section>
-    </main>
 
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <!-- Bottom Panel: Positions, Open Orders & Trading Logs -->
+        <section class="panel positions-panel">
+            <div class="panel-tabs">
+                <button class="tab-pos active">Positions <span class="badge-count">1</span></button>
+                <button class="tab-pos">Open Orders <span class="badge-count">2</span></button>
+                <button class="tab-pos">Order History</button>
+                <button class="tab-pos">Trade History</button>
+            </div>
+            <div class="positions-table-wrapper">
+                <table class="data-table pos-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Size</th>
+                            <th>Entry Price</th>
+                            <th>Mark Price</th>
+                            <th>Liq. Price</th>
+                            <th>Margin Ratio</th>
+                            <th>PNL (ROE %)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag green">LONG</span> <strong>BTCUSDT</strong> <span class="sub-text">20x</span></td>
+                            <td>0.50 BTC</td>
+                            <td>62,400.00</td>
+                            <td>64,280.50</td>
+                            <td>52,110.00</td>
+                            <td>1.25%</td>
+                            <td class="green font-mono">+ $940.25 (+30.13%)</td>
+                            <td><button class="btn-sm btn-close-pos">Market Close</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://s3.tradingview.com/tv.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
 :root {
-    --bg-main: #0b0e14;
-    --bg-secondary: #151a21;
-    --bg-card: #1e232d;
-    --text-primary: #ffffff;
-    --text-secondary: #848e9c;
-    --green: #0ecb81;
-    --red: #f6465d;
-    --border-color: #2b313a;
+    --bg-dark-0: #080a0f;
+    --bg-dark-1: #11141d;
+    --bg-dark-2: #1b202e;
+    --bg-dark-3: #262c3d;
+    
+    --border-color: #232936;
+    --border-highlight: #333d52;
+
+    --text-main: #f0f3f8;
+    --text-muted: #78859e;
+    --text-dim: #4c566a;
+
+    --trade-green: #00c076;
+    --trade-green-glow: rgba(0, 192, 118, 0.15);
+    --trade-red: #ff3b5c;
+    --trade-red-glow: rgba(255, 59, 92, 0.15);
+    --accent-blue: #2962ff;
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-sans);
+    user-select: none;
 }
 
 body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    display: flex;
-    flex-direction: column;
+    background-color: var(--bg-dark-0);
+    color: var(--text-main);
     height: 100vh;
     overflow: hidden;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: var(--bg-secondary);
+/* Glassmorphism & High-Density Layout */
+.terminal-header {
+    height: 52px;
+    background: var(--bg-dark-1);
     border-bottom: 1px solid var(--border-color);
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.logo span {
-    color: #3861fb;
-}
-
-.navbar nav ul {
     display: flex;
-    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
     gap: 20px;
 }
 
-.navbar nav a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: color 0.3s;
+.logo {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.5px;
 }
 
-.navbar nav a:hover {
-    color: var(--text-primary);
+.logo-icon { color: var(--accent-blue); margin-right: 6px; }
+.logo .highlight { color: var(--accent-blue); }
+.logo .badge {
+    background: var(--bg-dark-3);
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: var(--text-muted);
 }
 
-.user-profile {
+.pair-selector {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
+    background: var(--bg-dark-2);
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pair-type {
+    font-size: 10px;
+    background: var(--accent-blue);
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+.market-ticker-tape {
+    display: flex;
+    gap: 24px;
+}
+
+.ticker-item {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+}
+
+.ticker-item .label { color: var(--text-muted); margin-bottom: 2px; }
+.ticker-item .value { font-family: var(--font-mono); font-weight: 500; }
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.connection-status {
+    font-size: 11px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot.online {
+    width: 6px;
+    height: 6px;
+    background: var(--trade-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--trade-green);
+}
+
+.btn {
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: none;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn-deposit {
-    background-color: #3861fb;
+    background: var(--accent-blue);
     color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-.trading-container {
+.btn-deposit:hover { background: #1e52e0; }
+
+/* Grid Workspace Structure */
+.terminal-workspace {
     display: grid;
-    grid-template-columns: 220px 1fr 300px;
-    height: calc(100vh - 65px);
+    grid-template-columns: 240px 1fr 280px 280px;
+    grid-template-rows: calc(100vh - 252px) 200px;
+    gap: 1px;
+    background: var(--border-color);
+    height: calc(100vh - 52px);
 }
 
-.sidebar {
-    background-color: var(--bg-secondary);
-    border-right: 1px solid var(--border-color);
-    padding: 15px;
-}
-
-.market-list h3 {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 10px;
-}
-
-.market-list ul {
-    list-style: none;
-}
-
-.market-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
-}
-
-.green { color: var(--green); }
-.red { color: var(--red); }
-
-.chart-section {
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-}
-
-.chart-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-.chart-wrapper {
-    flex-grow: 1;
-    background-color: var(--bg-card);
-    border-radius: 6px;
+.panel {
+    background: var(--bg-dark-1);
     overflow: hidden;
-}
-
-.right-panel {
-    background-color: var(--bg-secondary);
-    border-left: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
 }
 
-.order-book {
-    flex: 1;
-    padding: 15px;
+.panel-header {
+    height: 36px;
+    padding: 0 12px;
+    background: var(--bg-dark-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
     border-bottom: 1px solid var(--border-color);
 }
 
-.order-header, .row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    padding: 4px 0;
-}
-
-.spread {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin: 10px 0;
-}
-
-.trade-panel {
-    padding: 15px;
-}
-
-.tabs {
-    display: flex;
-    margin-bottom: 15px;
-}
-
+/* Watchlist Styling */
+.watchlist-panel { grid-column: 1; grid-row: 1; }
+.tab-group { display: flex; gap: 4px; }
 .tab-btn {
-    flex: 1;
-    padding: 8px;
+    background: none;
     border: none;
-    background: var(--bg-card);
-    color: var(--text-secondary);
+    color: var(--text-muted);
+    padding: 4px 8px;
+    font-size: 11px;
     cursor: pointer;
 }
+.tab-btn.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
 
-.tab-btn.active {
-    background: var(--green);
-    color: white;
+.watchlist-table-wrapper { overflow-y: auto; height: 100%; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
+.data-table th { color: var(--text-muted); padding: 8px 12px; position: sticky; top: 0; background: var(--bg-dark-1); }
+.data-table td { padding: 8px 12px; border-bottom: 1px solid var(--bg-dark-2); font-family: var(--font-mono); }
+.data-table tbody tr:hover { background: var(--bg-dark-2); cursor: pointer; }
+
+/* Chart Panel Layout */
+.chart-panel { grid-column: 2; grid-row: 1; }
+.chart-toolbar {
+    height: 36px;
+    background: var(--bg-dark-2);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
 }
-
-.input-group {
-    margin-bottom: 12px;
+.timeframes { display: flex; gap: 4px; }
+.tf-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
 }
+.tf-btn.active, .tf-btn:hover { background: var(--bg-dark-3); color: var(--text-main); }
+.chart-container { flex: 1; height: 100%; }
 
-.input-group label {
-    display: block;
+/* Orderbook High-Density Styling */
+.orderbook-panel { grid-column: 3; grid-row: 1; }
+.orderbook-table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 6px 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+}
+.orderbook-list { flex: 1; overflow-y: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+.ob-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 2px 12px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    position: relative;
+}
+.ob-row .depth-bg {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    z-index: 0;
+    opacity: 0.25;
+}
+.asks-list .depth-bg { background: var(--trade-red); }
+.bids-list .depth-bg { background: var(--trade-green); }
+.ob-row span { z-index: 1; }
+
+.market-spread-bar {
+    padding: 8px 12px;
+    background: var(--bg-dark-2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 12px;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
+    font-weight: 700;
 }
 
-.input-group input, .input-group select {
-    width: 100%;
-    padding: 8px;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    color: white;
-    border-radius: 4px;
+/* Execution Form Styling */
+.execution-panel { grid-column: 4; grid-row: 1 / span 2; }
+.execution-tabs { display: flex; }
+.tab-execution {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--bg-dark-2);
+    color: var(--text-muted);
 }
+.tab-execution.buy-tab.active { background: var(--trade-green); color: white; }
+.tab-execution.sell-tab.active { background: var(--trade-red); color: white; }
+
+.execution-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.order-type-tabs { display: flex; gap: 12px; font-size: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+.type-btn { color: var(--text-muted); cursor: pointer; }
+.type-btn.active { color: var(--text-main); font-weight: 600; }
+
+.input-field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.input-wrapper {
+    display: flex;
+    background: var(--bg-dark-2);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+.input-wrapper input {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    outline: none;
+}
+.input-wrapper .unit { font-size: 11px; color: var(--text-muted); }
+
+.percentage-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.chip {
+    background: var(--bg-dark-2);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 4px;
+    font-size: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.chip:hover { background: var(--bg-dark-3); color: var(--text-main); }
+
+.account-metrics { font-size: 11px; display: flex; flex-direction: column; gap: 6px; }
+.metric-row { display: flex; justify-content: space-between; color: var(--text-muted); }
 
 .btn-execute {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 4px;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 14px;
     cursor: pointer;
 }
+.buy-bg { background: var(--trade-green); color: white; box-shadow: 0 0 12px var(--trade-green-glow); }
+.sell-bg { background: var(--trade-red); color: white; box-shadow: 0 0 12px var(--trade-red-glow); }
 
-.btn-execute.buy { background-color: var(--green); color: white; }
-.btn-execute.sell { background-color: var(--red); color: white; }
+/* Positions Panel Styling */
+.positions-panel { grid-column: 1 / span 3; grid-row: 2; }
+.panel-tabs { display: flex; background: var(--bg-dark-2); border-bottom: 1px solid var(--border-color); }
+.tab-pos {
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    cursor: pointer;
+}
+.tab-pos.active { color: var(--text-main); font-weight: 600; border-bottom: 2px solid var(--accent-blue); }
+.badge-count { background: var(--bg-dark-3); padding: 1px 5px; border-radius: 10px; font-size: 10px; }
+
+.tag { padding: 2px 4px; border-radius: 2px; font-size: 9px; font-weight: 700; }
+.tag.green { background: var(--trade-green-glow); color: var(--trade-green); }
+
+.price-up, .green { color: var(--trade-green) !important; }
+.price-down, .red { color: var(--trade-red) !important; }
+.font-mono { font-family: var(--font-mono); }
+
+.btn-sm {
+    background: var(--bg-dark-3);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    cursor: pointer;
+}
+.btn-sm:hover { background: var(--border-highlight); }
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize TradingView Chart Widget
-    new TradingView.widget({
-        "width": "100%",
-        "height": "100%",
+
+    // 1. Initialize High-Performance TradingView Chart Engine
+    let tvWidget = new TradingView.widget({
+        "autosize": true,
         "symbol": "BINANCE:BTCUSDT",
-        "interval": "D",
+        "interval": "60",
         "timezone": "Etc/UTC",
         "theme": "dark",
         "style": "1",
         "locale": "en",
-        "toolbar_bg": "#f1f3f6",
+        "toolbar_bg": "#1b202e",
         "enable_publishing": false,
+        "hide_side_toolbar": false,
         "allow_symbol_change": true,
-        "container_id": "tradingview_chart"
+        "container_id": "tradingview_pro_widget"
     });
 
-    // Toggle Buy/Sell Buttons
-    const buyTab = document.getElementById('buy-tab');
-    const sellTab = document.getElementById('sell-tab');
-    const submitBtn = document.querySelector('.btn-execute');
+    // 2. Real-time Orderbook Engine Generator
+    const asksContainer = document.getElementById('asks-container');
+    const bidsContainer = document.getElementById('bids-container');
 
-    buyTab.addEventListener('click', () => {
-        buyTab.classList.add('active');
-        sellTab.classList.remove('active');
-        submitBtn.textContent = 'Execute Buy Order';
-        submitBtn.className = 'btn-execute buy';
-    });
+    function renderOrderBookData() {
+        const basePrice = 64280.50;
+        let asksHTML = '';
+        let bidsHTML = '';
 
-    sellTab.addEventListener('click', () => {
-        sellTab.classList.add('active');
-        buyTab.classList.remove('active');
-        submitBtn.textContent = 'Execute Sell Order';
-        submitBtn.className = 'btn-execute sell';
-    });
-
-    // Form Submission Logic
-    const tradeForm = document.getElementById('trade-form');
-    tradeForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const price = document.getElementById('price-input').value;
-        const amount = document.getElementById('amount-input').value;
-        const type = buyTab.classList.contains('active') ? 'BUY' : 'SELL';
-
-        if (!amount || amount <= 0) {
-            alert('Please enter a valid amount.');
-            return;
+        // Generate Simulated Real-time Ask Depth
+        for (let i = 5; i >= 1; i--) {
+            let p = (basePrice + i * 1.5).toFixed(2);
+            let s = (Math.random() * 0.8 + 0.1).toFixed(3);
+            let depth = Math.floor(Math.random() * 70 + 10);
+            asksHTML += `
+                <div class="ob-row">
+                    <span class="red">${p}</span>
+                    <span>${s}</span>
+                    <span>${(p * s / 1000).toFixed(2)}k</span>
+                    <div class="depth-bg" style="width: ${depth}%"></div>
+                </div>`;
         }
 
-        alert(`Order Placed Successfully!\nType: ${type}\nPrice: $${price}\nAmount: ${amount} BTC`);
-    });
-});-- Users Table
-CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Wallets Table
-CREATE TABLE wallets (
-    wallet_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
-    currency VARCHAR(10) NOT NULL,
-    balance DECIMAL(18, 8) DEFAULT 0.00000000,
-    UNIQUE(user_id, currency)
-);
-
--- Orders Table
-CREATE TABLE orders (
-    order_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
-    symbol VARCHAR(20) NOT NULL,
-    side VARCHAR(4) CHECK (side IN ('BUY', 'SELL')),
-    order_type VARCHAR(10) CHECK (order_type IN ('LIMIT', 'MARKET')),
-    price DECIMAL(18, 8),
-    amount DECIMAL(18, 8) NOT NULL,
-    status VARCHAR(10) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'FILLED', 'CANCELLED')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Trades Table (Completed Transactions)
-CREATE TABLE trades (
-    trade_id SERIAL PRIMARY KEY,
-    buy_order_id INT REFERENCES orders(order_id),
-    sell_order_id INT REFERENCES orders(order_id),
-    symbol VARCHAR(20) NOT NULL,
-    price DECIMAL(18, 8) NOT NULL,
-    amount DECIMAL(18, 8) NOT NULL,
-    executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);const express = require('express');
-const WebSocket = require('ws');
-const cors = require('cors');
-const { Pool } = require('pg');
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// Database Connection Settings
-const db = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'trading_db',
-    password: 'your_db_password',
-    port: 5432,
-});
-
-// --- REST API: Place New Order ---
-app.post('/api/orders', async (req, res) => {
-    const { userId, symbol, side, orderType, price, amount } = req.body;
-
-    try {
-        const newOrder = await db.query(
-            `INSERT INTO orders (user_id, symbol, side, order_type, price, amount) 
-             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-            [userId, symbol, side, orderType, price, amount]
-        );
-
-        // Simple Order Engine Hook
-        processMatchingEngine(newOrder.rows[0]);
-
-        res.status(201).json({ success: true, order: newOrder.rows[0] });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: 'Database Transaction Error' });
-    }
-});
-
-// --- Simple Matching Engine Logic ---
-async function processMatchingEngine(order) {
-    // Basic limit matching strategy logic
-    console.log(`[Matching Engine] Processing Order #${order.order_id} for ${order.symbol}`);
-}
-
-// --- WebSocket Server for Real-Time Price Broadcast ---
-const SERVER_PORT = 5000;
-const server = app.listen(SERVER_PORT, () => {
-    console.log(`Backend Server running on port ${SERVER_PORT}`);
-});
-
-const wss = new WebSocket.Server({ server });
-
-// Connect to Binance Live Market Websocket Stream (BTC/USDT Real-time Trades)
-const binanceWs = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
-
-binanceWs.on('message', (data) => {
-    const trade = JSON.parse(data);
-    const livePriceData = JSON.stringify({
-        symbol: trade.s,
-        price: parseFloat(trade.p).toFixed(2),
-        time: trade.T
-    });
-
-    // Broadcast live price to all connected web clients
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(livePriceData);
+        // Generate Simulated Real-time Bid Depth
+        for (let i = 1; i <= 5; i++) {
+            let p = (basePrice - i * 1.5).toFixed(2);
+            let s = (Math.random() * 0.8 + 0.1).toFixed(3);
+            let depth = Math.floor(Math.random() * 70 + 10);
+            bidsHTML += `
+                <div class="ob-row">
+                    <span class="green">${p}</span>
+                    <span>${s}</span>
+                    <span>${(p * s / 1000).toFixed(2)}k</span>
+                    <div class="depth-bg" style="width: ${depth}%"></div>
+                </div>`;
         }
-    });
-});// Connect to Custom Node.js Backend WebSocket
-const socket = new WebSocket('ws://localhost:5000');
 
-socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    
-    // Update live price on navbar and chart header dynamically
-    const priceElement = document.getElementById('current-price');
-    if (priceElement) {
-        priceElement.textContent = `$${data.price}`;
+        asksContainer.innerHTML = asksHTML;
+        bidsContainer.innerHTML = bidsHTML;
     }
-};
 
-// Handle Real Trade Submission to Node.js Backend API
-document.getElementById('trade-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    renderOrderBookData();
+    setInterval(renderOrderBookData, 1200); // Dynamic Market Speed Tick
 
-    const payload = {
-        userId: 1, // Demo User ID
-        symbol: 'BTCUSD',
-        side: document.getElementById('buy-tab').classList.contains('active') ? 'BUY' : 'SELL',
-        orderType: document.getElementById('order-type').value.toUpperCase(),
-        price: parseFloat(document.getElementById('price-input').value),
-        amount: parseFloat(document.getElementById('amount-input').value)
+    // 3. Execution Tab Toggle (Buy / Sell Order Panel)
+    const btnBuyMode = document.getElementById('btn-buy-mode');
+    const btnSellMode = document.getElementById('btn-sell-mode');
+    const btnSubmitOrder = document.getElementById('btn-submit-order');
+
+    btnBuyMode.addEventListener('click', () => {
+        btnBuyMode.classList.add('active');
+        btnSellMode.classList.remove('active');
+        btnSubmitOrder.textContent = 'Buy / Long BTC';
+        btnSubmitOrder.className = 'btn-execute buy-bg';
+    });
+
+    btnSellMode.addEventListener('click', () => {
+        btnSellMode.classList.add('active');
+        btnBuyMode.classList.remove('active');
+        btnSubmitOrder.textContent = 'Sell / Short BTC';
+        btnSubmitOrder.className = 'btn-execute sell-bg';
+    });
+
+    // 4. Live Socket Data Processing (Binance Direct Market Connection)
+    const binanceSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
+    const livePriceElement = document.getElementById('ticker-price');
+    const obLivePriceElement = document.getElementById('ob-live-price');
+
+    binanceSocket.onmessage = (event) => {
+        const trade = JSON.parse(event.data);
+        const price = parseFloat(trade.p).toFixed(2);
+        
+        livePriceElement.textContent = `$${price}`;
+        obLivePriceElement.textContent = price;
+
+        if (trade.m) {
+            livePriceElement.className = 'value price-down';
+            obLivePriceElement.className = 'current-price-display red';
+        } else {
+            livePriceElement.className = 'value price-up';
+            obLivePriceElement.className = 'current-price-display green';
+        }
     };
 
-    try {
-        const response = await fetch('http://localhost:5000/api/orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-        if (result.success) {
-            alert(`Order Placed on Server! Order ID: ${result.order.order_id}`);
+    // Form Submission Interactive Notification
+    document.getElementById('order-execution-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const amt = document.getElementById('input-amount').value;
+        const side = btnBuyMode.classList.contains('active') ? 'BUY' : 'SELL';
+        if(amt > 0) {
+            alert(`[ORDER PLACED]\nType: ${side}\nAmount: ${amt} BTC\nExecution: Immediate Limit Engine`);
+        } else {
+            alert('Please specify order size.');
         }
-    } catch (err) {
-        console.error('Order Execution Failed:', err);
-        alert('Server Error. Unable to place order.');
-    }
+    });
+
 });
