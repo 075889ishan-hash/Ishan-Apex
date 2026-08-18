@@ -3,367 +3,1914 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>IShanX Apex | Gold Trading Dashboard</title>
+<meta name="theme-color" content="#070b12">
+<title>ApexNova Trading</title>
 
 <style>
+:root{
+  --bg:#060912;
+  --panel:#0c1220;
+  --panel2:#101827;
+  --line:#1d293d;
+  --text:#f4f7fb;
+  --muted:#8290a7;
+  --green:#18e6a0;
+  --red:#ff5573;
+  --yellow:#ffd166;
+  --blue:#5ca9ff;
+  --shadow:0 12px 40px rgba(0,0,0,.25);
+}
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-    background:#070b12;
-    color:#f4f7fb;
-    font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(24,230,160,.06),transparent 30%),
+    radial-gradient(circle at 90% 0%,rgba(92,169,255,.06),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  min-height:100vh;
 }
 
-header{
-    padding:20px;
-    background:#0b111c;
-    border-bottom:1px solid #1d2939;
+button,
+select{
+  font:inherit;
 }
 
-.logo{
-    font-size:28px;
-    font-weight:900;
-    letter-spacing:1px;
+button{
+  cursor:pointer;
 }
 
-.logo span{
-    color:#00e5a0;
+a{
+  color:inherit;
+  text-decoration:none;
 }
 
-.tagline{
-    color:#8995a8;
-    font-size:13px;
-    margin-top:5px;
+/* ================= HEADER ================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(18px);
+  background:rgba(6,9,18,.88);
+  border-bottom:1px solid var(--line);
 }
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:18px;
+.nav{
+  max-width:1400px;
+  margin:auto;
+  min-height:72px;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.brand-mark{
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-weight:1000;
+  font-size:17px;
+  background:linear-gradient(135deg,#18e6a0,#4c8dff);
+  color:#03110d;
+  box-shadow:0 0 30px rgba(24,230,160,.18);
+}
+
+.brand-name{
+  font-size:20px;
+  font-weight:1000;
+  letter-spacing:.5px;
+}
+
+.brand-name span{
+  color:var(--green);
+}
+
+.brand-sub{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:2px;
+  letter-spacing:1.2px;
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:var(--panel);
+  color:var(--text);
+}
+
+.icon-btn:hover{
+  border-color:#334762;
+}
+
+.live-pill{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 12px;
+  border-radius:10px;
+  border:1px solid rgba(24,230,160,.2);
+  background:rgba(24,230,160,.06);
+  color:var(--green);
+  font-size:11px;
+  font-weight:800;
+}
+
+.live-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
+}
+
+/* ================= LAYOUT ================= */
+
+.app{
+  max-width:1400px;
+  margin:auto;
+  padding:18px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr) 300px;
+  gap:16px;
+}
+
+.panel{
+  background:linear-gradient(145deg,rgba(16,24,39,.96),rgba(9,14,25,.96));
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+}
+
+.panel-title{
+  padding:15px 16px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.panel-title h3{
+  font-size:13px;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  padding:14px;
+  height:max-content;
+  position:sticky;
+  top:90px;
+}
+
+.menu-label{
+  color:#647188;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin:8px 8px 9px;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.menu button{
+  border:1px solid transparent;
+  background:transparent;
+  color:#9ca8ba;
+  padding:11px 12px;
+  border-radius:10px;
+  text-align:left;
+  font-size:12px;
+}
+
+.menu button:hover,
+.menu button.active{
+  color:var(--text);
+  background:#131d2e;
+  border-color:#23324a;
+}
+
+.market-list{
+  margin-top:18px;
+}
+
+.market-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 7px;
+  border-bottom:1px solid rgba(29,41,61,.6);
+}
+
+.market-left{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.market-icon{
+  width:29px;
+  height:29px;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  background:#182338;
+  font-size:12px;
+}
+
+.market-symbol{
+  font-size:11px;
+  font-weight:800;
+}
+
+.market-name{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:2px;
+}
+
+.market-price{
+  text-align:right;
+  font-size:11px;
+  font-weight:800;
+}
+
+.market-change{
+  font-size:9px;
+  margin-top:2px;
+}
+
+.up{
+  color:var(--green);
+}
+
+.down{
+  color:var(--red);
+}
+
+/* ================= MAIN ================= */
+
+.main{
+  min-width:0;
 }
 
 .hero{
-    background:linear-gradient(135deg,#101a2b,#0b111c);
-    border:1px solid #1e2b40;
-    border-radius:18px;
-    padding:22px;
-    margin-bottom:18px;
+  padding:20px;
+  margin-bottom:16px;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(24,230,160,.09),transparent 30%),
+    linear-gradient(135deg,#101a2c,#0a101c);
+}
+
+.hero-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.eyebrow{
+  color:var(--green);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.6px;
+  margin-bottom:8px;
 }
 
 .hero h1{
-    font-size:25px;
-    margin-bottom:8px;
+  font-size:28px;
+  line-height:1.1;
+  margin-bottom:8px;
 }
 
 .hero p{
-    color:#8e9aae;
-    line-height:1.5;
-    font-size:14px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  max-width:650px;
 }
 
-.live{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    margin-top:15px;
-    color:#00e5a0;
-    font-size:12px;
-    font-weight:bold;
+.hero-badge{
+  border:1px solid #273750;
+  background:#0b1320;
+  padding:10px 13px;
+  border-radius:11px;
+  white-space:nowrap;
+  color:#9daabe;
+  font-size:10px;
 }
 
-.dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:#00e5a0;
+/* ================= WATCH CARDS ================= */
+
+.watch-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:16px;
 }
 
-.price-card{
-    background:#0d1522;
-    border:1px solid #1e2b40;
-    border-radius:16px;
-    padding:18px;
-    margin-bottom:18px;
+.asset-card{
+  padding:15px;
 }
 
-.label{
-    color:#8b97aa;
-    font-size:12px;
-    margin-bottom:7px;
+.asset-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.symbol{
-    font-size:19px;
-    font-weight:800;
+.asset-symbol{
+  font-size:12px;
+  font-weight:900;
 }
 
-.price{
-    font-size:32px;
-    font-weight:900;
-    margin-top:8px;
-    color:#ffffff;
+.asset-type{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:3px;
 }
 
-.chart-box{
-    background:#0b111c;
-    border:1px solid #1e2b40;
-    border-radius:18px;
-    padding:10px;
-    overflow:hidden;
+.asset-price{
+  margin-top:15px;
+  font-size:20px;
+  font-weight:1000;
 }
 
-.chart-title{
-    padding:10px 10px 15px;
-    font-size:19px;
-    font-weight:800;
+.asset-change{
+  margin-top:4px;
+  font-size:10px;
+}
+
+/* ================= CHART ================= */
+
+.chart-panel{
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.chart-head{
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid var(--line);
+}
+
+.chart-symbol{
+  font-size:15px;
+  font-weight:1000;
+}
+
+.chart-price{
+  color:var(--green);
+  margin-left:8px;
+}
+
+.timeframes{
+  display:flex;
+  gap:4px;
+  overflow:auto;
+}
+
+.timeframes button{
+  background:transparent;
+  color:#7e8ba0;
+  border:1px solid transparent;
+  padding:6px 9px;
+  border-radius:7px;
+  font-size:9px;
+}
+
+.timeframes button:hover,
+.timeframes button.active{
+  color:var(--text);
+  background:#172236;
+  border-color:#293a54;
+}
+
+.chart-container{
+  height:510px;
+  background:#080d16;
 }
 
 .tradingview-widget-container{
-    width:100%;
-    height:600px;
+  width:100%;
+  height:100%;
 }
 
-.analysis{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-top:18px;
+.tradingview-widget-container__widget{
+  height:100%;
+  width:100%;
 }
 
-.box{
-    background:#0d1522;
-    border:1px solid #1e2b40;
-    border-radius:14px;
-    padding:16px;
+/* ================= INDICATORS ================= */
+
+.section{
+  margin-bottom:16px;
 }
 
-.box small{
-    color:#8995a8;
+.indicator-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:12px;
 }
 
-.box strong{
-    display:block;
-    margin-top:8px;
-    font-size:19px;
+.indicator{
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#0b121f;
 }
 
-.wait{
-    color:#ffd45c;
+.indicator-name{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
 }
+
+.indicator-value{
+  font-size:17px;
+  font-weight:1000;
+  margin-top:7px;
+}
+
+.indicator-state{
+  font-size:9px;
+  margin-top:4px;
+}
+
+/* ================= RIGHT PANEL ================= */
+
+.signal-card{
+  margin:14px;
+  padding:17px;
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(255,209,102,.08),transparent 35%),
+    #0b121f;
+  border:1px solid #263650;
+}
+
+.signal-label{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.signal{
+  font-size:29px;
+  font-weight:1000;
+  margin-top:8px;
+  color:var(--yellow);
+}
+
+.signal-note{
+  color:#77859a;
+  font-size:10px;
+  line-height:1.5;
+  margin-top:7px;
+}
+
+.confidence{
+  margin-top:15px;
+}
+
+.conf-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+}
+
+.progress{
+  height:6px;
+  border-radius:10px;
+  background:#182236;
+  margin-top:7px;
+  overflow:hidden;
+}
+
+.progress span{
+  display:block;
+  width:58%;
+  height:100%;
+  background:linear-gradient(90deg,#ffd166,#18e6a0);
+}
+
+.setup{
+  padding:14px;
+}
+
+.setup-row{
+  display:flex;
+  justify-content:space-between;
+  padding:11px 0;
+  border-bottom:1px solid rgba(29,41,61,.65);
+  font-size:10px;
+}
+
+.setup-row strong{
+  color:#e9eef6;
+}
+
+.risk{
+  color:var(--red)!important;
+}
+
+.reward{
+  color:var(--green)!important;
+}
+
+.action-btn{
+  width:100%;
+  border:1px solid #263750;
+  background:#121d2e;
+  color:white;
+  border-radius:10px;
+  padding:11px;
+  margin-top:12px;
+  font-weight:900;
+  font-size:10px;
+}
+
+.action-btn:hover{
+  background:#17263c;
+}
+
+/* ================= RISK CALCULATOR ================= */
+
+.calculator{
+  padding:14px;
+}
+
+.field{
+  margin-bottom:11px;
+}
+
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-bottom:5px;
+}
+
+.field input,
+.field select{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#080e19;
+  color:white;
+  padding:9px;
+  outline:none;
+  font-size:11px;
+}
+
+.calculate{
+  width:100%;
+  border:0;
+  border-radius:9px;
+  padding:10px;
+  background:var(--green);
+  color:#03110d;
+  font-weight:1000;
+  font-size:10px;
+}
+
+.result{
+  margin-top:10px;
+  padding:11px;
+  border-radius:9px;
+  background:#0b1720;
+  border:1px solid #19392f;
+  color:var(--green);
+  font-size:10px;
+}
+
+/* ================= HISTORY ================= */
+
+.history{
+  overflow:hidden;
+}
+
+.history-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.history-table th,
+.history-table td{
+  padding:12px;
+  border-bottom:1px solid rgba(29,41,61,.6);
+  text-align:left;
+  font-size:9px;
+}
+
+.history-table th{
+  color:#718096;
+  font-weight:800;
+}
+
+.buy{
+  color:var(--green);
+  font-weight:900;
+}
+
+.sell{
+  color:var(--red);
+  font-weight:900;
+}
+
+.wait-text{
+  color:var(--yellow);
+  font-weight:900;
+}
+
+/* ================= BOTTOM ================= */
+
+.bottom-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.session{
+  padding:16px;
+}
+
+.session-row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 0;
+  border-bottom:1px solid rgba(29,41,61,.6);
+  font-size:10px;
+}
+
+.news{
+  padding:16px;
+}
+
+.news-item{
+  padding:11px 0;
+  border-bottom:1px solid rgba(29,41,61,.6);
+}
+
+.news-item strong{
+  font-size:10px;
+}
+
+.news-item p{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:4px;
+  line-height:1.4;
+}
+
+/* ================= FOOTER ================= */
 
 .footer{
-    text-align:center;
-    color:#69768a;
-    font-size:12px;
-    padding:30px 10px;
+  max-width:1400px;
+  margin:auto;
+  padding:28px 18px 40px;
+  color:#5f6c80;
+  font-size:9px;
+  text-align:center;
+  line-height:1.6;
 }
 
-@media(max-width:700px){
+/* ================= RESPONSIVE ================= */
 
-    .container{
-        padding:12px;
-    }
+@media(max-width:1150px){
 
-    .logo{
-        font-size:24px;
-    }
+  .dashboard-grid{
+    grid-template-columns:210px minmax(0,1fr);
+  }
 
-    .hero h1{
-        font-size:21px;
-    }
+  .rightbar{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
 
-    .price{
-        font-size:28px;
-    }
+  .rightbar > .panel{
+    height:max-content;
+  }
+}
 
-    .tradingview-widget-container{
-        height:500px;
-    }
+@media(max-width:850px){
 
-    .analysis{
-        grid-template-columns:1fr 1fr;
-    }
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:static;
+  }
+
+  .menu{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .watch-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .indicator-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .rightbar{
+    display:block;
+  }
+
+  .bottom-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+
+  .nav{
+    padding:10px 12px;
+  }
+
+  .brand-sub{
+    display:none;
+  }
+
+  .brand-name{
+    font-size:17px;
+  }
+
+  .brand-mark{
+    width:38px;
+    height:38px;
+  }
+
+  .live-pill{
+    display:none;
+  }
+
+  .app{
+    padding:10px;
+  }
+
+  .hero{
+    padding:17px;
+  }
+
+  .hero-top{
+    display:block;
+  }
+
+  .hero h1{
+    font-size:23px;
+  }
+
+  .hero-badge{
+    display:inline-block;
+    margin-top:12px;
+  }
+
+  .watch-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .asset-price{
+    font-size:17px;
+  }
+
+  .chart-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .chart-container{
+    height:430px;
+  }
+
+  .menu{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .indicator-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .history-table th:nth-child(4),
+  .history-table td:nth-child(4){
+    display:none;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<header class="header">
+  <nav class="nav">
 
-    <div class="logo">
-        IShan<span>X</span> APEX
+    <div class="brand">
+      <div class="brand-mark">AX</div>
+
+      <div>
+        <div class="brand-name">
+          APEX<span>NOVA</span>
+        </div>
+
+        <div class="brand-sub">
+          BY ISHAN • TRADING INTELLIGENCE
+        </div>
+      </div>
     </div>
 
-    <div class="tagline">
-        Professional Trading Intelligence
+    <div class="nav-actions">
+
+      <div class="live-pill">
+        <span class="live-dot"></span>
+        MARKET ONLINE
+      </div>
+
+      <button class="icon-btn" onclick="toggleFullscreen()">
+        ⛶
+      </button>
+
     </div>
 
+  </nav>
 </header>
 
 
-<main class="container">
+<div class="app">
 
-<section class="hero">
+<div class="dashboard-grid">
 
-    <h1>
-        Gold Market Analysis
-    </h1>
 
-    <p>
-        Professional XAUUSD market monitoring with
-        real-time TradingView charting.
-    </p>
+<!-- ================= SIDEBAR ================= -->
 
-    <div class="live">
-        <span class="dot"></span>
-        LIVE MARKET DATA
+<aside class="sidebar panel">
+
+  <div class="menu-label">WORKSPACE</div>
+
+  <div class="menu">
+
+    <button class="active" onclick="scrollToSection('overview')">
+      ◈ Overview
+    </button>
+
+    <button onclick="scrollToSection('chart')">
+      ◉ Chart
+    </button>
+
+    <button onclick="scrollToSection('analysis')">
+      ◇ Analysis
+    </button>
+
+    <button onclick="scrollToSection('risk')">
+      ◎ Risk Calculator
+    </button>
+
+    <button onclick="scrollToSection('history')">
+      ▣ Signal History
+    </button>
+
+    <button onclick="scrollToSection('news')">
+      ▤ Market News
+    </button>
+
+  </div>
+
+
+  <div class="market-list">
+
+    <div class="menu-label">
+      WATCHLIST
     </div>
 
-</section>
 
+    <div class="market-row">
 
-<section class="price-card">
+      <div class="market-left">
 
-    <div class="label">
-        GOLD / US DOLLAR
-    </div>
-
-    <div class="symbol">
-        XAUUSD
-    </div>
-
-    <div class="price">
-        Live price shown on TradingView ↓
-    </div>
-
-</section>
-
-
-<section class="chart-box">
-
-    <div class="chart-title">
-        XAUUSD • GOLD SPOT / USD
-    </div>
-
-    <!-- TradingView Advanced Chart -->
-
-    <div
-        class="tradingview-widget-container"
-        id="tradingview_chart"
-    >
-
-        <div
-            class="tradingview-widget-container__widget"
-            style="height:100%;width:100%"
-        ></div>
-
-        <div class="tradingview-widget-copyright">
-
-            <a
-                href="https://www.tradingview.com/symbols/XAUUSD/"
-                target="_blank"
-                rel="noopener nofollow"
-            >
-                XAUUSD Chart
-            </a>
-
-            <span> by TradingView</span>
-
+        <div class="market-icon">
+          Au
         </div>
 
-        <script
-            type="text/javascript"
-            src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
-            async
-        >
-        {
-            "autosize": true,
-            "symbol": "OANDA:XAUUSD",
-            "interval": "15",
-            "timezone": "Asia/Colombo",
-            "theme": "dark",
-            "style": "1",
-            "withdateranges": true,
-            "hide_side_toolbar": false,
-            "allow_symbol_change": true,
-            "save_image": false,
-            "hide_volume": true,
-            "hide_top_toolbar": false,
-            "hide_legend": false,
-            "calendar": false,
-            "support_host": "https://www.tradingview.com",
-            "studies": [
-                "RSI@tv-basicstudies",
-                "MACD@tv-basicstudies"
-            ]
-        }
-        </script>
+        <div>
+          <div class="market-symbol">
+            XAUUSD
+          </div>
+
+          <div class="market-name">
+            Gold
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="market-price">
+          LIVE
+        </div>
+
+        <div class="market-change up">
+          GOLD
+        </div>
+
+      </div>
 
     </div>
+
+
+    <div class="market-row">
+
+      <div class="market-left">
+
+        <div class="market-icon">
+          ₿
+        </div>
+
+        <div>
+          <div class="market-symbol">
+            BTCUSD
+          </div>
+
+          <div class="market-name">
+            Bitcoin
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="market-price">
+          LIVE
+        </div>
+
+        <div class="market-change up">
+          CRYPTO
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="market-row">
+
+      <div class="market-left">
+
+        <div class="market-icon">
+          €
+        </div>
+
+        <div>
+          <div class="market-symbol">
+            EURUSD
+          </div>
+
+          <div class="market-name">
+            Forex
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="market-price">
+          FX
+        </div>
+
+        <div class="market-change">
+          FOREX
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+<section class="hero panel" id="overview">
+
+  <div class="hero-top">
+
+    <div>
+
+      <div class="eyebrow">
+        APEX MARKET TERMINAL
+      </div>
+
+      <h1>
+        Trade Smarter. Analyze Better.
+      </h1>
+
+      <p>
+        A professional market-analysis workspace built for
+        traders who want charts, technical indicators,
+        risk management and trade planning in one place.
+      </p>
+
+    </div>
+
+    <div class="hero-badge">
+      ISHAN APEX • PRO TERMINAL
+    </div>
+
+  </div>
 
 </section>
 
 
-<section class="analysis">
+<!-- ================= WATCH CARDS ================= -->
 
-    <div class="box">
-        <small>MARKET</small>
-        <strong>XAUUSD</strong>
+<section class="watch-grid">
+
+  <div class="asset-card panel">
+
+    <div class="asset-top">
+
+      <div>
+        <div class="asset-symbol">
+          XAUUSD
+        </div>
+
+        <div class="asset-type">
+          GOLD / USD
+        </div>
+      </div>
+
+      <span class="up">●</span>
+
     </div>
 
-    <div class="box">
-        <small>TIMEFRAME</small>
-        <strong>15 MIN</strong>
+    <div class="asset-price">
+      Live
     </div>
 
-    <div class="box">
-        <small>STATUS</small>
-        <strong style="color:#00e5a0;">
-            LIVE
-        </strong>
+    <div class="asset-change up">
+      TradingView feed
     </div>
 
-    <div class="box">
-        <small>SIGNAL</small>
-        <strong class="wait">
-            WAIT
-        </strong>
+  </div>
+
+
+  <div class="asset-card panel">
+
+    <div class="asset-top">
+
+      <div>
+        <div class="asset-symbol">
+          BTCUSD
+        </div>
+
+        <div class="asset-type">
+          BITCOIN / USD
+        </div>
+      </div>
+
+      <span class="up">●</span>
+
     </div>
+
+    <div class="asset-price">
+      Live
+    </div>
+
+    <div class="asset-change up">
+      TradingView feed
+    </div>
+
+  </div>
+
+
+  <div class="asset-card panel">
+
+    <div class="asset-top">
+
+      <div>
+        <div class="asset-symbol">
+          EURUSD
+        </div>
+
+        <div class="asset-type">
+          EURO / USD
+        </div>
+      </div>
+
+      <span class="up">●</span>
+
+    </div>
+
+    <div class="asset-price">
+      FX
+    </div>
+
+    <div class="asset-change">
+      Forex market
+    </div>
+
+  </div>
+
+
+  <div class="asset-card panel">
+
+    <div class="asset-top">
+
+      <div>
+        <div class="asset-symbol">
+          NAS100
+        </div>
+
+        <div class="asset-type">
+          NASDAQ 100
+        </div>
+      </div>
+
+      <span class="up">●</span>
+
+    </div>
+
+    <div class="asset-price">
+      INDEX
+    </div>
+
+    <div class="asset-change">
+      US market
+    </div>
+
+  </div>
 
 </section>
 
 
-<section class="hero" style="margin-top:18px;">
+<!-- ================= CHART ================= -->
 
-    <h1>Trade Setup</h1>
+<section class="chart-panel panel" id="chart">
 
-    <p>
-        Use the live chart above to confirm market structure,
-        trend, support/resistance and momentum before taking
-        any trade.
-    </p>
+  <div class="chart-head">
+
+    <div>
+      <span class="chart-symbol">
+        XAUUSD
+      </span>
+
+      <span class="chart-price">
+        GOLD / USD
+      </span>
+    </div>
+
+    <div class="timeframes">
+
+      <button onclick="setTF('1')">
+        1m
+      </button>
+
+      <button onclick="setTF('5')">
+        5m
+      </button>
+
+      <button class="active" onclick="setTF('15')">
+        15m
+      </button>
+
+      <button onclick="setTF('60')">
+        1H
+      </button>
+
+      <button onclick="setTF('240')">
+        4H
+      </button>
+
+      <button onclick="setTF('D')">
+        1D
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="chart-container">
+
+    <div
+      class="tradingview-widget-container"
+      id="tv_chart">
+
+      <div
+        class="tradingview-widget-container__widget">
+      </div>
+
+      <script
+        type="text/javascript"
+        src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+        async>
+      {
+        "autosize":true,
+        "symbol":"OANDA:XAUUSD",
+        "interval":"15",
+        "timezone":"Asia/Colombo",
+        "theme":"dark",
+        "style":"1",
+        "locale":"en",
+        "allow_symbol_change":true,
+        "hide_top_toolbar":false,
+        "hide_legend":false,
+        "hide_side_toolbar":false,
+        "withdateranges":true,
+        "save_image":false,
+        "calendar":false,
+        "hide_volume":true,
+        "support_host":"https://www.tradingview.com",
+        "studies":[
+          "RSI@tv-basicstudies",
+          "MACD@tv-basicstudies"
+        ]
+      }
+      </script>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= INDICATORS ================= -->
+
+<section class="section panel" id="analysis">
+
+  <div class="panel-title">
+
+    <h3>
+      Technical Intelligence
+    </h3>
+
+    <span class="muted">
+      XAUUSD
+    </span>
+
+  </div>
+
+
+  <div class="indicator-grid">
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        RSI (14)
+      </div>
+
+      <div class="indicator-value">
+        52.4
+      </div>
+
+      <div class="indicator-state wait-text">
+        NEUTRAL
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        EMA 20
+      </div>
+
+      <div class="indicator-value">
+        ——
+      </div>
+
+      <div class="indicator-state muted">
+        Chart data
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        EMA 50
+      </div>
+
+      <div class="indicator-value">
+        ——
+      </div>
+
+      <div class="indicator-state muted">
+        Chart data
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        MACD
+      </div>
+
+      <div class="indicator-value">
+        Neutral
+      </div>
+
+      <div class="indicator-state wait-text">
+        WAIT
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        TREND
+      </div>
+
+      <div class="indicator-value">
+        NEUTRAL
+      </div>
+
+      <div class="indicator-state wait-text">
+        RANGE
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        MOMENTUM
+      </div>
+
+      <div class="indicator-value">
+        52%
+      </div>
+
+      <div class="indicator-state">
+        Moderate
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        SUPPORT
+      </div>
+
+      <div class="indicator-value">
+        ——
+      </div>
+
+      <div class="indicator-state muted">
+        Confirm on chart
+      </div>
+
+    </div>
+
+
+    <div class="indicator">
+
+      <div class="indicator-name">
+        RESISTANCE
+      </div>
+
+      <div class="indicator-value">
+        ——
+      </div>
+
+      <div class="indicator-state muted">
+        Confirm on chart
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= HISTORY ================= -->
+
+<section class="history panel section" id="history">
+
+  <div class="panel-title">
+
+    <h3>
+      Signal History
+    </h3>
+
+    <span class="muted">
+      Demo records
+    </span>
+
+  </div>
+
+
+  <table class="history-table">
+
+    <thead>
+
+      <tr>
+        <th>TIME</th>
+        <th>SYMBOL</th>
+        <th>SIGNAL</th>
+        <th>CONFIDENCE</th>
+        <th>STATUS</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>03:05</td>
+        <td>XAUUSD</td>
+        <td class="wait-text">WAIT</td>
+        <td>58%</td>
+        <td>Watching</td>
+      </tr>
+
+      <tr>
+        <td>02:40</td>
+        <td>XAUUSD</td>
+        <td class="buy">BUY</td>
+        <td>64%</td>
+        <td>Closed</td>
+      </tr>
+
+      <tr>
+        <td>02:10</td>
+        <td>XAUUSD</td>
+        <td class="sell">SELL</td>
+        <td>61%</td>
+        <td>Closed</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</section>
+
+
+<!-- ================= BOTTOM ================= -->
+
+<section class="bottom-grid">
+
+  <div class="session panel">
+
+    <div class="panel-title">
+      <h3>Market Sessions</h3>
+    </div>
+
+    <div class="session-row">
+      <span>London</span>
+      <strong class="up">OPEN</strong>
+    </div>
+
+    <div class="session-row">
+      <span>New York</span>
+      <strong class="up">OPEN</strong>
+    </div>
+
+    <div class="session-row">
+      <span>Tokyo</span>
+      <strong class="muted">CLOSED</strong>
+    </div>
+
+    <div class="session-row">
+      <span>Sydney</span>
+      <strong class="muted">CLOSED</strong>
+    </div>
+
+  </div>
+
+
+  <div class="news panel" id="news">
+
+    <div class="panel-title">
+      <h3>Market Intelligence</h3>
+    </div>
+
+    <div class="news-item">
+
+      <strong>
+        XAUUSD Market Watch
+      </strong>
+
+      <p>
+        Monitor trend structure, momentum and key levels
+        before considering a trade.
+      </p>
+
+    </div>
+
+    <div class="news-item">
+
+      <strong>
+        Risk First
+      </strong>
+
+      <p>
+        Always define stop-loss and position size before
+        entering a trade.
+      </p>
+
+    </div>
+
+    <div class="news-item">
+
+      <strong>
+        High Impact Events
+      </strong>
+
+      <p>
+        Check the economic calendar before trading volatile
+        sessions.
+      </p>
+
+    </div>
+
+  </div>
 
 </section>
 
 </main>
 
 
+<!-- ================= RIGHT BAR ================= -->
+
+<aside class="rightbar">
+
+
+<section class="panel">
+
+  <div class="panel-title">
+
+    <h3>
+      Apex Signal Engine
+    </h3>
+
+    <span class="muted">
+      XAUUSD
+    </span>
+
+  </div>
+
+
+  <div class="signal-card">
+
+    <div class="signal-label">
+      CURRENT BIAS
+    </div>
+
+    <div class="signal">
+      WAIT
+    </div>
+
+    <div class="signal-note">
+      No high-confidence setup confirmed.
+      Wait for price action confirmation.
+    </div>
+
+
+    <div class="confidence">
+
+      <div class="conf-head">
+        <span>Confidence</span>
+        <strong>58%</strong>
+      </div>
+
+      <div class="progress">
+        <span></span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="setup">
+
+    <div class="setup-row">
+      <span>Direction</span>
+      <strong>WAIT</strong>
+    </div>
+
+    <div class="setup-row">
+      <span>Entry</span>
+      <strong>Confirm on chart</strong>
+    </div>
+
+    <div class="setup-row">
+      <span>Stop Loss</span>
+      <strong class="risk">Required</strong>
+    </div>
+
+    <div class="setup-row">
+      <span>Take Profit</span>
+      <strong class="reward">Plan Required</strong>
+    </div>
+
+    <div class="setup-row">
+      <span>Risk / Reward</span>
+      <strong>1 : 2+</strong>
+    </div>
+
+    <button
+      class="action-btn"
+      onclick="alert('Signal confirmation requires live technical data.')">
+
+      ANALYZE MARKET
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= RISK ================= -->
+
+<section class="panel" id="risk">
+
+  <div class="panel-title">
+
+    <h3>
+      Risk Calculator
+    </h3>
+
+  </div>
+
+
+  <div class="calculator">
+
+    <div class="field">
+
+      <label>
+        ACCOUNT BALANCE ($)
+      </label>
+
+      <input
+        id="balance"
+        type="number"
+        value="1000"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        RISK %
+      </label>
+
+      <input
+        id="riskPercent"
+        type="number"
+        value="1"
+        step="0.1"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        STOP LOSS (POINTS)
+      </label>
+
+      <input
+        id="stopPoints"
+        type="number"
+        value="100"
+      >
+
+    </div>
+
+
+    <button
+      class="calculate"
+      onclick="calculateRisk()">
+
+      CALCULATE RISK
+
+    </button>
+
+
+    <div
+      class="result"
+      id="riskResult">
+
+      Risk amount: $10.00
+
+    </div>
+
+  </div>
+
+</section>
+
+</aside>
+
+</div>
+
+</div>
+
+
 <footer class="footer">
 
-    © 2026 IShanX Apex
+  <strong>
+    APEX<span style="color:#18e6a0;">NOVA</span>
+  </strong>
 
-    <br><br>
+  • Built for Ishan
 
-    Market information is provided for informational purposes
-    only and is not financial advice.
+  <br>
+
+  Market data, indicators and signals shown on this
+  prototype are for informational purposes only.
+  They are not financial advice.
 
 </footer>
+
+
+<script>
+
+/* ================= NAVIGATION ================= */
+
+function scrollToSection(id){
+
+  const el = document.getElementById(id);
+
+  if(el){
+    el.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
+
+}
+
+
+/* ================= FULLSCREEN ================= */
+
+function toggleFullscreen(){
+
+  if(!document.fullscreenElement){
+
+    document.documentElement.requestFullscreen()
+      .catch(()=>{});
+
+  }else{
+
+    document.exitFullscreen()
+      .catch(()=>{});
+
+  }
+
+}
+
+
+/* ================= RISK CALCULATOR ================= */
+
+function calculateRisk(){
+
+  const balance =
+    Number(document.getElementById("balance").value) || 0;
+
+  const riskPercent =
+    Number(document.getElementById("riskPercent").value) || 0;
+
+  const stopPoints =
+    Number(document.getElementById("stopPoints").value) || 0;
+
+  const riskAmount =
+    balance * (riskPercent / 100);
+
+  const result =
+    document.getElementById("riskResult");
+
+  result.innerHTML =
+    "Risk amount: <strong>$" +
+    riskAmount.toFixed(2) +
+    "</strong><br>" +
+    "Stop distance: " +
+    stopPoints +
+    " points";
+
+}
+
+
+/* ================= TIMEFRAME ================= */
+
+function setTF(tf){
+
+  /*
+    TradingView widget settings are initialized
+    when the page loads. The buttons are kept as
+    a clean UI layer for the terminal.
+  */
+
+  document
+    .querySelectorAll(".timeframes button")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+  event.target.classList.add("active");
+
+}
+
+
+/* ================= CLOCK ================= */
+
+function updateClock(){
+
+  const now =
+    new Date();
+
+  document.title =
+    "ApexNova Trading • " +
+    now.toLocaleTimeString();
+
+}
+
+setInterval(
+  updateClock,
+  1000
+);
+
+updateClock();
+
+
+/* ================= INITIAL RISK ================= */
+
+calculateRisk();
+
+</script>
 
 </body>
 </html>
