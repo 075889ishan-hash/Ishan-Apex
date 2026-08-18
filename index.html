@@ -106,3 +106,415 @@
     <script src="script.js"></script>
 </body>
 </html>
+:root {
+    --bg-main: #0b0e14;
+    --bg-secondary: #151a21;
+    --bg-card: #1e232d;
+    --text-primary: #ffffff;
+    --text-secondary: #848e9c;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --border-color: #2b313a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #3861fb;
+}
+
+.navbar nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.navbar nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar nav a:hover {
+    color: var(--text-primary);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-deposit {
+    background-color: #3861fb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.trading-container {
+    display: grid;
+    grid-template-columns: 220px 1fr 300px;
+    height: calc(100vh - 65px);
+}
+
+.sidebar {
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    padding: 15px;
+}
+
+.market-list h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.market-list ul {
+    list-style: none;
+}
+
+.market-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.green { color: var(--green); }
+.red { color: var(--red); }
+
+.chart-section {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.chart-wrapper {
+    flex-grow: 1;
+    background-color: var(--bg-card);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.right-panel {
+    background-color: var(--bg-secondary);
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.order-book {
+    flex: 1;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-header, .row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 4px 0;
+}
+
+.spread {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 10px 0;
+}
+
+.trade-panel {
+    padding: 15px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background: var(--green);
+    color: white;
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 8px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: white;
+    border-radius: 4px;
+}
+
+.btn-execute {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-execute.buy { background-color: var(--green); color: white; }
+.btn-execute.sell { background-color: var(--red); color: white; }
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize TradingView Chart Widget
+    new TradingView.widget({
+        "width": "100%",
+        "height": "100%",
+        "symbol": "BINANCE:BTCUSDT",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tradingview_chart"
+    });
+
+    // Toggle Buy/Sell Buttons
+    const buyTab = document.getElementById('buy-tab');
+    const sellTab = document.getElementById('sell-tab');
+    const submitBtn = document.querySelector('.btn-execute');
+
+    buyTab.addEventListener('click', () => {
+        buyTab.classList.add('active');
+        sellTab.classList.remove('active');
+        submitBtn.textContent = 'Execute Buy Order';
+        submitBtn.className = 'btn-execute buy';
+    });
+
+    sellTab.addEventListener('click', () => {
+        sellTab.classList.add('active');
+        buyTab.classList.remove('active');
+        submitBtn.textContent = 'Execute Sell Order';
+        submitBtn.className = 'btn-execute sell';
+    });
+
+    // Form Submission Logic
+    const tradeForm = document.getElementById('trade-form');
+    tradeForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const price = document.getElementById('price-input').value;
+        const amount = document.getElementById('amount-input').value;
+        const type = buyTab.classList.contains('active') ? 'BUY' : 'SELL';
+
+        if (!amount || amount <= 0) {
+            alert('Please enter a valid amount.');
+            return;
+        }
+
+        alert(`Order Placed Successfully!\nType: ${type}\nPrice: $${price}\nAmount: ${amount} BTC`);
+    });
+});-- Users Table
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Wallets Table
+CREATE TABLE wallets (
+    wallet_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id),
+    currency VARCHAR(10) NOT NULL,
+    balance DECIMAL(18, 8) DEFAULT 0.00000000,
+    UNIQUE(user_id, currency)
+);
+
+-- Orders Table
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id),
+    symbol VARCHAR(20) NOT NULL,
+    side VARCHAR(4) CHECK (side IN ('BUY', 'SELL')),
+    order_type VARCHAR(10) CHECK (order_type IN ('LIMIT', 'MARKET')),
+    price DECIMAL(18, 8),
+    amount DECIMAL(18, 8) NOT NULL,
+    status VARCHAR(10) DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'FILLED', 'CANCELLED')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trades Table (Completed Transactions)
+CREATE TABLE trades (
+    trade_id SERIAL PRIMARY KEY,
+    buy_order_id INT REFERENCES orders(order_id),
+    sell_order_id INT REFERENCES orders(order_id),
+    symbol VARCHAR(20) NOT NULL,
+    price DECIMAL(18, 8) NOT NULL,
+    amount DECIMAL(18, 8) NOT NULL,
+    executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);const express = require('express');
+const WebSocket = require('ws');
+const cors = require('cors');
+const { Pool } = require('pg');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Database Connection Settings
+const db = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'trading_db',
+    password: 'your_db_password',
+    port: 5432,
+});
+
+// --- REST API: Place New Order ---
+app.post('/api/orders', async (req, res) => {
+    const { userId, symbol, side, orderType, price, amount } = req.body;
+
+    try {
+        const newOrder = await db.query(
+            `INSERT INTO orders (user_id, symbol, side, order_type, price, amount) 
+             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+            [userId, symbol, side, orderType, price, amount]
+        );
+
+        // Simple Order Engine Hook
+        processMatchingEngine(newOrder.rows[0]);
+
+        res.status(201).json({ success: true, order: newOrder.rows[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Database Transaction Error' });
+    }
+});
+
+// --- Simple Matching Engine Logic ---
+async function processMatchingEngine(order) {
+    // Basic limit matching strategy logic
+    console.log(`[Matching Engine] Processing Order #${order.order_id} for ${order.symbol}`);
+}
+
+// --- WebSocket Server for Real-Time Price Broadcast ---
+const SERVER_PORT = 5000;
+const server = app.listen(SERVER_PORT, () => {
+    console.log(`Backend Server running on port ${SERVER_PORT}`);
+});
+
+const wss = new WebSocket.Server({ server });
+
+// Connect to Binance Live Market Websocket Stream (BTC/USDT Real-time Trades)
+const binanceWs = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
+
+binanceWs.on('message', (data) => {
+    const trade = JSON.parse(data);
+    const livePriceData = JSON.stringify({
+        symbol: trade.s,
+        price: parseFloat(trade.p).toFixed(2),
+        time: trade.T
+    });
+
+    // Broadcast live price to all connected web clients
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(livePriceData);
+        }
+    });
+});// Connect to Custom Node.js Backend WebSocket
+const socket = new WebSocket('ws://localhost:5000');
+
+socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    
+    // Update live price on navbar and chart header dynamically
+    const priceElement = document.getElementById('current-price');
+    if (priceElement) {
+        priceElement.textContent = `$${data.price}`;
+    }
+};
+
+// Handle Real Trade Submission to Node.js Backend API
+document.getElementById('trade-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const payload = {
+        userId: 1, // Demo User ID
+        symbol: 'BTCUSD',
+        side: document.getElementById('buy-tab').classList.contains('active') ? 'BUY' : 'SELL',
+        orderType: document.getElementById('order-type').value.toUpperCase(),
+        price: parseFloat(document.getElementById('price-input').value),
+        amount: parseFloat(document.getElementById('amount-input').value)
+    };
+
+    try {
+        const response = await fetch('http://localhost:5000/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert(`Order Placed on Server! Order ID: ${result.order.order_id}`);
+        }
+    } catch (err) {
+        console.error('Order Execution Failed:', err);
+        alert('Server Error. Unable to place order.');
+    }
+});
