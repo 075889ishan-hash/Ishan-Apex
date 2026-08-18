@@ -3,30 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IShanX Apex | Trading Intelligence</title>
+
+<title>IShanX Apex | Gold Trading Dashboard</title>
 
 <style>
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 body{
+    background:#070b12;
+    color:#f4f7fb;
     font-family:Arial,Helvetica,sans-serif;
-    background:#070b14;
-    color:#f5f7ff;
-    min-height:100vh;
 }
 
-.header{
-    padding:22px 18px;
-    background:linear-gradient(135deg,#10182b,#080c16);
-    border-bottom:1px solid #202b42;
+header{
+    padding:20px;
+    background:#0b111c;
+    border-bottom:1px solid #1d2939;
 }
 
 .logo{
-    font-size:27px;
+    font-size:28px;
     font-weight:900;
     letter-spacing:1px;
 }
@@ -35,23 +35,23 @@ body{
     color:#00e5a0;
 }
 
-.subtitle{
-    color:#8994aa;
-    margin-top:5px;
+.tagline{
+    color:#8995a8;
     font-size:13px;
+    margin-top:5px;
 }
 
 .container{
-    max-width:1100px;
+    max-width:1200px;
     margin:auto;
     padding:18px;
 }
 
 .hero{
-    padding:22px;
-    border:1px solid #202b42;
+    background:linear-gradient(135deg,#101a2b,#0b111c);
+    border:1px solid #1e2b40;
     border-radius:18px;
-    background:linear-gradient(135deg,#111a2c,#0b101c);
+    padding:22px;
     margin-bottom:18px;
 }
 
@@ -61,18 +61,19 @@ body{
 }
 
 .hero p{
-    color:#8f9bb2;
-    font-size:14px;
+    color:#8e9aae;
     line-height:1.5;
+    font-size:14px;
 }
 
-.status{
+.live{
     display:inline-flex;
     align-items:center;
-    gap:7px;
+    gap:8px;
     margin-top:15px;
     color:#00e5a0;
     font-size:12px;
+    font-weight:bold;
 }
 
 .dot{
@@ -82,187 +83,110 @@ body{
     background:#00e5a0;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-}
-
-.card{
-    background:#0d1422;
-    border:1px solid #202b42;
+.price-card{
+    background:#0d1522;
+    border:1px solid #1e2b40;
     border-radius:16px;
     padding:18px;
+    margin-bottom:18px;
 }
 
-.card h3{
-    color:#9ba7bd;
-    font-size:13px;
-    margin-bottom:12px;
+.label{
+    color:#8b97aa;
+    font-size:12px;
+    margin-bottom:7px;
 }
 
 .symbol{
-    font-size:18px;
-    font-weight:bold;
+    font-size:19px;
+    font-weight:800;
 }
 
 .price{
-    font-size:30px;
+    font-size:32px;
     font-weight:900;
     margin-top:8px;
+    color:#ffffff;
 }
 
-.change{
-    margin-top:6px;
-    color:#00e5a0;
-    font-size:13px;
-}
-
-.signal{
-    margin-top:10px;
-    padding:11px;
-    border-radius:10px;
-    text-align:center;
-    font-weight:900;
-    background:#09291f;
-    color:#00e5a0;
-}
-
-.analysis{
-    margin-top:18px;
-}
-
-.analysis h2{
-    margin-bottom:14px;
-    font-size:20px;
-}
-
-.indicators{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.indicator{
-    background:#0d1422;
-    border:1px solid #202b42;
-    border-radius:14px;
-    padding:15px;
-}
-
-.indicator small{
-    color:#8994aa;
-}
-
-.indicator strong{
-    display:block;
-    margin-top:7px;
-    font-size:20px;
-}
-
-.trade-box{
-    margin-top:18px;
-    background:linear-gradient(135deg,#101b2d,#0b111d);
-    border:1px solid #26344d;
+.chart-box{
+    background:#0b111c;
+    border:1px solid #1e2b40;
     border-radius:18px;
-    padding:20px;
-}
-
-.trade-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.wait{
-    background:#2b2410;
-    color:#ffd45c;
-    padding:8px 14px;
-    border-radius:8px;
-    font-weight:bold;
-    font-size:12px;
-}
-
-.levels{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-}
-
-.level{
-    background:#080d17;
-    border-radius:10px;
-    padding:12px;
-    border:1px solid #1d293d;
-}
-
-.level small{
-    color:#7e8aa0;
-}
-
-.level strong{
-    display:block;
-    margin-top:6px;
-}
-
-.chart{
-    height:230px;
-    margin-top:18px;
-    border-radius:15px;
-    border:1px solid #202b42;
-    background:
-    linear-gradient(#111a2a 1px,transparent 1px),
-    linear-gradient(90deg,#111a2a 1px,transparent 1px);
-    background-size:40px 40px;
-    position:relative;
+    padding:10px;
     overflow:hidden;
 }
 
-.chart-line{
-    position:absolute;
-    width:120%;
-    height:3px;
-    background:#00e5a0;
-    transform:rotate(-7deg);
-    top:55%;
-    left:-10%;
-    box-shadow:0 0 12px #00e5a0;
+.chart-title{
+    padding:10px 10px 15px;
+    font-size:19px;
+    font-weight:800;
+}
+
+.tradingview-widget-container{
+    width:100%;
+    height:600px;
+}
+
+.analysis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.box{
+    background:#0d1522;
+    border:1px solid #1e2b40;
+    border-radius:14px;
+    padding:16px;
+}
+
+.box small{
+    color:#8995a8;
+}
+
+.box strong{
+    display:block;
+    margin-top:8px;
+    font-size:19px;
+}
+
+.wait{
+    color:#ffd45c;
 }
 
 .footer{
     text-align:center;
-    padding:30px 10px;
-    color:#69758b;
+    color:#69768a;
     font-size:12px;
-}
-
-button{
-    border:0;
-    border-radius:10px;
-    padding:12px 18px;
-    background:#00e5a0;
-    color:#06100c;
-    font-weight:900;
-    cursor:pointer;
-    margin-top:12px;
+    padding:30px 10px;
 }
 
 @media(max-width:700px){
-    .grid{
-        grid-template-columns:1fr;
+
+    .container{
+        padding:12px;
     }
 
-    .indicators{
-        grid-template-columns:1fr 1fr 1fr;
+    .logo{
+        font-size:24px;
     }
 
-    .levels{
-        grid-template-columns:1fr 1fr;
+    .hero h1{
+        font-size:21px;
     }
 
     .price{
-        font-size:27px;
+        font-size:28px;
+    }
+
+    .tradingview-widget-container{
+        height:500px;
+    }
+
+    .analysis{
+        grid-template-columns:1fr 1fr;
     }
 }
 </style>
@@ -270,271 +194,176 @@ button{
 
 <body>
 
-<header class="header">
-    <div class="logo">IShan<span>X</span> APEX</div>
-    <div class="subtitle">Trading Intelligence & Market Analysis</div>
+<header>
+
+    <div class="logo">
+        IShan<span>X</span> APEX
+    </div>
+
+    <div class="tagline">
+        Professional Trading Intelligence
+    </div>
+
 </header>
+
 
 <main class="container">
 
 <section class="hero">
-    <h1>Professional Trading Dashboard</h1>
+
+    <h1>
+        Gold Market Analysis
+    </h1>
+
     <p>
-        Analyze markets, monitor price action and manage your trading levels
-        from one powerful dashboard.
+        Professional XAUUSD market monitoring with
+        real-time TradingView charting.
     </p>
 
-    <div class="status">
+    <div class="live">
         <span class="dot"></span>
-        Market Analysis Online
+        LIVE MARKET DATA
     </div>
-</section>
-
-<section class="grid">
-
-<div class="card">
-    <h3>MARKET</h3>
-    <div class="symbol">XAUUSD • GOLD</div>
-    <div class="price" id="goldPrice">Loading...</div>
-    <div class="change" id="goldStatus">Connecting to market...</div>
-    <div class="signal">WAIT • ANALYZING</div>
-</div>
-
-<div class="card">
-    <h3>SECOND MARKET</h3>
-    <div class="symbol">BTCUSD • BITCOIN</div>
-    <div class="price" id="btcPrice">Loading...</div>
-    <div class="change" id="btcStatus">Live market connection</div>
-    <div class="signal">WATCH</div>
-</div>
 
 </section>
+
+
+<section class="price-card">
+
+    <div class="label">
+        GOLD / US DOLLAR
+    </div>
+
+    <div class="symbol">
+        XAUUSD
+    </div>
+
+    <div class="price">
+        Live price shown on TradingView ↓
+    </div>
+
+</section>
+
+
+<section class="chart-box">
+
+    <div class="chart-title">
+        XAUUSD • GOLD SPOT / USD
+    </div>
+
+    <!-- TradingView Advanced Chart -->
+
+    <div
+        class="tradingview-widget-container"
+        id="tradingview_chart"
+    >
+
+        <div
+            class="tradingview-widget-container__widget"
+            style="height:100%;width:100%"
+        ></div>
+
+        <div class="tradingview-widget-copyright">
+
+            <a
+                href="https://www.tradingview.com/symbols/XAUUSD/"
+                target="_blank"
+                rel="noopener nofollow"
+            >
+                XAUUSD Chart
+            </a>
+
+            <span> by TradingView</span>
+
+        </div>
+
+        <script
+            type="text/javascript"
+            src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+            async
+        >
+        {
+            "autosize": true,
+            "symbol": "OANDA:XAUUSD",
+            "interval": "15",
+            "timezone": "Asia/Colombo",
+            "theme": "dark",
+            "style": "1",
+            "withdateranges": true,
+            "hide_side_toolbar": false,
+            "allow_symbol_change": true,
+            "save_image": false,
+            "hide_volume": true,
+            "hide_top_toolbar": false,
+            "hide_legend": false,
+            "calendar": false,
+            "support_host": "https://www.tradingview.com",
+            "studies": [
+                "RSI@tv-basicstudies",
+                "MACD@tv-basicstudies"
+            ]
+        }
+        </script>
+
+    </div>
+
+</section>
+
 
 <section class="analysis">
 
-<h2>Technical Analysis</h2>
+    <div class="box">
+        <small>MARKET</small>
+        <strong>XAUUSD</strong>
+    </div>
 
-<div class="indicators">
+    <div class="box">
+        <small>TIMEFRAME</small>
+        <strong>15 MIN</strong>
+    </div>
 
-<div class="indicator">
-    <small>RSI</small>
-    <strong>52.4</strong>
-</div>
+    <div class="box">
+        <small>STATUS</small>
+        <strong style="color:#00e5a0;">
+            LIVE
+        </strong>
+    </div>
 
-<div class="indicator">
-    <small>EMA 20</small>
-    <strong>Neutral</strong>
-</div>
-
-<div class="indicator">
-    <small>EMA 50</small>
-    <strong>Neutral</strong>
-</div>
-
-<div class="indicator">
-    <small>MACD</small>
-    <strong>Neutral</strong>
-</div>
-
-<div class="indicator">
-    <small>Support</small>
-    <strong id="support">--</strong>
-</div>
-
-<div class="indicator">
-    <small>Resistance</small>
-    <strong id="resistance">--</strong>
-</div>
-
-</div>
+    <div class="box">
+        <small>SIGNAL</small>
+        <strong class="wait">
+            WAIT
+        </strong>
+    </div>
 
 </section>
 
-<section class="trade-box">
 
-<div class="trade-title">
-    <h2>Trade Setup</h2>
-    <div class="wait">WAIT</div>
-</div>
+<section class="hero" style="margin-top:18px;">
 
-<div class="levels">
+    <h1>Trade Setup</h1>
 
-<div class="level">
-    <small>ENTRY</small>
-    <strong id="entry">--</strong>
-</div>
-
-<div class="level">
-    <small>STOP LOSS</small>
-    <strong id="sl">--</strong>
-</div>
-
-<div class="level">
-    <small>TP 1</small>
-    <strong id="tp1">--</strong>
-</div>
-
-<div class="level">
-    <small>TP 2</small>
-    <strong id="tp2">--</strong>
-</div>
-
-</div>
-
-<div class="chart">
-    <div class="chart-line"></div>
-</div>
-
-<button onclick="updateAnalysis()">Refresh Analysis</button>
+    <p>
+        Use the live chart above to confirm market structure,
+        trend, support/resistance and momentum before taking
+        any trade.
+    </p>
 
 </section>
 
 </main>
 
+
 <footer class="footer">
-    © 2026 IShanX Apex • Trading Analysis Platform
+
+    © 2026 IShanX Apex
+
     <br><br>
-    Market data and analysis are for informational purposes only.
+
+    Market information is provided for informational purposes
+    only and is not financial advice.
+
 </footer>
-
-<script>
-
-async function getGoldPrice(){
-
-    const priceElement =
-        document.getElementById("goldPrice");
-
-    const statusElement =
-        document.getElementById("goldStatus");
-
-    try{
-
-        const response = await fetch(
-            "https://xaus.com/api/v1/spot",
-            {
-                cache:"no-store"
-            }
-        );
-
-        if(!response.ok){
-            throw new Error("API unavailable");
-        }
-
-        const data = await response.json();
-
-        const price =
-            Number(data.spot_usd_oz);
-
-        if(!price){
-            throw new Error("Invalid price");
-        }
-
-        priceElement.innerText =
-            "$" + price.toFixed(2);
-
-        statusElement.innerText =
-            "LIVE XAU/USD • Updated " +
-            new Date().toLocaleTimeString();
-
-        document.getElementById("entry").innerText =
-            price.toFixed(2);
-
-        document.getElementById("support").innerText =
-            (price - 10).toFixed(2);
-
-        document.getElementById("resistance").innerText =
-            (price + 10).toFixed(2);
-
-        document.getElementById("sl").innerText =
-            (price - 8).toFixed(2);
-
-        document.getElementById("tp1").innerText =
-            (price + 12).toFixed(2);
-
-        document.getElementById("tp2").innerText =
-            (price + 25).toFixed(2);
-
-    }catch(error){
-
-        priceElement.innerText =
-            "Unavailable";
-
-        statusElement.innerText =
-            "Live feed unavailable";
-
-        console.log(error);
-    }
-}
-
-
-async function getBitcoinPrice(){
-
-    const priceElement =
-        document.getElementById("btcPrice");
-
-    const statusElement =
-        document.getElementById("btcStatus");
-
-    try{
-
-        const response = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
-            {
-                cache:"no-store"
-            }
-        );
-
-        if(!response.ok){
-            throw new Error("BTC API unavailable");
-        }
-
-        const data = await response.json();
-
-        const price =
-            Number(data.bitcoin.usd);
-
-        priceElement.innerText =
-            "$" + price.toLocaleString(
-                "en-US",
-                {
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                }
-            );
-
-        statusElement.innerText =
-            "LIVE BTC/USD • Updated " +
-            new Date().toLocaleTimeString();
-
-    }catch(error){
-
-        priceElement.innerText =
-            "Unavailable";
-
-        statusElement.innerText =
-            "Live feed unavailable";
-
-        console.log(error);
-    }
-}
-
-
-function updateAnalysis(){
-
-    getGoldPrice();
-    getBitcoinPrice();
-
-}
-
-
-updateAnalysis();
-
-setInterval(
-    updateAnalysis,
-    60000
-);
-
-</script>
 
 </body>
 </html>
