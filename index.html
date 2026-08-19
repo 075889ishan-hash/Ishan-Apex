@@ -1,1632 +1,1698 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta name="theme-color"
+      content="#070a10">
 
-    <meta
-        name="theme-color"
-        content="#070a10"
-    >
+<meta name="description"
+      content="GOLD X — Premium Trading Terminal">
 
-    <meta
-        name="description"
-        content="GOLD X — Premium Trading Dashboard"
-    >
+<title>GOLD X — Premium Trading Terminal</title>
 
-    <title>GOLD X — Premium Trading</title>
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
 
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
 
-    <!-- =====================================================
-         GOOGLE FONT
-         ===================================================== -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+<style>
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+:root {
+    --bg: #070a10;
+    --bg2: #0a0f17;
+    --panel: #0d131d;
+    --panel2: #111925;
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-    >
+    --gold: #d6a84f;
+    --gold2: #f3cd75;
 
+    --green: #39d98a;
+    --red: #ff5d6c;
+    --blue: #5ca8ff;
 
-    <!-- =====================================================
-         MAIN CSS
-         ===================================================== -->
+    --text: #f5f7fb;
+    --soft: #cbd3df;
+    --muted: #7d899a;
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    --border: rgba(255,255,255,.075);
 
+    --sidebar: 238px;
+    --top: 64px;
 
-    <!-- =====================================================
-         EXTRA GOLD X BASE STYLES
-         ===================================================== -->
+    --radius: 16px;
 
-    <style>
+    --shadow:
+        0 18px 60px rgba(0,0,0,.28);
+}
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        html {
-            scroll-behavior: smooth;
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        body {
-            margin: 0;
-            background: #070a10;
-            color: #e7ebf2;
-            font-family: Inter, Arial, sans-serif;
-        }
+body {
+    margin: 0;
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+    background:
+        radial-gradient(
+            circle at 80% -10%,
+            rgba(214,168,79,.08),
+            transparent 28%
+        ),
+        var(--bg);
 
-        button,
-        input,
-        select,
-        textarea {
-            font: inherit;
-        }
+    color: var(--text);
 
-        button {
-            cursor: pointer;
-        }
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
 
+    overflow-x: hidden;
+}
 
-        /* =================================================
-           GOLD X VARIABLES
-           ================================================= */
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
-        :root {
+button,
+input,
+select {
+    font: inherit;
+}
 
-            --gold:
-                #d6a84f;
+button {
+    cursor: pointer;
+}
 
-            --gold-light:
-                #f0ca73;
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
 
-            --gold-dark:
-                #9f762b;
 
-            --green:
-                #39d98a;
+/* =========================
+   TOP BAR
+   ========================= */
 
-            --red:
-                #ff5d6c;
+.topbar {
 
-            --blue:
-                #5ca8ff;
+    position: fixed;
 
-            --bg:
-                #070a10;
+    z-index: 1000;
 
-            --panel:
-                #0c1119;
+    top: 0;
+    left: 0;
+    right: 0;
 
-            --panel-2:
-                #101722;
+    height: var(--top);
 
-            --border:
-                rgba(255,255,255,0.07);
+    display: flex;
 
-            --text:
-                #f4f6fa;
+    align-items: center;
 
-            --text-soft:
-                #cbd2dd;
+    justify-content: space-between;
 
-            --text-muted:
-                #7c8798;
+    padding: 0 18px;
 
-            --topbar-height:
-                64px;
+    background:
+        rgba(7,10,16,.92);
 
-            --sidebar-width:
-                245px;
+    border-bottom:
+        1px solid var(--border);
 
-            --transition:
-                180ms ease;
-        }
+    backdrop-filter:
+        blur(18px);
+}
 
 
-        /* =================================================
-           TOP BAR
-           ================================================= */
+.brand {
 
-        .topbar {
+    display: flex;
 
-            position: fixed;
+    align-items: center;
 
-            top: 0;
-            left: 0;
-            right: 0;
+    gap: 10px;
 
-            height:
-                var(--topbar-height);
+    min-width: 0;
+}
 
-            display: flex;
 
-            align-items: center;
+.brand-symbol {
 
-            justify-content: space-between;
+    width: 38px;
+    height: 38px;
 
-            padding:
-                0 18px;
+    display: grid;
 
-            background:
-                rgba(7,10,16,0.92);
+    place-items: center;
 
-            border-bottom:
-                1px solid
-                var(--border);
+    border-radius: 11px;
 
-            backdrop-filter:
-                blur(18px);
+    color: #090b10;
 
-            z-index: 1000;
-        }
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold2),
+            var(--gold)
+        );
 
+    font-weight: 900;
 
-        .brand {
+    box-shadow:
+        0 0 28px
+        rgba(214,168,79,.18);
+}
 
-            display: flex;
 
-            align-items: center;
+.brand-text {
 
-            gap: 10px;
-        }
+    display: flex;
 
+    flex-direction: column;
+}
 
-        .brand-symbol {
 
-            width: 38px;
-            height: 38px;
+.brand-name {
 
-            display: grid;
+    font-size: 15px;
 
-            place-items: center;
+    font-weight: 900;
 
-            border-radius: 10px;
+    letter-spacing: 1.7px;
 
-            color: #090b10;
+    color: var(--gold2);
+}
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--gold-light),
-                    var(--gold-dark)
-                );
 
-            font-size: 17px;
-            font-weight: 900;
+.brand-sub {
 
-            box-shadow:
-                0 0 25px
-                rgba(214,168,79,0.16);
-        }
+    font-size: 6px;
 
+    font-weight: 800;
 
-        .brand-text {
+    letter-spacing: 2px;
 
-            display: flex;
+    color: var(--muted);
 
-            flex-direction: column;
-        }
+    margin-top: 2px;
+}
 
 
-        .brand-name {
+.market-status {
 
-            color:
-                var(--gold-light);
+    position: absolute;
 
-            font-size: 15px;
+    left: 50%;
 
-            font-weight: 900;
+    transform:
+        translateX(-50%);
 
-            letter-spacing: 1.5px;
-        }
+    display: flex;
 
+    align-items: center;
 
-        .brand-subtitle {
+    gap: 7px;
 
-            margin-top: 2px;
+    font-size: 8px;
 
-            color:
-                var(--text-muted);
+    font-weight: 800;
 
-            font-size: 6px;
+    color: var(--muted);
+}
 
-            font-weight: 700;
 
-            letter-spacing: 2px;
-        }
+.dot {
 
+    width: 7px;
+    height: 7px;
 
-        .top-center {
+    border-radius: 50%;
 
-            position: absolute;
+    background:
+        var(--green);
 
-            left: 50%;
+    box-shadow:
+        0 0 12px
+        rgba(57,217,138,.7);
+}
 
-            transform:
-                translateX(-50%);
-        }
 
+.top-actions {
 
-        .market-status {
+    display: flex;
 
-            display: flex;
+    align-items: center;
 
-            align-items: center;
+    gap: 8px;
+}
 
-            gap: 7px;
 
-            color:
-                var(--text-muted);
+.top-btn {
 
-            font-size: 8px;
+    width: 36px;
+    height: 36px;
 
-            font-weight: 700;
-        }
+    border:
+        1px solid var(--border);
 
+    border-radius: 10px;
 
-        .status-dot {
+    color: var(--soft);
 
-            width: 7px;
-            height: 7px;
+    background:
+        rgba(255,255,255,.025);
+}
 
-            border-radius: 50%;
 
-            background:
-                var(--green);
+.top-btn:hover {
 
-            box-shadow:
-                0 0 10px
-                rgba(57,217,138,0.6);
-        }
+    color: var(--gold2);
 
+    border-color:
+        rgba(214,168,79,.35);
+}
 
-        .top-actions {
 
-            display: flex;
+.profile {
 
-            align-items: center;
+    display: flex;
 
-            gap: 8px;
-        }
+    align-items: center;
 
+    gap: 9px;
 
-        .top-button {
+    padding-left: 10px;
 
-            width: 36px;
-            height: 36px;
+    border-left:
+        1px solid var(--border);
+}
 
-            display: grid;
 
-            place-items: center;
+.avatar {
 
-            border:
-                1px solid
-                var(--border);
+    width: 34px;
+    height: 34px;
 
-            border-radius: 9px;
+    border-radius: 50%;
 
-            color:
-                var(--text-soft);
+    display: grid;
 
-            background:
-                rgba(255,255,255,0.025);
-        }
+    place-items: center;
 
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold2),
+            var(--gold)
+        );
 
-        .top-button:hover {
+    color: #090b10;
 
-            color:
-                var(--gold-light);
+    font-size: 10px;
 
-            border-color:
-                rgba(214,168,79,0.3);
-        }
+    font-weight: 900;
+}
 
 
-        .user-profile {
+.profile-info {
 
-            display: flex;
+    display: flex;
 
-            align-items: center;
+    flex-direction: column;
+}
 
-            gap: 9px;
 
-            padding-left: 10px;
+.profile-info strong {
 
-            border-left:
-                1px solid
-                var(--border);
-        }
+    font-size: 8px;
+}
 
 
-        .user-avatar {
+.profile-info small {
 
-            width: 34px;
-            height: 34px;
+    font-size: 6px;
 
-            display: grid;
+    color: var(--green);
 
-            place-items: center;
+    font-weight: 900;
 
-            border-radius: 50%;
+    margin-top: 2px;
+}
 
-            color:
-                #090b10;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--gold-light),
-                    var(--gold)
-                );
+/* =========================
+   SIDEBAR
+   ========================= */
 
-            font-size: 10px;
-            font-weight: 900;
-        }
+.layout {
 
+    min-height: 100vh;
 
-        .user-info {
+    padding-top: var(--top);
+}
 
-            display: flex;
 
-            flex-direction: column;
-        }
+.sidebar {
 
+    position: fixed;
 
-        .user-info strong {
+    z-index: 900;
 
-            color:
-                var(--text-soft);
+    top: var(--top);
+    left: 0;
+    bottom: 0;
 
-            font-size: 8px;
-        }
+    width: var(--sidebar);
 
+    padding: 20px 12px;
 
-        .user-info small {
+    background: #090d14;
 
-            margin-top: 2px;
+    border-right:
+        1px solid var(--border);
 
-            color:
-                var(--green);
+    overflow-y: auto;
 
-            font-size: 6px;
+    transition:
+        transform .25s ease;
+}
 
-            font-weight: 800;
-        }
 
+.side-label {
 
-        /* =================================================
-           SIDEBAR
-           ================================================= */
+    padding: 0 12px;
 
-        .main-layout {
+    margin: 4px 0 9px;
 
-            min-height: 100vh;
+    color: #4f5968;
 
-            padding-top:
-                var(--topbar-height);
-        }
+    font-size: 7px;
 
+    font-weight: 900;
 
-        .sidebar {
+    letter-spacing: 1.5px;
+}
 
-            position: fixed;
 
-            top:
-                var(--topbar-height);
+.nav {
 
-            left: 0;
-            bottom: 0;
+    display: flex;
 
-            width:
-                var(--sidebar-width);
+    flex-direction: column;
 
-            padding:
-                20px 12px;
+    gap: 4px;
+}
 
-            background:
-                #090d14;
 
-            border-right:
-                1px solid
-                var(--border);
+.nav a {
 
-            overflow-y: auto;
+    min-height: 40px;
 
-            z-index: 800;
-        }
+    display: flex;
 
+    align-items: center;
 
-        .sidebar-label {
+    gap: 11px;
 
-            padding:
-                0 12px;
+    padding: 0 12px;
 
-            margin:
-                4px 0 9px;
+    border-radius: 9px;
 
-            color:
-                #4f5968;
+    color: var(--muted);
 
-            font-size: 7px;
+    font-size: 9px;
 
-            font-weight: 800;
+    font-weight: 800;
 
-            letter-spacing: 1.5px;
+    transition: .18s;
+}
 
-            text-transform:
-                uppercase;
-        }
 
+.nav a:hover {
 
-        .nav-list {
+    color: var(--soft);
 
-            display: flex;
+    background:
+        rgba(255,255,255,.035);
+}
 
-            flex-direction: column;
 
-            gap: 4px;
-        }
+.nav a.active {
 
+    color: var(--gold2);
 
-        .nav-link {
+    background:
+        rgba(214,168,79,.08);
+}
 
-            position: relative;
 
-            min-height: 40px;
+.nav-icon {
 
-            display: flex;
+    width: 19px;
 
-            align-items: center;
+    text-align: center;
 
-            gap: 11px;
+    font-size: 13px;
+}
 
-            padding:
-                0 12px;
 
-            border-radius: 8px;
+.side-line {
 
-            color:
-                var(--text-muted);
+    height: 1px;
 
-            font-size: 9px;
+    background:
+        var(--border);
 
-            font-weight: 700;
+    margin: 16px 10px;
+}
 
-            transition:
-                var(--transition);
-        }
 
+.account {
 
-        .nav-link:hover {
+    padding: 14px;
 
-            color:
-                var(--text-soft);
+    border:
+        1px solid var(--border);
 
-            background:
-                rgba(255,255,255,0.035);
-        }
+    border-radius: 12px;
 
+    background:
+        rgba(255,255,255,.018);
+}
 
-        .nav-link.active {
 
-            color:
-                var(--gold-light);
+.account small {
 
-            background:
-                rgba(214,168,79,0.08);
-        }
+    color: var(--muted);
 
+    font-size: 7px;
 
-        .nav-link.active::before {
+    font-weight: 800;
+}
 
-            content: "";
 
-            position: absolute;
+.account strong {
 
-            left: 0;
+    display: block;
 
-            top: 8px;
-            bottom: 8px;
+    color: var(--gold2);
 
-            width: 2px;
+    font-size: 17px;
 
-            border-radius: 3px;
+    margin-top: 5px;
+}
 
-            background:
-                var(--gold);
-        }
 
+.account span {
 
-        .nav-icon {
+    display: block;
 
-            width: 19px;
+    color: var(--green);
 
-            text-align: center;
+    font-size: 7px;
 
-            font-size: 13px;
-        }
+    font-weight: 900;
 
+    margin-top: 5px;
+}
 
-        .sidebar-divider {
 
-            height: 1px;
+/* =========================
+   MAIN
+   ========================= */
 
-            margin:
-                16px 10px;
+.content {
 
-            background:
-                var(--border);
-        }
+    width:
+        calc(100% - var(--sidebar));
 
+    margin-left:
+        var(--sidebar);
 
-        .sidebar-account {
+    padding:
+        28px 30px 60px;
+}
 
-            margin-top: 18px;
 
-            padding: 13px;
+.hero {
 
-            border:
-                1px solid
-                var(--border);
+    position: relative;
 
-            border-radius: 11px;
+    min-height: 345px;
 
-            background:
-                rgba(255,255,255,0.018);
-        }
+    display: flex;
 
+    align-items: center;
 
-        .sidebar-account-title {
+    justify-content: space-between;
 
-            color:
-                var(--text-muted);
+    gap: 28px;
 
-            font-size: 7px;
+    padding: 42px;
 
-            font-weight: 700;
-        }
+    border:
+        1px solid
+        rgba(214,168,79,.13);
 
+    border-radius: 20px;
 
-        .sidebar-account-value {
+    overflow: hidden;
 
-            margin-top: 5px;
+    background:
+        radial-gradient(
+            circle at 78% 45%,
+            rgba(214,168,79,.11),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #0d141e,
+            #080b11
+        );
 
-            color:
-                var(--gold-light);
+    box-shadow:
+        var(--shadow);
+}
 
-            font-size: 15px;
 
-            font-weight: 900;
-        }
+.hero:before {
 
+    content: "";
 
-        .sidebar-account-status {
+    position: absolute;
 
-            margin-top: 6px;
+    inset: 0;
 
-            color:
-                var(--green);
+    pointer-events: none;
 
-            font-size: 7px;
+    opacity: .35;
 
-            font-weight: 800;
-        }
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
 
+    background-size: 32px 32px;
+}
 
-        /* =================================================
-           CONTENT
-           ================================================= */
 
-        .content {
+.hero-copy {
 
-            width:
-                calc(
-                    100% - var(--sidebar-width)
-                );
+    position: relative;
 
-            margin-left:
-                var(--sidebar-width);
+    z-index: 2;
 
-            padding:
-                28px 30px 60px;
-        }
+    max-width: 670px;
+}
 
 
-        /* =================================================
-           HERO
-           ================================================= */
+.eyebrow {
 
-        .hero-section {
+    color: var(--gold);
 
-            position: relative;
+    font-size: 8px;
 
-            min-height: 330px;
+    font-weight: 900;
 
-            display: flex;
+    letter-spacing: 3px;
+}
 
-            align-items: center;
 
-            justify-content: space-between;
+.hero h1 {
 
-            gap: 30px;
+    font-size:
+        clamp(43px,6vw,78px);
 
-            padding:
-                45px;
+    line-height: .94;
 
-            overflow: hidden;
+    letter-spacing: -3px;
 
-            border:
-                1px solid
-                rgba(214,168,79,0.13);
+    margin:
+        10px 0 14px;
+}
 
-            border-radius: 18px;
 
-            background:
-                radial-gradient(
-                    circle at 75% 45%,
-                    rgba(214,168,79,0.08),
-                    transparent 35%
-                ),
-                linear-gradient(
-                    135deg,
-                    #0d131d,
-                    #080b11
-                );
-        }
+.hero h1 span {
 
+    color: var(--gold2);
+}
 
-        .hero-section::before {
 
-            content: "";
+.hero p {
 
-            position: absolute;
+    max-width: 560px;
 
-            inset: 0;
+    color: var(--muted);
 
-            background-image:
-                linear-gradient(
-                    rgba(255,255,255,0.025) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(255,255,255,0.025) 1px,
-                    transparent 1px
-                );
+    font-size: 10px;
 
-            background-size:
-                32px 32px;
+    line-height: 1.85;
 
-            opacity: .35;
+    margin: 0;
+}
 
-            pointer-events: none;
-        }
 
+.actions {
 
-        .hero-content {
+    display: flex;
 
-            position: relative;
+    gap: 9px;
 
-            z-index: 2;
+    margin-top: 22px;
 
-            max-width: 650px;
-        }
+    flex-wrap: wrap;
+}
 
 
-        .eyebrow {
+.btn {
 
-            color:
-                var(--gold);
+    min-height: 40px;
 
-            font-size: 8px;
+    padding:
+        0 17px;
 
-            font-weight: 900;
+    border:
+        1px solid var(--border);
 
-            letter-spacing: 3px;
+    border-radius: 9px;
 
-            text-transform:
-                uppercase;
-        }
+    display: inline-flex;
 
+    align-items: center;
 
-        .hero-content h1 {
+    justify-content: center;
 
-            margin:
-                10px 0 12px;
+    color: var(--soft);
 
-            color:
-                var(--text);
+    background:
+        rgba(255,255,255,.03);
 
-            font-size:
-                clamp(42px, 6vw, 76px);
+    font-size: 8px;
 
-            line-height: .95;
+    font-weight: 900;
+}
 
-            letter-spacing:
-                -3px;
-        }
 
+.btn-primary {
 
-        .hero-content h1 span {
+    color: #090b10;
 
-            color:
-                var(--gold-light);
-        }
+    border-color: var(--gold);
 
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold2),
+            var(--gold)
+        );
+}
 
-        .hero-content p {
 
-            max-width: 540px;
+.btn:hover {
 
-            margin: 0;
+    transform:
+        translateY(-1px);
+}
 
-            color:
-                var(--text-muted);
 
-            font-size: 10px;
+.hero-visual {
 
-            line-height: 1.8;
-        }
+    position: relative;
 
+    width: 285px;
 
-        .hero-buttons {
+    height: 285px;
 
-            display: flex;
+    flex:
+        0 0 285px;
 
-            gap: 9px;
+    display: grid;
 
-            margin-top: 22px;
-        }
+    place-items: center;
+}
 
 
-        .button {
+.core {
 
-            min-height: 39px;
+    width: 116px;
 
-            display: inline-flex;
+    height: 116px;
 
-            align-items: center;
+    border-radius: 50%;
 
-            justify-content: center;
+    display: grid;
 
-            padding:
-                0 16px;
+    place-items: center;
 
-            border-radius: 8px;
+    z-index: 2;
 
-            border:
-                1px solid
-                var(--border);
+    border:
+        1px solid
+        rgba(214,168,79,.45);
 
-            color:
-                var(--text-soft);
+    background:
+        radial-gradient(
+            circle,
+            rgba(214,168,79,.2),
+            rgba(214,168,79,.03) 65%,
+            transparent 70%
+        );
 
-            background:
-                rgba(255,255,255,0.03);
+    box-shadow:
+        0 0 60px
+        rgba(214,168,79,.12);
+}
 
-            font-size: 8px;
 
-            font-weight: 800;
-        }
+.core strong {
 
+    font-size: 30px;
 
-        .button-primary {
+    color: var(--gold2);
+}
 
-            color:
-                #090b10;
 
-            border-color:
-                var(--gold);
+.orbit {
 
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--gold-light),
-                    var(--gold)
-                );
-        }
+    position: absolute;
 
+    border:
+        1px solid
+        rgba(214,168,79,.13);
 
-        .button:hover {
+    border-radius: 50%;
 
-            transform:
-                translateY(-1px);
-        }
+    animation:
+        spin 12s linear infinite;
+}
 
 
-        /* =================================================
-           HERO VISUAL
-           ================================================= */
+.orbit.one {
 
-        .hero-visual {
+    width: 205px;
+    height: 205px;
+}
 
-            position: relative;
 
-            width: 290px;
-            height: 290px;
+.orbit.two {
 
-            display: grid;
+    width: 260px;
+    height: 260px;
 
-            place-items: center;
+    animation-duration: 18s;
 
-            flex-shrink: 0;
-        }
+    animation-direction: reverse;
+}
 
 
-        .hero-core {
+.orbit:before {
 
-            position: relative;
+    content: "";
 
-            width: 115px;
-            height: 115px;
+    position: absolute;
 
-            display: grid;
+    width: 7px;
+    height: 7px;
 
-            place-items: center;
+    border-radius: 50%;
 
-            border:
-                1px solid
-                rgba(214,168,79,0.4);
+    left: -4px;
+    top: 50%;
 
-            border-radius: 50%;
+    background:
+        var(--gold);
 
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(214,168,79,0.18),
-                    rgba(214,168,79,0.03) 65%,
-                    transparent 70%
-                );
+    box-shadow:
+        0 0 16px
+        rgba(214,168,79,.75);
+}
 
-            box-shadow:
-                0 0 50px
-                rgba(214,168,79,0.12);
-        }
 
+@keyframes spin {
 
-        .hero-core strong {
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
 
-            color:
-                var(--gold-light);
 
-            font-size: 29px;
+/* =========================
+   SECTION
+   ========================= */
 
-            font-weight: 900;
-        }
+.section-head {
 
+    display: flex;
 
-        .orbit-one,
-        .orbit-two {
+    align-items: end;
 
-            position: absolute;
+    justify-content: space-between;
 
-            border:
-                1px solid
-                rgba(214,168,79,0.12);
+    gap: 12px;
 
-            border-radius: 50%;
+    margin:
+        32px 0 14px;
+}
 
-            animation:
-                orbit 12s linear infinite;
-        }
 
+.section-head h2 {
 
-        .orbit-one {
+    margin: 0;
 
-            width: 210px;
-            height: 210px;
-        }
+    font-size: 19px;
 
+    letter-spacing: -.5px;
+}
 
-        .orbit-two {
 
-            width: 260px;
-            height: 260px;
+.section-head p {
 
-            animation-duration:
-                18s;
+    margin: 0;
 
-            animation-direction:
-                reverse;
-        }
+    color: var(--muted);
 
+    font-size: 8px;
+}
 
-        .orbit-one::before,
-        .orbit-two::before {
 
-            content: "";
+.grid3 {
 
-            position: absolute;
+    display: grid;
 
-            width: 7px;
-            height: 7px;
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
 
-            top: 50%;
-            left: -4px;
+    gap: 12px;
+}
 
-            border-radius: 50%;
 
-            background:
-                var(--gold);
+.card,
+.panel,
+.stat {
 
-            box-shadow:
-                0 0 15px
-                rgba(214,168,79,0.7);
-        }
+    border:
+        1px solid var(--border);
 
+    border-radius: 13px;
 
-        @keyframes orbit {
+    background:
+        var(--panel);
 
-            from {
-                transform:
-                    rotate(0deg);
-            }
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.12);
+}
 
-            to {
-                transform:
-                    rotate(360deg);
-            }
-        }
 
+.card {
 
-        /* =================================================
-           SECTION
-           ================================================= */
+    padding: 17px;
 
-        .section-header {
+    transition: .18s;
+}
 
-            display: flex;
 
-            align-items: flex-end;
+.card:hover {
 
-            justify-content: space-between;
+    transform:
+        translateY(-2px);
 
-            gap: 15px;
+    border-color:
+        rgba(214,168,79,.22);
+}
 
-            margin:
-                32px 0 14px;
-        }
 
+.card-top {
 
-        .section-header h2 {
+    display: flex;
 
-            margin: 0;
+    justify-content: space-between;
 
-            color:
-                var(--text);
+    align-items: start;
 
-            font-size: 19px;
+    gap: 10px;
+}
 
-            letter-spacing: -.5px;
-        }
 
+.symbol {
 
-        .section-header p {
+    font-size: 10px;
 
-            margin: 0;
+    font-weight: 900;
 
-            color:
-                var(--text-muted);
+    color: var(--soft);
+}
 
-            font-size: 8px;
-        }
 
+.name {
 
-        /* =================================================
-           MARKET CARDS
-           ================================================= */
+    font-size: 7px;
 
-        .market-grid {
+    color: var(--muted);
 
-            display: grid;
+    margin-top: 3px;
+}
 
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
 
-            gap: 12px;
-        }
+.price {
 
+    font-size: 23px;
 
-        .market-card {
+    font-weight: 900;
 
-            padding: 17px;
+    margin-top: 18px;
+}
 
-            border:
-                1px solid
-                var(--border);
 
-            border-radius: 12px;
+.change {
 
-            background:
-                var(--panel);
+    font-size: 8px;
 
-            transition:
-                var(--transition);
-        }
+    font-weight: 900;
 
+    margin-top: 6px;
+}
 
-        .market-card:hover {
 
-            transform:
-                translateY(-2px);
+.green {
+    color: var(--green);
+}
 
-            border-color:
-                rgba(214,168,79,0.2);
-        }
+.red {
+    color: var(--red);
+}
 
+.gold {
+    color: var(--gold2);
+}
 
-        .market-card-top {
+.muted {
+    color: var(--muted);
+}
 
-            display: flex;
 
-            align-items: center;
+.badge {
 
-            justify-content: space-between;
-        }
+    font-size: 6px;
 
+    color: var(--green);
 
-        .market-symbol {
+    font-weight: 900;
 
-            color:
-                var(--text-soft);
+    border:
+        1px solid
+        rgba(57,217,138,.18);
 
-            font-size: 9px;
+    padding: 4px 6px;
 
-            font-weight: 900;
-        }
+    border-radius: 20px;
+}
 
 
-        .market-name {
+/* TICKER */
 
-            margin-top: 3px;
+.ticker-wrap {
 
-            color:
-                var(--text-muted);
+    margin-top: 14px;
 
-            font-size: 7px;
-        }
+    border:
+        1px solid var(--border);
 
+    border-radius: 12px;
 
-        .market-price {
+    overflow: hidden;
 
-            margin-top: 18px;
+    background:
+        #0b1018;
+}
 
-            color:
-                var(--text);
 
-            font-size: 23px;
+/* TERMINAL */
 
-            font-weight: 900;
+.terminal {
 
-            letter-spacing: -.5px;
-        }
+    display: grid;
 
+    grid-template-columns:
+        minmax(0,1fr)
+        285px;
 
-        .market-change {
+    gap: 12px;
+}
 
-            margin-top: 6px;
 
-            font-size: 8px;
+.chart-panel {
 
-            font-weight: 800;
-        }
+    min-width: 0;
 
+    overflow: hidden;
+}
 
-        /* =================================================
-           PANELS
-           ================================================= */
 
-        .panel {
+.panel-head {
 
-            border:
-                1px solid
-                var(--border);
+    min-height: 54px;
 
-            border-radius: 12px;
+    display: flex;
 
-            background:
-                var(--panel);
+    align-items: center;
 
-            overflow: hidden;
-        }
+    justify-content: space-between;
 
+    padding: 0 16px;
 
-        .panel-header {
+    border-bottom:
+        1px solid var(--border);
+}
 
-            min-height: 54px;
 
-            display: flex;
+.panel-head strong {
 
-            align-items: center;
+    font-size: 9px;
+}
 
-            justify-content: space-between;
 
-            padding:
-                0 16px;
+.chart-box {
 
-            border-bottom:
-                1px solid
-                var(--border);
-        }
+    height: 560px;
 
+    width: 100%;
+}
 
-        .panel-header strong {
 
-            color:
-                var(--text-soft);
+.tv {
 
-            font-size: 9px;
+    height: 100%;
 
-            font-weight: 900;
-        }
+    width: 100%;
+}
 
 
-        .panel-body {
+.side-stack {
 
-            padding: 16px;
-        }
+    display: flex;
 
+    flex-direction: column;
 
-        /* =================================================
-           TRADINGVIEW
-           ================================================= */
+    gap: 12px;
+}
 
-        .tradingview-widget-container {
 
-            width: 100%;
+.info-box {
 
-            height: 600px;
+    padding: 16px;
+}
 
-            overflow: hidden;
 
-            border-radius: 12px;
+.info-box h3 {
 
-            background:
-                #080c13;
-        }
+    font-size: 10px;
 
+    margin:
+        0 0 14px;
+}
 
-        .tradingview-widget-container__widget {
 
-            width: 100%;
+.metric {
 
-            height: 100%;
-        }
+    display: flex;
 
+    justify-content: space-between;
 
-        /* =================================================
-           TWO COLUMN
-           ================================================= */
+    gap: 12px;
 
-        .two-column-grid {
+    padding: 10px 0;
 
-            display: grid;
+    border-bottom:
+        1px solid var(--border);
 
-            grid-template-columns:
-                minmax(0, 1.6fr)
-                minmax(280px, .7fr);
+    font-size: 8px;
+}
 
-            gap: 14px;
-        }
 
+.metric:last-child {
 
-        .dashboard-grid {
+    border-bottom: 0;
+}
 
-            display: grid;
 
-            grid-template-columns:
-                minmax(0, 1.7fr)
-                minmax(250px, .8fr);
+.metric span:first-child {
 
-            gap: 14px;
-        }
+    color: var(--muted);
+}
 
 
-        /* =================================================
-           INDICATORS
-           ================================================= */
+.metric strong {
 
-        .indicator-grid {
+    color: var(--soft);
+}
 
-            display: grid;
 
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+/* STATS */
 
-            gap: 10px;
-        }
+.stats {
 
+    display: grid;
 
-        .indicator-card {
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0,1fr)
+        );
 
-            min-height: 110px;
+    gap: 12px;
+}
 
-            padding: 15px;
 
-            border:
-                1px solid
-                var(--border);
+.stat {
 
-            border-radius: 10px;
+    padding: 17px;
+}
 
-            background:
-                rgba(255,255,255,0.018);
-        }
 
+.stat small {
 
-        .indicator-card small {
+    display: block;
 
-            color:
-                var(--text-muted);
+    color: var(--muted);
 
-            font-size: 7px;
+    font-size: 7px;
 
-            font-weight: 800;
-        }
+    font-weight: 900;
+}
 
 
-        .indicator-card strong {
+.stat strong {
 
-            display: block;
+    display: block;
 
-            margin-top: 11px;
+    font-size: 21px;
 
-            color:
-                var(--text-soft);
+    margin-top: 8px;
+}
 
-            font-size: 17px;
-        }
 
+/* FORM */
 
-        /* =================================================
-           SIGNAL
-           ================================================= */
+.form-panel {
 
-        .signal-grid {
+    padding: 18px;
+}
 
-            display: grid;
 
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
+.form-grid {
 
-            gap: 12px;
-        }
+    display: grid;
 
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
 
-        .signal-card {
+    gap: 12px;
+}
 
-            padding: 17px;
 
-            border:
-                1px solid
-                var(--border);
+.field label {
 
-            border-radius: 12px;
+    display: block;
 
-            background:
-                var(--panel);
-        }
+    color: var(--muted);
 
+    font-size: 7px;
 
-        .signal-card strong {
+    font-weight: 900;
 
-            color:
-                var(--text-soft);
+    margin-bottom: 7px;
+}
 
-            font-size: 11px;
-        }
 
+.field input,
+.field select {
 
-        .signal-card p {
+    width: 100%;
 
-            margin:
-                7px 0 0;
+    height: 42px;
 
-            color:
-                var(--text-muted);
+    border:
+        1px solid var(--border);
 
-            font-size: 8px;
+    border-radius: 9px;
 
-            line-height: 1.7;
-        }
+    color: var(--soft);
 
+    background:
+        #0a0f17;
 
-        /* =================================================
-           TERMINAL
-           ================================================= */
+    padding:
+        0 11px;
 
-        .terminal-grid {
+    font-size: 9px;
+}
 
-            display: grid;
 
-            grid-template-columns:
-                minmax(0, 1fr)
-                250px;
+.form-actions {
 
-            gap: 12px;
-        }
+    margin-top: 14px;
 
+    display: flex;
 
-        .chart-container {
+    gap: 9px;
 
-            height: 600px;
+    flex-wrap: wrap;
+}
 
-            border:
-                1px solid
-                var(--border);
 
-            border-radius: 12px;
+/* FOOTER */
 
-            overflow: hidden;
+footer {
 
-            background:
-                #080c13;
-        }
+    margin-left:
+        var(--sidebar);
 
+    border-top:
+        1px solid var(--border);
 
-        .terminal-sidebar {
+    padding:
+        25px 30px 40px;
 
-            display: flex;
+    color: var(--muted);
 
-            flex-direction: column;
+    font-size: 7px;
 
-            gap: 12px;
-        }
+    text-align: center;
+}
 
 
-        /* =================================================
-           FORM
-           ================================================= */
+.mobile-btn {
 
-        .form-grid {
+    display: none;
+}
 
-            display: grid;
 
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+.overlay {
 
-            gap: 10px;
-        }
+    display: none;
+}
 
 
-        .form-group {
+/* =========================
+   RESPONSIVE
+   ========================= */
 
-            display: flex;
+@media(max-width:1050px) {
 
-            flex-direction: column;
+    .content {
+        padding:
+            22px 20px 50px;
+    }
 
-            gap: 6px;
-        }
+    .hero {
+        padding: 32px;
+    }
 
+    .hero-visual {
 
-        .form-group label {
+        width: 230px;
 
-            color:
-                var(--text-muted);
+        height: 230px;
 
-            font-size: 7px;
+        flex-basis: 230px;
+    }
 
-            font-weight: 800;
-        }
+    .orbit.one {
 
+        width: 175px;
+        height: 175px;
+    }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+    .orbit.two {
 
-            width: 100%;
+        width: 220px;
+        height: 220px;
+    }
 
-            min-height: 38px;
+    .terminal {
 
-            padding:
-                0 10px;
+        grid-template-columns: 1fr;
+    }
 
-            border:
-                1px solid
-                var(--border);
+    .side-stack {
 
-            border-radius: 7px;
+        display: grid;
 
-            outline: none;
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+    }
+}
 
-            color:
-                var(--text-soft);
 
-            background:
-                #090e16;
+@media(max-width:820px) {
 
-            font-size: 8px;
-        }
+    :root {
+        --sidebar: 0px;
+    }
 
+    .market-status {
+        display: none;
+    }
 
-        .form-group textarea {
+    .mobile-btn {
 
-            padding-top: 10px;
+        display: grid;
 
-            min-height: 90px;
-        }
+        place-items: center;
 
+        width: 36px;
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        height: 36px;
 
-            border-color:
-                rgba(214,168,79,0.4);
-        }
+        border:
+            1px solid var(--border);
 
+        border-radius: 10px;
 
-        /* =================================================
-           STATS
-           ================================================= */
+        color: var(--soft);
 
-        .stats-grid {
+        background:
+            rgba(255,255,255,.025);
+    }
 
-            display: grid;
+    .sidebar {
 
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+        width: 250px;
 
-            gap: 10px;
-        }
+        transform:
+            translateX(-100%);
+    }
 
+    .sidebar.open {
 
-        .stat-card {
+        transform:
+            translateX(0);
+    }
 
-            padding: 15px;
+    .overlay {
 
-            border:
-                1px solid
-                var(--border);
+        position: fixed;
 
-            border-radius: 10px;
+        z-index: 850;
 
-            background:
-                var(--panel);
-        }
+        inset:
+            var(--top) 0 0 0;
 
+        background:
+            rgba(0,0,0,.58);
 
-        .stat-card small {
+        backdrop-filter:
+            blur(3px);
+    }
 
-            color:
-                var(--text-muted);
+    .overlay.show {
+        display: block;
+    }
 
-            font-size: 7px;
-        }
+    .content {
 
+        width: 100%;
 
-        .stat-card strong {
+        max-width: 100%;
 
-            display: block;
+        margin: 0;
 
-            margin-top: 7px;
+        padding:
+            18px 14px 45px;
+    }
 
-            color:
-                var(--text-soft);
+    footer {
 
-            font-size: 19px;
-        }
+        margin-left: 0;
 
+        padding-left: 14px;
 
-        /* =================================================
-           MOBILE BUTTON
-           ================================================= */
+        padding-right: 14px;
+    }
 
-        .mobile-menu-button {
+    .hero {
 
-            display: none;
+        width: 100%;
 
-            border: 0;
+        min-height: 0;
 
-            color:
-                var(--text-soft);
+        display: block;
 
-            background:
-                transparent;
-        }
+        padding:
+            30px 22px;
+    }
 
+    .hero-copy {
 
-        /* =================================================
-           OVERLAY
-           ================================================= */
+        max-width: none;
+    }
 
-        .sidebar-overlay {
+    .hero-visual {
 
-            display: none;
-        }
+        width: 100%;
 
+        height: 190px;
 
-        /* =================================================
-           FOOTER
-           ================================================= */
+        margin-top: 18px;
+    }
 
-        .site-footer {
+    .orbit.one {
 
-            margin-left:
-                var(--sidebar-width);
+        width: 140px;
 
-            padding:
-                24px 30px 35px;
+        height: 140px;
+    }
 
-            border-top:
-                1px solid
-                var(--border);
+    .orbit.two {
 
-            color:
-                var(--text-muted);
+        width: 180px;
 
-            font-size: 7px;
+        height: 180px;
+    }
 
-            text-align: center;
-        }
+    .core {
 
+        width: 88px;
 
-        /* =================================================
-           REVEAL
-           ================================================= */
+        height: 88px;
+    }
 
-        .reveal {
+    .core strong {
 
-            opacity: 0;
+        font-size: 24px;
+    }
 
-            transform:
-                translateY(10px);
+    .grid3 {
 
-            transition:
-                opacity .5s ease,
-                transform .5s ease;
-        }
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+    }
 
+    .stats {
 
-        .reveal.visible {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+    }
 
-            opacity: 1;
+    .form-grid {
 
-            transform:
-                translateY(0);
-        }
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+    }
 
-    </style>
+    .chart-box {
 
+        height: 500px;
+    }
+}
+
+
+@media(max-width:560px) {
+
+    .topbar {
+
+        padding: 0 10px;
+    }
+
+    .brand-symbol {
+
+        width: 34px;
+
+        height: 34px;
+    }
+
+    .brand-name {
+
+        font-size: 13px;
+    }
+
+    .profile {
+
+        display: none;
+    }
+
+    .content {
+
+        padding:
+            12px 10px 38px;
+    }
+
+    .hero {
+
+        padding:
+            26px 18px;
+
+        border-radius: 15px;
+    }
+
+    .hero h1 {
+
+        font-size: 43px;
+
+        letter-spacing: -2px;
+    }
+
+    .hero p {
+
+        font-size: 9px;
+    }
+
+    .actions {
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+
+        width: 100%;
+    }
+
+    .grid3,
+    .stats,
+    .form-grid,
+    .side-stack {
+
+        grid-template-columns: 1fr;
+    }
+
+    .chart-box {
+
+        height: 420px;
+    }
+}
+
+
+/* LIGHT MODE */
+
+.light {
+
+    --bg: #f2f4f7;
+
+    --bg2: #f2f4f7;
+
+    --panel: #fff;
+
+    --panel2: #f8fafc;
+
+    --text: #151922;
+
+    --soft: #333b48;
+
+    --muted: #667085;
+
+    --border:
+        rgba(15,23,42,.1);
+}
+
+.light .topbar {
+
+    background:
+        rgba(255,255,255,.92);
+}
+
+.light .sidebar {
+
+    background: #fff;
+}
+
+.light .hero {
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #f4f6fa
+        );
+}
+
+.light .field input,
+.light .field select {
+
+    background: #f8fafc;
+
+    color: #333;
+}
+
+</style>
 </head>
-
-
 <body>
-
-
-<!-- =======================================================
-     TOP BAR
-     ======================================================= -->
 
 <header class="topbar">
 
     <div class="brand">
+
+        <button
+            class="mobile-btn"
+            id="menuBtn"
+            aria-label="Open menu">
+            ☰
+        </button>
 
         <div class="brand-symbol">
             GX
@@ -1638,7 +1704,7 @@
                 GOLD X
             </div>
 
-            <div class="brand-subtitle">
+            <div class="brand-sub">
                 PREMIUM TRADING TERMINAL
             </div>
 
@@ -1647,25 +1713,17 @@
     </div>
 
 
-    <div class="top-center">
+    <div class="market-status">
 
-        <div class="market-status">
+        <span class="dot"></span>
 
-            <span class="status-dot"></span>
+        <span>
+            MARKETS LIVE
+        </span>
 
-            <span data-online-status>
-                ONLINE
-            </span>
-
-            <span>
-                •
-            </span>
-
-            <span data-clock>
-                00:00:00
-            </span>
-
-        </div>
+        <span id="clock">
+            --:--:--
+        </span>
 
     </div>
 
@@ -1673,31 +1731,27 @@
     <div class="top-actions">
 
         <button
-            class="mobile-menu-button"
-            type="button"
-            aria-label="Open menu"
-        >
-            ☰
+            class="top-btn"
+            id="themeBtn"
+            title="Theme">
+            ◈
         </button>
 
-
         <button
-            class="top-button"
-            type="button"
-            data-notifications
-            aria-label="Notifications"
-        >
+            class="top-btn"
+            id="notifyBtn"
+            title="Status">
             ♢
         </button>
 
 
-        <div class="user-profile">
+        <div class="profile">
 
-            <div class="user-avatar">
+            <div class="avatar">
                 IX
             </div>
 
-            <div class="user-info">
+            <div class="profile-info">
 
                 <strong>
                     ISHAN APEX
@@ -1716,172 +1770,161 @@
 </header>
 
 
-<!-- =======================================================
+<div
+    class="overlay"
+    id="overlay">
+</div>
+
+
+<div class="layout">
+
+
+<!-- =========================
      SIDEBAR
-     ======================================================= -->
+     ========================= -->
 
-<div class="sidebar-overlay"></div>
+<aside
+    class="sidebar"
+    id="sidebar">
 
-
-<aside class="sidebar">
-
-    <div class="sidebar-label">
-        MAIN
+    <div class="side-label">
+        TERMINAL
     </div>
 
 
-    <nav class="nav-list">
+    <nav class="nav">
 
         <a
-            class="nav-link active"
-            href="#dashboard"
-        >
+            class="active"
+            href="#home">
+
+            <span class="nav-icon">
+                ⌂
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a href="#markets">
+
             <span class="nav-icon">
                 ◈
             </span>
 
-            <span>
-                Dashboard
-            </span>
+            Markets
+
         </a>
 
 
-        <a
-            class="nav-link"
-            href="#markets"
-        >
+        <a href="#terminal">
+
             <span class="nav-icon">
-                ◉
+                ▦
             </span>
 
-            <span>
-                Markets
-            </span>
+            Trading Terminal
+
         </a>
 
 
-        <a
-            class="nav-link"
-            href="#signals"
-        >
+        <a href="#calculator">
+
             <span class="nav-icon">
-                ⚡
+                ⌁
             </span>
 
-            <span>
-                Signals
-            </span>
+            Risk Calculator
+
         </a>
 
 
-        <a
-            class="nav-link"
-            href="#terminal"
-        >
-            <span class="nav-icon">
-                ◫
-            </span>
+        <a href="#watchlist">
 
-            <span>
-                Trading Terminal
-            </span>
-        </a>
-
-    </nav>
-
-
-    <div class="sidebar-divider"></div>
-
-
-    <div class="sidebar-label">
-        TOOLS
-    </div>
-
-
-    <nav class="nav-list">
-
-        <a
-            class="nav-link"
-            href="#calculator"
-        >
-            <span class="nav-icon">
-                +
-            </span>
-
-            <span>
-                Risk Calculator
-            </span>
-        </a>
-
-
-        <a
-            class="nav-link"
-            href="#watchlist"
-        >
             <span class="nav-icon">
                 ☆
             </span>
 
-            <span>
-                Watchlist
-            </span>
-        </a>
+            Watchlist
 
-
-        <a
-            class="nav-link"
-            href="#settings"
-        >
-            <span class="nav-icon">
-                ⚙
-            </span>
-
-            <span>
-                Settings
-            </span>
         </a>
 
     </nav>
 
 
-    <div class="sidebar-account">
+    <div class="side-line"></div>
 
-        <div class="sidebar-account-title">
-            ACCOUNT EQUITY
-        </div>
 
-        <div class="sidebar-account-value">
-            $10,000.00
-        </div>
+    <div class="side-label">
+        SYSTEM
+    </div>
 
-        <div class="sidebar-account-status">
-            ● ACCOUNT ACTIVE
-        </div>
+
+    <nav class="nav">
+
+        <a href="#sessions">
+
+            <span class="nav-icon">
+                ◷
+            </span>
+
+            Sessions
+
+        </a>
+
+
+        <a href="#settings">
+
+            <span class="nav-icon">
+                ⚙
+            </span>
+
+            Settings
+
+        </a>
+
+    </nav>
+
+
+    <div class="side-line"></div>
+
+
+    <div class="account">
+
+        <small>
+            ACCOUNT STATUS
+        </small>
+
+        <strong>
+            PREMIUM
+        </strong>
+
+        <span>
+            ● SYSTEM ONLINE
+        </span>
 
     </div>
 
 </aside>
 
 
-<!-- =======================================================
-     MAIN
-     ======================================================= -->
 
-<main class="main-layout">
+<!-- =========================
+     MAIN CONTENT
+     ========================= -->
 
-<section class="content">
+<main class="content">
 
 
-<!-- =======================================================
-     DASHBOARD HERO
-     ======================================================= -->
+<!-- HERO -->
 
 <section
-    class="hero-section"
-    id="dashboard"
->
+    class="hero"
+    id="home">
 
-    <div class="hero-content">
+
+    <div class="hero-copy">
 
         <div class="eyebrow">
             PROFESSIONAL MARKET INTELLIGENCE
@@ -1890,33 +1933,37 @@
 
         <h1>
             GOLD
-            <span>X</span>
+            <span>
+                X
+            </span>
         </h1>
 
 
         <p>
             A premium trading terminal built for
-            serious market analysis, live charts,
-            technical signals and disciplined risk
-            management.
+            focused market analysis, technical
+            discipline, risk awareness and
+            professional workflow.
         </p>
 
 
-        <div class="hero-buttons">
+        <div class="actions">
 
             <a
-                class="button button-primary"
-                href="#terminal"
-            >
+                class="btn btn-primary"
+                href="#terminal">
+
                 OPEN TERMINAL
+
             </a>
 
 
             <a
-                class="button"
-                href="#markets"
-            >
+                class="btn"
+                href="#markets">
+
                 VIEW MARKETS
+
             </a>
 
         </div>
@@ -1924,13 +1971,18 @@
     </div>
 
 
-    <div class="hero-visual">
 
-        <div class="orbit-two"></div>
+    <div
+        class="hero-visual"
+        aria-hidden="true">
 
-        <div class="orbit-one"></div>
 
-        <div class="hero-core">
+        <div class="orbit one"></div>
+
+        <div class="orbit two"></div>
+
+
+        <div class="core">
 
             <strong>
                 GX
@@ -1940,226 +1992,95 @@
 
     </div>
 
+
 </section>
 
 
-<!-- =======================================================
+
+<!-- =========================
      MARKETS
-     ======================================================= -->
+     ========================= -->
 
-<div
-    class="section-header"
-    id="markets"
->
+<section id="markets">
 
-    <div>
 
-        <h2>
-            Live Markets
-        </h2>
+    <div class="section-head">
 
-        <p>
-            Market prices update automatically
-        </p>
+        <div>
+
+            <h2>
+                Live Markets
+            </h2>
+
+            <p>
+                Powered by TradingView
+                market widgets
+            </p>
+
+        </div>
 
     </div>
 
-</div>
 
 
-<div class="market-grid">
-
-
-    <article class="market-card">
-
-        <div class="market-card-top">
-
-            <div>
-
-                <div class="market-symbol">
-                    XAUUSD
-                </div>
-
-                <div class="market-name">
-                    Gold / US Dollar
-                </div>
-
-            </div>
-
-            <span class="text-green">
-                ●
-            </span>
-
-        </div>
-
-
-        <div
-            class="market-price"
-            data-price="XAUUSD"
-        >
-            3345.20
-        </div>
-
-
-        <div
-            class="market-change text-green"
-            data-change="XAUUSD"
-        >
-            +0.00%
-        </div>
-
-    </article>
-
-
-    <article class="market-card">
-
-        <div class="market-card-top">
-
-            <div>
-
-                <div class="market-symbol">
-                    BTCUSD
-                </div>
-
-                <div class="market-name">
-                    Bitcoin / US Dollar
-                </div>
-
-            </div>
-
-            <span class="text-green">
-                ●
-            </span>
-
-        </div>
-
-
-        <div
-            class="market-price"
-            data-price="BTCUSD"
-        >
-            118,420.00
-        </div>
-
-
-        <div
-            class="market-change text-green"
-            data-change="BTCUSD"
-        >
-            +0.00%
-        </div>
-
-    </article>
-
-
-    <article class="market-card">
-
-        <div class="market-card-top">
-
-            <div>
-
-                <div class="market-symbol">
-                    EURUSD
-                </div>
-
-                <div class="market-name">
-                    Euro / US Dollar
-                </div>
-
-            </div>
-
-            <span class="text-green">
-                ●
-            </span>
-
-        </div>
-
-
-        <div
-            class="market-price"
-            data-price="EURUSD"
-        >
-            1.1684
-        </div>
-
-
-        <div
-            class="market-change text-green"
-            data-change="EURUSD"
-        >
-            +0.00%
-        </div>
-
-    </article>
-
-
-</div>
-
-
-<!-- =======================================================
-     TRADINGVIEW TERMINAL
-     ======================================================= -->
-
-<div
-    class="section-header"
-    id="terminal"
->
-
-    <div>
-
-        <h2>
-            Trading Terminal
-        </h2>
-
-        <p>
-            XAUUSD • 15 Minute • Live TradingView Chart
-        </p>
-
-    </div>
-
-</div>
-
-
-<div class="terminal-grid">
-
-
-    <div class="chart-container">
-
-        <!-- TRADINGVIEW CHART -->
+    <div class="ticker-wrap">
 
         <div
             class="tradingview-widget-container"
-            style="height:100%;width:100%;"
-        >
+            style="height:46px;width:100%">
+
 
             <div
-                class="tradingview-widget-container__widget"
-                style="height:100%;width:100%;"
-            ></div>
+                class="tradingview-widget-container__widget">
+            </div>
 
 
             <script
                 type="text/javascript"
-                src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
-                async
-            >
+                src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js"
+                async>
+
             {
-                "autosize": true,
-                "symbol": "OANDA:XAUUSD",
-                "interval": "15",
-                "timezone": "Asia/Colombo",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "enable_publishing": false,
-                "allow_symbol_change": true,
-                "hide_top_toolbar": false,
-                "hide_legend": false,
-                "save_image": true,
-                "calendar": false,
-                "hide_volume": false,
-                "support_host": "https://www.tradingview.com"
+                "symbols": [
+
+                    {
+                        "proName": "OANDA:XAUUSD",
+                        "title": "GOLD"
+                    },
+
+                    {
+                        "proName": "BITSTAMP:BTCUSD",
+                        "title": "BITCOIN"
+                    },
+
+                    {
+                        "proName": "FX:EURUSD",
+                        "title": "EUR/USD"
+                    },
+
+                    {
+                        "proName": "OANDA:GBPUSD",
+                        "title": "GBP/USD"
+                    },
+
+                    {
+                        "proName": "OANDA:USDJPY",
+                        "title": "USD/JPY"
+                    }
+
+                ],
+
+                "showSymbolLogo": true,
+
+                "colorTheme": "dark",
+
+                "isTransparent": true,
+
+                "displayMode": "adaptive",
+
+                "locale": "en"
             }
+
             </script>
 
         </div>
@@ -2167,104 +2088,250 @@
     </div>
 
 
-    <aside class="terminal-sidebar">
 
-        <div class="panel">
+    <div
+        class="grid3"
+        style="margin-top:12px">
 
-            <div class="panel-header">
 
-                <strong>
-                    CURRENT MARKET
-                </strong>
+        <!-- GOLD -->
+
+        <article class="card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="symbol">
+                        XAUUSD
+                    </div>
+
+                    <div class="name">
+                        Gold / US Dollar
+                    </div>
+
+                </div>
+
+
+                <span class="badge">
+                    LIVE
+                </span>
 
             </div>
 
 
-            <div class="panel-body">
+            <div class="price gold">
+                OPEN CHART
+            </div>
 
-                <div
-                    class="market-symbol"
-                    data-current-symbol
-                >
+
+            <div class="change muted">
+                TradingView live feed
+            </div>
+
+        </article>
+
+
+
+        <!-- BITCOIN -->
+
+        <article class="card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="symbol">
+                        BTCUSD
+                    </div>
+
+                    <div class="name">
+                        Bitcoin / US Dollar
+                    </div>
+
+                </div>
+
+
+                <span class="badge">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div class="price">
+                OPEN CHART
+            </div>
+
+
+            <div class="change muted">
+                TradingView live feed
+            </div>
+
+        </article>
+
+
+
+        <!-- EURUSD -->
+
+        <article class="card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="symbol">
+                        EURUSD
+                    </div>
+
+                    <div class="name">
+                        Euro / US Dollar
+                    </div>
+
+                </div>
+
+
+                <span class="badge">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div class="price">
+                OPEN CHART
+            </div>
+
+
+            <div class="change muted">
+                TradingView live feed
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     TRADING TERMINAL
+     ========================= -->
+
+<section id="terminal">
+
+
+    <div class="section-head">
+
+        <div>
+
+            <h2>
+                Trading Terminal
+            </h2>
+
+            <p>
+                XAUUSD · 15 Minute ·
+                Live TradingView Chart
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="terminal">
+
+
+        <!-- CHART -->
+
+        <div class="panel chart-panel">
+
+
+            <div class="panel-head">
+
+                <strong>
+                    GOLD / US DOLLAR —
                     XAUUSD
-                </div>
+                </strong>
+
+
+                <span
+                    class="gold"
+                    id="terminalStatus">
+
+                    LIVE
+
+                </span>
+
+            </div>
+
+
+
+            <div class="chart-box">
 
 
                 <div
-                    class="market-price"
-                    data-live-price
-                >
-                    3345.20
-                </div>
+                    class="tradingview-widget-container tv">
 
 
-                <div class="text-green">
-                    ● MARKET ACTIVE
-                </div>
-
-            </div>
-
-        </div>
+                    <div
+                        class="tradingview-widget-container__widget">
+                    </div>
 
 
-        <div class="panel">
+                    <script
+                        type="text/javascript"
+                        src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"
+                        async>
 
-            <div class="panel-header">
+                    {
+                        "autosize": true,
 
-                <strong>
-                    QUICK SYMBOLS
-                </strong>
+                        "symbol":
+                            "OANDA:XAUUSD",
 
-            </div>
+                        "interval":
+                            "15",
 
+                        "timezone":
+                            "Asia/Colombo",
 
-            <div class="panel-body">
+                        "theme":
+                            "dark",
 
-                <div class="nav-list">
+                        "style":
+                            "1",
 
-                    <button
-                        class="nav-link active"
-                        data-symbol="XAUUSD"
-                        type="button"
-                    >
-                        <span class="nav-icon">
-                            ◆
-                        </span>
+                        "locale":
+                            "en",
 
-                        <span>
-                            XAUUSD
-                        </span>
-                    </button>
+                        "enable_publishing":
+                            false,
 
+                        "hide_top_toolbar":
+                            false,
 
-                    <button
-                        class="nav-link"
-                        data-symbol="BTCUSD"
-                        type="button"
-                    >
-                        <span class="nav-icon">
-                            ₿
-                        </span>
+                        "hide_legend":
+                            false,
 
-                        <span>
-                            BTCUSD
-                        </span>
-                    </button>
+                        "save_image":
+                            false,
 
+                        "calendar":
+                            false,
 
-                    <button
-                        class="nav-link"
-                        data-symbol="EURUSD"
-                        type="button"
-                    >
-                        <span class="nav-icon">
-                            €
-                        </span>
+                        "hide_volume":
+                            false,
 
-                        <span>
-                            EURUSD
-                        </span>
-                    </button>
+                        "support_host":
+                            "https://www.tradingview.com"
+                    }
+
+                    </script>
+
 
                 </div>
 
@@ -2272,868 +2339,614 @@
 
         </div>
 
-    </aside>
-
-</div>
 
 
-<!-- =======================================================
-     INDICATORS
-     ======================================================= -->
+        <!-- RIGHT SIDE -->
 
-<div class="section-header">
+        <div class="side-stack">
 
-    <div>
 
-        <h2>
-            Technical Intelligence
-        </h2>
+            <div
+                class="panel info-box">
 
-        <p>
-            GOLD X market overview
-        </p>
+                <h3>
+                    CURRENT MARKET
+                </h3>
+
+
+                <div class="metric">
+
+                    <span>
+                        Symbol
+                    </span>
+
+                    <strong>
+                        XAUUSD
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <span>
+                        Session
+                    </span>
+
+                    <strong class="green">
+                        LIVE
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <span>
+                        Timeframe
+                    </span>
+
+                    <strong>
+                        15 MIN
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <span>
+                        Feed
+                    </span>
+
+                    <strong>
+                        TradingView
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div
+                class="panel info-box">
+
+                <h3>
+                    DISCIPLINE CHECK
+                </h3>
+
+
+                <div class="metric">
+
+                    <span>
+                        Risk first
+                    </span>
+
+                    <strong class="green">
+                        ON
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <span>
+                        Stop loss
+                    </span>
+
+                    <strong>
+                        REQUIRED
+                    </strong>
+
+                </div>
+
+
+                <div class="metric">
+
+                    <span>
+                        Revenge trade
+                    </span>
+
+                    <strong class="red">
+                        AVOID
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
 
     </div>
 
-</div>
+</section>
 
 
-<div class="indicator-grid">
+
+<!-- =========================
+     PERFORMANCE
+     ========================= -->
+
+<section>
 
 
-    <div class="indicator-card">
+    <div class="section-head">
 
-        <small>
-            RSI
-        </small>
+        <div>
 
-        <strong>
-            58.42
-        </strong>
+            <h2>
+                Performance Overview
+            </h2>
 
-        <span class="text-green">
-            Bullish
-        </span>
+            <p>
+                Dashboard metrics
+            </p>
 
-    </div>
-
-
-    <div class="indicator-card">
-
-        <small>
-            MACD
-        </small>
-
-        <strong>
-            +12.84
-        </strong>
-
-        <span class="text-green">
-            Positive
-        </span>
+        </div>
 
     </div>
 
 
-    <div class="indicator-card">
+    <div class="stats">
 
-        <small>
-            EMA 50
-        </small>
 
-        <strong>
-            3328.40
-        </strong>
+        <div class="stat">
 
-        <span class="text-green">
-            Above
-        </span>
+            <small>
+                WIN RATE
+            </small>
+
+            <strong class="green">
+                78.4%
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                TRADES
+            </small>
+
+            <strong>
+                126
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                RISK / TRADE
+            </small>
+
+            <strong>
+                1.0%
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                MAX DRAWDOWN
+            </small>
+
+            <strong class="red">
+                4.8%
+            </strong>
+
+        </div>
+
 
     </div>
 
-
-    <div class="indicator-card">
-
-        <small>
-            Trend
-        </small>
-
-        <strong>
-            BUY
-        </strong>
-
-        <span class="text-green">
-            Strong
-        </span>
-
-    </div>
-
-</div>
+</section>
 
 
-<!-- =======================================================
-     SIGNALS
-     ======================================================= -->
 
-<div
-    class="section-header"
-    id="signals"
->
-
-    <div>
-
-        <h2>
-            GOLD X Signals
-        </h2>
-
-        <p>
-            Technical analysis dashboard
-        </p>
-
-    </div>
-
-</div>
-
-
-<div class="signal-grid">
-
-
-    <article class="signal-card">
-
-        <strong>
-            XAUUSD
-        </strong>
-
-        <p>
-            Market bias
-        </p>
-
-        <h3 class="text-green">
-            BUY
-        </h3>
-
-        <p>
-            Trend strength: 82%
-        </p>
-
-    </article>
-
-
-    <article class="signal-card">
-
-        <strong>
-            BTCUSD
-        </strong>
-
-        <p>
-            Market bias
-        </p>
-
-        <h3 class="text-green">
-            BUY
-        </h3>
-
-        <p>
-            Trend strength: 74%
-        </p>
-
-    </article>
-
-
-    <article class="signal-card">
-
-        <strong>
-            EURUSD
-        </strong>
-
-        <p>
-            Market bias
-        </p>
-
-        <h3 class="text-muted">
-            NEUTRAL
-        </h3>
-
-        <p>
-            Trend strength: 51%
-        </p>
-
-    </article>
-
-
-</div>
-
-
-<!-- =======================================================
+<!-- =========================
      RISK CALCULATOR
-     ======================================================= -->
+     ========================= -->
 
-<div
-    class="section-header"
-    id="calculator"
->
+<section id="calculator">
 
-    <div>
 
-        <h2>
-            Risk Calculator
-        </h2>
+    <div class="section-head">
 
-        <p>
-            Calculate your maximum trade risk
-        </p>
+        <div>
+
+            <h2>
+                Risk Calculator
+            </h2>
+
+            <p>
+                Plan risk before entering
+                a trade
+            </p>
+
+        </div>
 
     </div>
 
-</div>
 
 
-<div
-    class="panel"
-    data-calculator
->
+    <div class="panel form-panel">
 
-    <div class="panel-body">
 
         <div class="form-grid">
 
 
-            <div class="form-group">
+            <div class="field">
 
                 <label>
                     ACCOUNT BALANCE
                 </label>
 
                 <input
+                    id="balance"
                     type="number"
                     value="10000"
-                    data-balance
-                >
+                    min="0"
+                    step="0.01">
 
             </div>
 
 
-            <div class="form-group">
+            <div class="field">
 
                 <label>
                     RISK %
                 </label>
 
                 <input
+                    id="risk"
                     type="number"
                     value="1"
-                    step="0.1"
-                    data-risk
-                >
+                    min="0"
+                    step="0.1">
 
             </div>
 
 
-            <div class="form-group">
+            <div class="field">
 
                 <label>
-                    STOP LOSS
+                    MAX RISK AMOUNT
                 </label>
 
                 <input
-                    type="number"
-                    value="10"
-                    data-stop-loss
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    RISK AMOUNT
-                </label>
-
-                <input
+                    id="riskResult"
                     type="text"
                     value="$100.00"
-                    data-risk-result
-                    readonly
-                >
+                    readonly>
 
             </div>
 
 
         </div>
 
+
+
+        <div class="form-actions">
+
+            <button
+                class="btn btn-primary"
+                id="calcRisk">
+
+                CALCULATE RISK
+
+            </button>
+
+
+            <button
+                class="btn"
+                id="resetRisk">
+
+                RESET
+
+            </button>
+
+        </div>
+
+
     </div>
 
-</div>
+</section>
+<!-- =========================
+     WATCHLIST
+     ========================= -->
+
+<section id="watchlist">
+
+    <div class="section-head">
+
+        <div>
+
+            <h2>
+                Premium Watchlist
+            </h2>
+
+            <p>
+                Quick access to selected markets
+            </p>
+
+        </div>
+
+    </div>
 
 
-<!-- =======================================================
-     END PART 1
-     ======================================================= -->
+    <div class="grid3">
+
+
+        <button
+            class="card watch-card"
+            data-symbol="OANDA:XAUUSD"
+            style="text-align:left">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="symbol">
+                        XAUUSD
+                    </div>
+
+                    <div class="name">
+                        Gold
+                    </div>
+
+                </div>
+
+                <span class="badge">
+                    VIEW
+                </span>
+
+            </div>
+
+
+            <div class="price gold">
+                GOLD
+            </div>
+
+
+            <div class="change muted">
+                Open live chart
+            </div>
+
+        </button>
+
+
+
+        <button
+            class="card watch-card"
+            data-symbol="BITSTAMP:BTCUSD"
+            style="text-align:left">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="symbol">
+                        BTCUSD
+                    </div>
+
+                    <div class="name">
+                        Bitcoin
+                    </div>
+
+                </div>
+
+                <span class="badge">
+                    VIEW
+                </span>
+
+            </div>
+
+
+            <div class="price">
+                BTC
+            </div>
+
+
+            <div class="change muted">
+                Open live chart
+            </div>
+
+        </button>
+
+
+
+        <button
+            class="card watch-card"
+            data-symbol="FX:EURUSD"
+            style="text-align:left">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="symbol">
+                        EURUSD
+                    </div>
+
+                    <div class="name">
+                        Euro / Dollar
+                    </div>
+
+                </div>
+
+                <span class="badge">
+                    VIEW
+                </span>
+
+            </div>
+
+
+            <div class="price">
+                EUR
+            </div>
+
+
+            <div class="change muted">
+                Open live chart
+            </div>
+
+        </button>
+
+
+    </div>
 
 </section>
 
-</main>
 
 
-<!-- =======================================================
-     FOOTER
-     ======================================================= -->
+<!-- =========================
+     MARKET SESSIONS
+     ========================= -->
 
-<footer class="site-footer">
-
-    GOLD X © 2026 —
-    Premium Trading Dashboard
-
-</footer>
+<section id="sessions">
 
 
-<!-- =======================================================
-     JAVASCRIPT
-     ======================================================= -->
+    <div class="section-head">
 
-<script src="script.js"></script>
+        <div>
 
-</body>
+            <h2>
+                Market Sessions
+            </h2>
 
-</html><!-- =======================================================
-     PART 2 — PREMIUM GOLD X FEATURES
-     ======================================================= -->
-
-<!-- WATCHLIST -->
-<div class="section-header" id="watchlist">
-
-    <div>
-        <h2>Premium Watchlist</h2>
-        <p>Track your favorite markets</p>
-    </div>
-
-</div>
-
-<div class="panel">
-
-    <div class="panel-header">
-        <strong>MARKET WATCHLIST</strong>
-
-        <button
-            class="button button-primary"
-            type="button"
-            data-add-watchlist
-        >
-            + ADD
-        </button>
-    </div>
-
-    <div class="panel-body">
-
-        <div
-            id="watchlist-container"
-            class="market-grid"
-        >
-
-            <article class="market-card">
-
-                <div class="market-card-top">
-
-                    <div>
-                        <div class="market-symbol">
-                            XAUUSD
-                        </div>
-
-                        <div class="market-name">
-                            Gold / US Dollar
-                        </div>
-                    </div>
-
-                    <span class="text-green">
-                        LIVE
-                    </span>
-
-                </div>
-
-                <div
-                    class="market-price"
-                    data-watch-price="XAUUSD"
-                >
-                    3345.20
-                </div>
-
-                <div class="market-change text-green">
-                    +0.00%
-                </div>
-
-            </article>
-
-
-            <article class="market-card">
-
-                <div class="market-card-top">
-
-                    <div>
-                        <div class="market-symbol">
-                            BTCUSD
-                        </div>
-
-                        <div class="market-name">
-                            Bitcoin / US Dollar
-                        </div>
-                    </div>
-
-                    <span class="text-green">
-                        LIVE
-                    </span>
-
-                </div>
-
-                <div
-                    class="market-price"
-                    data-watch-price="BTCUSD"
-                >
-                    118420.00
-                </div>
-
-                <div class="market-change text-green">
-                    +0.00%
-                </div>
-
-            </article>
-
-
-            <article class="market-card">
-
-                <div class="market-card-top">
-
-                    <div>
-                        <div class="market-symbol">
-                            EURUSD
-                        </div>
-
-                        <div class="market-name">
-                            Euro / US Dollar
-                        </div>
-                    </div>
-
-                    <span class="text-green">
-                        LIVE
-                    </span>
-
-                </div>
-
-                <div
-                    class="market-price"
-                    data-watch-price="EURUSD"
-                >
-                    1.1684
-                </div>
-
-                <div class="market-change text-green">
-                    +0.00%
-                </div>
-
-            </article>
+            <p>
+                Global session monitor
+            </p>
 
         </div>
 
     </div>
 
-</div>
 
 
-<!-- PERFORMANCE -->
-<div class="section-header">
+    <div class="grid3">
 
-    <div>
-        <h2>Performance Overview</h2>
-        <p>Trading account statistics</p>
+
+        <div class="card">
+
+            <div class="symbol">
+                TOKYO
+            </div>
+
+            <div
+                class="price"
+                id="tokyo">
+
+                —
+
+            </div>
+
+            <div class="change muted">
+                Asian session
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="symbol">
+                LONDON
+            </div>
+
+            <div
+                class="price"
+                id="london">
+
+                —
+
+            </div>
+
+            <div class="change muted">
+                European session
+            </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="symbol">
+                NEW YORK
+            </div>
+
+            <div
+                class="price"
+                id="newyork">
+
+                —
+
+            </div>
+
+            <div class="change muted">
+                US session
+            </div>
+
+        </div>
+
+
     </div>
 
-</div>
+</section>
 
 
-<div class="stats-grid">
 
-    <div class="stat-card">
+<!-- =========================
+     SETTINGS
+     ========================= -->
 
-        <small>
-            TOTAL PROFIT
-        </small>
-
-        <strong class="text-green">
-            +$2,840
-        </strong>
-
-    </div>
+<section id="settings">
 
 
-    <div class="stat-card">
+    <div class="section-head">
 
-        <small>
-            WIN RATE
-        </small>
+        <div>
 
-        <strong>
-            78.4%
-        </strong>
+            <h2>
+                Settings
+            </h2>
+
+            <p>
+                Personalize GOLD X
+            </p>
+
+        </div>
 
     </div>
 
 
-    <div class="stat-card">
 
-        <small>
-            TRADES
-        </small>
+    <div class="panel form-panel">
 
-        <strong>
-            126
-        </strong>
-
-    </div>
-
-
-    <div class="stat-card">
-
-        <small>
-            MAX DRAWDOWN
-        </small>
-
-        <strong class="text-red">
-            -4.8%
-        </strong>
-
-    </div>
-
-</div>
-
-
-<!-- TRADE PLANNER -->
-<div class="section-header">
-
-    <div>
-        <h2>Trade Planner</h2>
-        <p>Plan your entry, stop loss and take profit</p>
-    </div>
-
-</div>
-
-
-<div class="panel">
-
-    <div class="panel-header">
-        <strong>NEW TRADE PLAN</strong>
-    </div>
-
-    <div class="panel-body">
 
         <div class="form-grid">
 
-            <div class="form-group">
+
+            <div class="field">
 
                 <label>
-                    SYMBOL
+                    INTERFACE THEME
                 </label>
 
-                <select data-trade-symbol>
-
-                    <option value="XAUUSD">
-                        XAUUSD
-                    </option>
-
-                    <option value="BTCUSD">
-                        BTCUSD
-                    </option>
-
-                    <option value="EURUSD">
-                        EURUSD
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    DIRECTION
-                </label>
-
-                <select data-trade-direction>
-
-                    <option value="BUY">
-                        BUY
-                    </option>
-
-                    <option value="SELL">
-                        SELL
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    ENTRY PRICE
-                </label>
-
-                <input
-                    type="number"
-                    placeholder="Enter entry"
-                    data-entry
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    STOP LOSS
-                </label>
-
-                <input
-                    type="number"
-                    placeholder="Enter stop loss"
-                    data-sl
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    TAKE PROFIT
-                </label>
-
-                <input
-                    type="number"
-                    placeholder="Enter take profit"
-                    data-tp
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    RISK / REWARD
-                </label>
-
-                <input
-                    type="text"
-                    value="—"
-                    readonly
-                    data-rr
-                >
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="hero-buttons"
-            style="margin-top:16px;"
-        >
-
-            <button
-                class="button button-primary"
-                type="button"
-                data-calculate-trade
-            >
-                CALCULATE TRADE
-            </button>
-
-            <button
-                class="button"
-                type="button"
-                data-clear-trade
-            >
-                CLEAR
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- MARKET SESSION -->
-<div class="section-header">
-
-    <div>
-        <h2>Market Sessions</h2>
-        <p>Global trading session monitor</p>
-    </div>
-
-</div>
-
-
-<div class="signal-grid">
-
-    <article class="signal-card">
-
-        <strong>
-            🇬🇧 LONDON
-        </strong>
-
-        <p>
-            European session
-        </p>
-
-        <h3 class="text-green">
-            ACTIVE
-        </h3>
-
-    </article>
-
-
-    <article class="signal-card">
-
-        <strong>
-            🇺🇸 NEW YORK
-        </strong>
-
-        <p>
-            US session
-        </p>
-
-        <h3 class="text-muted">
-            UPCOMING
-        </h3>
-
-    </article>
-
-
-    <article class="signal-card">
-
-        <strong>
-            🇯🇵 TOKYO
-        </strong>
-
-        <p>
-            Asian session
-        </p>
-
-        <h3 class="text-muted">
-            CLOSED
-        </h3>
-
-    </article>
-
-</div>
-
-
-<!-- NEWS -->
-<div class="section-header">
-
-    <div>
-        <h2>Market Intelligence</h2>
-        <p>Important market events</p>
-    </div>
-
-</div>
-
-
-<div class="panel">
-
-    <div class="panel-body">
-
-        <div class="signal-grid">
-
-            <article class="signal-card">
-
-                <strong>
-                    GOLD
-                </strong>
-
-                <p>
-                    XAUUSD volatility monitor
-                </p>
-
-                <span class="text-green">
-                    BULLISH BIAS
-                </span>
-
-            </article>
-
-
-            <article class="signal-card">
-
-                <strong>
-                    USD
-                </strong>
-
-                <p>
-                    Dollar strength monitor
-                </p>
-
-                <span class="text-muted">
-                    MONITORING
-                </span>
-
-            </article>
-
-
-            <article class="signal-card">
-
-                <strong>
-                    RISK
-                </strong>
-
-                <p>
-                    Portfolio risk level
-                </p>
-
-                <span class="text-green">
-                    LOW
-                </span>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- SETTINGS -->
-<div
-    class="section-header"
-    id="settings"
->
-
-    <div>
-        <h2>Terminal Settings</h2>
-        <p>Customize your GOLD X experience</p>
-    </div>
-
-</div>
-
-
-<div class="panel">
-
-    <div class="panel-body">
-
-        <div class="form-grid">
-
-            <div class="form-group">
-
-                <label>
-                    CHART THEME
-                </label>
-
-                <select data-theme>
+                <select id="theme">
 
                     <option value="dark">
-                        Dark
+                        Dark Premium
                     </option>
 
                     <option value="light">
@@ -3145,64 +2958,620 @@
             </div>
 
 
-            <div class="form-group">
+
+            <div class="field">
 
                 <label>
-                    DEFAULT SYMBOL
+                    DEFAULT MARKET
                 </label>
 
-                <select data-default-symbol>
+                <select id="defaultMarket">
 
-                    <option value="XAUUSD">
-                        XAUUSD
+                    <option value="OANDA:XAUUSD">
+                        XAUUSD — Gold
                     </option>
 
-                    <option value="BTCUSD">
-                        BTCUSD
+                    <option value="BITSTAMP:BTCUSD">
+                        BTCUSD — Bitcoin
                     </option>
 
-                    <option value="EURUSD">
-                        EURUSD
+                    <option value="FX:EURUSD">
+                        EURUSD — Euro
                     </option>
 
                 </select>
 
             </div>
 
+
+
+            <div class="field">
+
+                <label>
+                    SYSTEM
+                </label>
+
+                <input
+                    value="GOLD X READY"
+                    readonly>
+
+            </div>
+
+
         </div>
 
     </div>
 
-</div>
+</section>
 
 
-<!-- DISCLAIMER -->
-<div
-    class="panel"
-    style="margin-top:16px;"
->
-
-    <div class="panel-body">
-
-        <strong>
-            ⚠️ Risk Notice
-        </strong>
-
-        <p
-            style="
-                color:var(--text-muted);
-                font-size:8px;
-                line-height:1.8;
-            "
-        >
-            GOLD X is a trading dashboard for market
-            information and educational purposes. Market
-            prices can change rapidly. Trading involves
-            significant risk and you can lose money.
-            Always verify prices and information with your
-            broker before making a trading decision.
-        </p>
-
-    </div>
+</main>
 
 </div>
+
+
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+
+<footer>
+
+    GOLD X — Premium Trading Terminal
+
+    · Market data and charts powered by TradingView.
+
+    Trading involves risk.
+    Verify prices and information
+    with your broker before trading.
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+     ========================= -->
+
+<script>
+
+"use strict";
+
+
+/* =========================
+   HELPER
+   ========================= */
+
+const $ = selector =>
+    document.querySelector(selector);
+
+
+const $$ = selector =>
+    [...document.querySelectorAll(selector)];
+
+
+
+/* =========================
+   CLOCK
+   ========================= */
+
+function updateClock() {
+
+    const clock =
+        $("#clock");
+
+    if (!clock) return;
+
+
+    clock.textContent =
+        new Date().toLocaleTimeString(
+            "en-GB",
+            {
+                hour12: false,
+                timeZone: "Asia/Colombo"
+            }
+        );
+
+}
+
+
+updateClock();
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+
+/* =========================
+   MOBILE MENU
+   ========================= */
+
+const sidebar =
+    $("#sidebar");
+
+const overlay =
+    $("#overlay");
+
+const menuBtn =
+    $("#menuBtn");
+
+
+function closeMenu() {
+
+    sidebar?.classList.remove(
+        "open"
+    );
+
+    overlay?.classList.remove(
+        "show"
+    );
+
+}
+
+
+menuBtn?.addEventListener(
+    "click",
+    () => {
+
+        sidebar?.classList.toggle(
+            "open"
+        );
+
+        overlay?.classList.toggle(
+            "show"
+        );
+
+    }
+);
+
+
+overlay?.addEventListener(
+    "click",
+    closeMenu
+);
+
+
+
+/* =========================
+   NAVIGATION
+   ========================= */
+
+$$(".nav a").forEach(
+    link => {
+
+        link.addEventListener(
+            "click",
+            () => {
+
+                $$(".nav a")
+                    .forEach(
+                        item =>
+                            item.classList
+                                .remove("active")
+                    );
+
+
+                link.classList.add(
+                    "active"
+                );
+
+
+                closeMenu();
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =========================
+   THEME
+   ========================= */
+
+const themeBtn =
+    $("#themeBtn");
+
+
+const savedTheme =
+    localStorage.getItem(
+        "goldx-theme"
+    );
+
+
+if (savedTheme === "light") {
+
+    document.body.classList.add(
+        "light"
+    );
+
+}
+
+
+themeBtn?.addEventListener(
+    "click",
+    () => {
+
+        document.body.classList.toggle(
+            "light"
+        );
+
+
+        localStorage.setItem(
+            "goldx-theme",
+
+            document.body.classList
+                .contains("light")
+                ? "light"
+                : "dark"
+        );
+
+    }
+);
+
+
+
+/* =========================
+   STATUS BUTTON
+   ========================= */
+
+$("#notifyBtn")?.addEventListener(
+    "click",
+    () => {
+
+        alert(
+            "GOLD X terminal is online."
+        );
+
+    }
+);
+
+
+
+/* =========================
+   RISK CALCULATOR
+   ========================= */
+
+function calcRisk() {
+
+    const balance =
+        Number(
+            $("#balance")?.value
+        ) || 0;
+
+
+    const risk =
+        Number(
+            $("#risk")?.value
+        ) || 0;
+
+
+    const amount =
+        balance *
+        (risk / 100);
+
+
+    const result =
+        $("#riskResult");
+
+
+    if (result) {
+
+        result.value =
+            "$" +
+            amount.toLocaleString(
+                "en-US",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+    }
+
+}
+
+
+$("#calcRisk")?.addEventListener(
+    "click",
+    calcRisk
+);
+
+
+$("#balance")?.addEventListener(
+    "input",
+    calcRisk
+);
+
+
+$("#risk")?.addEventListener(
+    "input",
+    calcRisk
+);
+
+
+$("#resetRisk")?.addEventListener(
+    "click",
+    () => {
+
+        $("#balance").value =
+            10000;
+
+        $("#risk").value =
+            1;
+
+        calcRisk();
+
+    }
+);
+
+
+calcRisk();
+
+
+
+/* =========================
+   MARKET SESSIONS
+   ========================= */
+
+function updateSessions() {
+
+    const now =
+        new Date();
+
+
+    const utcHour =
+        now.getUTCHours();
+
+
+    const tokyo =
+        (
+            utcHour >= 0 &&
+            utcHour < 9
+        )
+        ? "OPEN"
+        : "CLOSED";
+
+
+    const london =
+        (
+            utcHour >= 8 &&
+            utcHour < 17
+        )
+        ? "OPEN"
+        : "CLOSED";
+
+
+    const newyork =
+        (
+            utcHour >= 13 &&
+            utcHour < 22
+        )
+        ? "OPEN"
+        : "CLOSED";
+
+
+    $("#tokyo").textContent =
+        tokyo;
+
+
+    $("#london").textContent =
+        london;
+
+
+    $("#newyork").textContent =
+        newyork;
+
+
+
+    [
+        "tokyo",
+        "london",
+        "newyork"
+    ].forEach(
+        id => {
+
+            const element =
+                $("#" + id);
+
+
+            element.className =
+                "price " +
+                (
+                    element.textContent ===
+                    "OPEN"
+                    ? "green"
+                    : "muted"
+                );
+
+        }
+    );
+
+}
+
+
+updateSessions();
+
+
+setInterval(
+    updateSessions,
+    30000
+);
+
+
+
+/* =========================
+   WATCHLIST
+   ========================= */
+
+$$(".watch-card").forEach(
+    card => {
+
+        card.addEventListener(
+            "click",
+            () => {
+
+                const symbol =
+                    card.dataset.symbol;
+
+
+                if (!symbol) return;
+
+
+                const market =
+                    symbol.split(":")[1];
+
+
+                window.open(
+
+                    "https://www.tradingview.com/symbols/"
+                    + market
+                    + "/",
+
+                    "_blank",
+
+                    "noopener,noreferrer"
+
+                );
+
+            }
+        );
+
+    }
+);
+
+
+
+/* =========================
+   DEFAULT MARKET
+   ========================= */
+
+const defaultMarket =
+    $("#defaultMarket");
+
+
+const savedMarket =
+    localStorage.getItem(
+        "goldx-market"
+    );
+
+
+if (
+    savedMarket &&
+    defaultMarket
+) {
+
+    defaultMarket.value =
+        savedMarket;
+
+}
+
+
+defaultMarket?.addEventListener(
+    "change",
+    () => {
+
+        localStorage.setItem(
+            "goldx-market",
+            defaultMarket.value
+        );
+
+    }
+);
+
+
+
+/* =========================
+   ACTIVE SECTION
+   ========================= */
+
+const sections =
+    $$("main section[id]");
+
+
+if (
+    "IntersectionObserver"
+    in window
+) {
+
+    const observer =
+        new IntersectionObserver(
+
+            entries => {
+
+                entries.forEach(
+                    entry => {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            $$(".nav a")
+                                .forEach(
+                                    link => {
+
+                                        link.classList
+                                            .toggle(
+
+                                                "active",
+
+                                                link.getAttribute(
+                                                    "href"
+                                                )
+                                                ===
+                                                "#"
+                                                +
+                                                entry
+                                                    .target
+                                                    .id
+
+                                            );
+
+                                    }
+                                );
+
+                        }
+
+                    }
+                );
+
+            },
+
+            {
+                threshold: .2,
+
+                rootMargin:
+                    "-70px 0px -55% 0px"
+            }
+
+        );
+
+
+    sections.forEach(
+        section =>
+            observer.observe(
+                section
+            )
+    );
+
+}
+
+
+
+/* =========================
+   GOLD X SYSTEM
+   ========================= */
+
+console.log(
+    "GOLD X Premium Terminal loaded successfully."
+);
+
+</script>
+
+
+</body>
+
+</html>
