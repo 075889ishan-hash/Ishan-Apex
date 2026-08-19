@@ -1,404 +1,250 @@
-/* =========================================================
+/* ============================================================
    GOLD X — PREMIUM TRADING TERMINAL
-   JAVASCRIPT ENGINE
-   ========================================================= */
+   Clean replacement script
+   ============================================================ */
 
 "use strict";
 
-/* =========================================================
-   GLOBAL CONFIG
-   ========================================================= */
+/* ============================================================
+   GLOBAL STATE
+   ============================================================ */
 
 const GOLDX = {
-    brand: "GOLD X",
-    version: "1.0.0",
-
-    symbols: [
-        "XAUUSD",
-        "BTCUSD",
-        "EURUSD",
-        "GBPUSD",
-        "USDJPY",
-        "ETHUSD"
-    ],
-
-    defaultSymbol: "XAUUSD",
-
-    prices: {
-        XAUUSD: 3345.20,
-        BTCUSD: 118420.00,
-        EURUSD: 1.1684,
-        GBPUSD: 1.3532,
-        USDJPY: 147.42,
-        ETHUSD: 4520.80
-    },
-
-    previousPrices: {},
-
-    settings: {
-        sound: true,
-        notifications: true,
-        autoRefresh: true
-    }
+    ready: false,
+    selectedSymbol: "XAUUSD",
+    notifications: [],
+    watchlist: ["XAUUSD", "BTCUSD", "EURUSD"]
 };
 
 
-/* =========================================================
-   DOM HELPERS
-   ========================================================= */
+/* ============================================================
+   SAFE HELPERS
+   ============================================================ */
 
-const $ = (selector, parent = document) =>
-    parent.querySelector(selector);
+function $(selector, parent = document) {
+    return parent.querySelector(selector);
+}
 
-const $$ = (selector, parent = document) =>
-    [...parent.querySelectorAll(selector)];
+function $$(selector, parent = document) {
+    return Array.from(parent.querySelectorAll(selector));
+}
 
-
-function createElement(tag, className = "", text = "") {
-
-    const element = document.createElement(tag);
-
-    if (className) {
-        element.className = className;
+function on(element, event, handler) {
+    if (element) {
+        element.addEventListener(event, handler);
     }
+}
 
-    if (text) {
-        element.textContent = text;
-    }
+function number(value, fallback = 0) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+}
 
-    return element;
+function money(value) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(number(value));
+}
+
+function round(value, decimals = 2) {
+    const factor = 10 ** decimals;
+    return Math.round(value * factor) / factor;
 }
 
 
-/* =========================================================
-   NUMBER FORMAT
-   ========================================================= */
+/* ============================================================
+   TERMINAL INITIALIZATION
+   ============================================================ */
 
-function formatPrice(value, symbol = "XAUUSD") {
+function initializeTerminal() {
+    try {
+        setupClock();
+        setupNavigation();
+        setupMobileMenu();
+        setupRiskCalculator();
+        setupTradePlanner();
+        setupNotifications();
+        setupWatchlist();
+        setupSettings();
+        setupRevealAnimations();
+        setupButtons();
+        updateOnlineStatus();
 
-    if (!Number.isFinite(value)) {
-        return "—";
+        GOLDX.ready = true;
+
+        document.documentElement.classList.add("goldx-ready");
+
+        console.log("GOLD X terminal initialized successfully.");
+
+    } catch (error) {
+        console.error("GOLD X initialization error:", error);
+
+        /*
+         * Important:
+         * Never leave the website stuck on
+         * "Initializing terminal..."
+         */
+        GOLDX.ready = true;
+        document.documentElement.classList.add("goldx-ready");
     }
-
-    if (
-        symbol === "EURUSD" ||
-        symbol === "GBPUSD"
-    ) {
-        return value.toFixed(4);
-    }
-
-    if (symbol === "USDJPY") {
-        return value.toFixed(2);
-    }
-
-    if (
-        symbol === "BTCUSD" ||
-        symbol === "ETHUSD"
-    ) {
-        return value.toLocaleString(
-            "en-US",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }
-        );
-    }
-
-    return value.toFixed(2);
 }
 
 
-function formatPercent(value) {
+/* ============================================================
+   CLOCK
+   ============================================================ */
 
-    if (!Number.isFinite(value)) {
-        return "0.00%";
-    }
+function setupClock() {
+    const clock = $("[data-clock]");
 
-    return `${value >= 0 ? "+" : ""}${value.toFixed(2)}%`;
-}
-
-
-/* =========================================================
-   PRICE ENGINE
-   ========================================================= */
-
-function randomMovement(symbol) {
-
-    const price = GOLDX.prices[symbol];
-
-    if (!Number.isFinite(price)) {
+    if (!clock) {
         return;
     }
 
-    let volatility;
+    function updateClock() {
+        const now = new Date();
 
-    switch (symbol) {
-
-        case "XAUUSD":
-            volatility = 1.8;
-            break;
-
-        case "BTCUSD":
-            volatility = 180;
-            break;
-
-        case "ETHUSD":
-            volatility = 12;
-            break;
-
-        case "EURUSD":
-        case "GBPUSD":
-            volatility = 0.0007;
-            break;
-
-        case "USDJPY":
-            volatility = 0.08;
-            break;
-
-        default:
-            volatility = price * 0.0003;
+        clock.textContent = now.toLocaleTimeString(
+            "en-GB",
+            {
+                hour12: false,
+                timeZone: "Asia/Colombo"
+            }
+        );
     }
 
-    const movement =
-        (Math.random() - 0.5) *
-        volatility;
+    updateClock();
 
-    GOLDX.previousPrices[symbol] =
-        GOLDX.prices[symbol];
-
-    GOLDX.prices[symbol] =
-        Math.max(
-            0,
-            GOLDX.prices[symbol] + movement
-        );
+    setInterval(updateClock, 1000);
 }
 
 
-/* =========================================================
-   PRICE UPDATE UI
-   ========================================================= */
+/* ============================================================
+   ONLINE STATUS
+   ============================================================ */
 
-function updatePriceElements() {
+function updateOnlineStatus() {
+    const status = $("[data-online-status]");
 
-    GOLDX.symbols.forEach(symbol => {
+    if (!status) {
+        return;
+    }
 
-        randomMovement(symbol);
+    status.textContent =
+        navigator.onLine ? "ONLINE" : "OFFLINE";
 
-        const current =
-            GOLDX.prices[symbol];
+    window.addEventListener("online", () => {
+        status.textContent = "ONLINE";
+    });
 
-        const previous =
-            GOLDX.previousPrices[symbol];
+    window.addEventListener("offline", () => {
+        status.textContent = "OFFLINE";
+    });
+}
 
-        const change =
-            previous
-                ? ((current - previous) / previous) * 100
-                : 0;
 
-        const priceText =
-            formatPrice(
-                current,
-                symbol
-            );
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
 
-        const priceElements =
-            $$(
-                `[data-price="${symbol}"]`
-            );
+function setupNavigation() {
+    const links = $$(".nav-link[href]");
 
-        priceElements.forEach(element => {
+    links.forEach(link => {
+        on(link, "click", event => {
 
-            element.textContent =
-                priceText;
+            const href = link.getAttribute("href");
 
-            element.classList.remove(
-                "price-up",
-                "price-down"
-            );
-
-            void element.offsetWidth;
-
-            if (current >= previous) {
-
-                element.classList.add(
-                    "price-up"
-                );
-
-            } else {
-
-                element.classList.add(
-                    "price-down"
-                );
+            if (!href || !href.startsWith("#")) {
+                return;
             }
-        });
 
+            const target = $(href);
 
-        const changeElements =
-            $$(
-                `[data-change="${symbol}"]`
-            );
+            if (!target) {
+                return;
+            }
 
-        changeElements.forEach(element => {
+            event.preventDefault();
 
-            element.textContent =
-                formatPercent(change);
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
 
-            element.classList.remove(
-                "text-green",
-                "text-red"
-            );
+            links.forEach(item => {
+                item.classList.remove("active");
+            });
 
-            element.classList.add(
-                change >= 0
-                    ? "text-green"
-                    : "text-red"
-            );
+            link.classList.add("active");
         });
     });
 
 
-    updateCurrentSymbol();
-}
+    /*
+     * Automatically update sidebar selection
+     * while scrolling.
+     */
+
+    const sections = [
+        "dashboard",
+        "markets",
+        "signals",
+        "terminal",
+        "calculator",
+        "watchlist",
+        "settings"
+    ]
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
 
 
-/* =========================================================
-   CURRENT SYMBOL
-   ========================================================= */
+    if ("IntersectionObserver" in window) {
 
-let currentSymbol =
-    GOLDX.defaultSymbol;
+        const observer = new IntersectionObserver(
+            entries => {
 
+                entries.forEach(entry => {
 
-function updateCurrentSymbol() {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
 
-    const price =
-        GOLDX.prices[currentSymbol];
+                    const id = entry.target.id;
 
-    const priceText =
-        formatPrice(
-            price,
-            currentSymbol
-        );
+                    links.forEach(link => {
 
+                        const active =
+                            link.getAttribute("href") === `#${id}`;
 
-    $$("[data-live-price]")
-        .forEach(element => {
-
-            element.textContent =
-                priceText;
-        });
-
-
-    $$("[data-current-symbol]")
-        .forEach(element => {
-
-            element.textContent =
-                currentSymbol;
-        });
-}
-
-
-/* =========================================================
-   SYMBOL SELECTOR
-   ========================================================= */
-
-function setupSymbolSelectors() {
-
-    $$("[data-symbol]").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const symbol =
-                    button.dataset.symbol;
-
-                if (!GOLDX.symbols.includes(symbol)) {
-                    return;
-                }
-
-                currentSymbol =
-                    symbol;
-
-
-                $$("[data-symbol]")
-                    .forEach(item => {
-
-                        item.classList.remove(
-                            "active"
+                        link.classList.toggle(
+                            "active",
+                            active
                         );
                     });
 
+                });
 
-                button.classList.add(
-                    "active"
-                );
-
-
-                updateCurrentSymbol();
-
-                showToast(
-                    `${symbol} selected`,
-                    "success"
-                );
+            },
+            {
+                threshold: 0.25,
+                rootMargin: "-80px 0px -50% 0px"
             }
         );
-    });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
 }
 
 
-/* =========================================================
-   LIVE CLOCK
-   ========================================================= */
-
-function updateClock() {
-
-    const now =
-        new Date();
-
-
-    const time =
-        now.toLocaleTimeString(
-            "en-GB",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        );
-
-
-    const date =
-        now.toLocaleDateString(
-            "en-GB",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        );
-
-
-    $$("[data-clock]")
-        .forEach(element => {
-
-            element.textContent =
-                time;
-        });
-
-
-    $$("[data-date]")
-        .forEach(element => {
-
-            element.textContent =
-                date;
-        });
-}
-
-
-/* =========================================================
+/* ============================================================
    MOBILE MENU
-   ========================================================= */
+   ============================================================ */
 
 function setupMobileMenu() {
 
@@ -411,7 +257,6 @@ function setupMobileMenu() {
     const overlay =
         $(".sidebar-overlay");
 
-
     if (!button || !sidebar) {
         return;
     }
@@ -419,466 +264,48 @@ function setupMobileMenu() {
 
     function toggleMenu() {
 
-        sidebar.classList.toggle(
-            "mobile-open"
-        );
+        sidebar.classList.toggle("mobile-open");
 
         if (overlay) {
-
             overlay.classList.toggle(
-                "active"
+                "mobile-visible"
             );
         }
     }
 
 
-    button.addEventListener(
-        "click",
-        toggleMenu
-    );
+    on(button, "click", toggleMenu);
+
+    on(overlay, "click", toggleMenu);
 
 
-    if (overlay) {
+    $$(".sidebar .nav-link").forEach(link => {
 
-        overlay.addEventListener(
-            "click",
-            toggleMenu
-        );
-    }
+        on(link, "click", () => {
 
-
-    $$(".nav-link")
-        .forEach(link => {
-
-            link.addEventListener(
-                "click",
-                () => {
-
-                    sidebar.classList.remove(
-                        "mobile-open"
-                    );
-
-                    if (overlay) {
-
-                        overlay.classList.remove(
-                            "active"
-                        );
-                    }
-                }
+            sidebar.classList.remove(
+                "mobile-open"
             );
-        });
-}
 
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-function setupNavigation() {
-
-    const links =
-        $$(".nav-link");
-
-
-    links.forEach(link => {
-
-        link.addEventListener(
-            "click",
-            event => {
-
-                const target =
-                    link.getAttribute(
-                        "href"
-                    );
-
-
-                if (
-                    target &&
-                    target.startsWith("#")
-                ) {
-
-                    const section =
-                        $(target);
-
-                    if (section) {
-
-                        event.preventDefault();
-
-                        section.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-                    }
-                }
-
-
-                links.forEach(item => {
-
-                    item.classList.remove(
-                        "active"
-                    );
-                });
-
-
-                link.classList.add(
-                    "active"
+            if (overlay) {
+                overlay.classList.remove(
+                    "mobile-visible"
                 );
             }
-        );
+        });
+
     });
 }
 
 
-/* =========================================================
-   SEARCH
-   ========================================================= */
-
-function setupSearch() {
-
-    const inputs =
-        $$(
-            '[data-search]'
-        );
-
-
-    inputs.forEach(input => {
-
-        input.addEventListener(
-            "input",
-            () => {
-
-                const query =
-                    input.value
-                        .trim()
-                        .toLowerCase();
-
-
-                const items =
-                    $$(
-                        "[data-search-item]"
-                    );
-
-
-                items.forEach(item => {
-
-                    const text =
-                        item.textContent
-                            .toLowerCase();
-
-
-                    item.style.display =
-                        !query ||
-                        text.includes(query)
-                            ? ""
-                            : "none";
-                });
-            }
-        );
-    });
-}
-
-
-/* =========================================================
-   TABS
-   ========================================================= */
-
-function setupTabs() {
-
-    $$("[data-tab-button]")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const target =
-                        button.dataset.tabButton;
-
-
-                    $$("[data-tab-button]")
-                        .forEach(item => {
-
-                            item.classList.remove(
-                                "active"
-                            );
-                        });
-
-
-                    button.classList.add(
-                        "active"
-                    );
-
-
-                    $$("[data-tab-panel]")
-                        .forEach(panel => {
-
-                            panel.style.display =
-                                panel.dataset.tabPanel === target
-                                    ? ""
-                                    : "none";
-                        });
-                }
-            );
-        });
-}
-
-
-/* =========================================================
-   NOTIFICATIONS
-   ========================================================= */
-
-function setupNotifications() {
-
-    const buttons =
-        $$("[data-notifications]");
-
-
-    buttons.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const panel =
-                    $(".notification-panel");
-
-                if (!panel) {
-                    return;
-                }
-
-                panel.classList.toggle(
-                    "active"
-                );
-            }
-        );
-    });
-
-
-    document.addEventListener(
-        "click",
-        event => {
-
-            const panel =
-                $(".notification-panel");
-
-            if (!panel) {
-                return;
-            }
-
-
-            const clickedButton =
-                event.target.closest(
-                    "[data-notifications]"
-                );
-
-
-            if (
-                !clickedButton &&
-                !panel.contains(
-                    event.target
-                )
-            ) {
-
-                panel.classList.remove(
-                    "active"
-                );
-            }
-        }
-    );
-}
-
-
-/* =========================================================
-   TOAST SYSTEM
-   ========================================================= */
-
-function createToastContainer() {
-
-    let container =
-        $(".toast-container");
-
-
-    if (!container) {
-
-        container =
-            createElement(
-                "div",
-                "toast-container"
-            );
-
-
-        container.style.position =
-            "fixed";
-
-        container.style.right =
-            "18px";
-
-        container.style.bottom =
-            "18px";
-
-        container.style.zIndex =
-            "9999";
-
-        container.style.display =
-            "flex";
-
-        container.style.flexDirection =
-            "column";
-
-        container.style.gap =
-            "8px";
-
-
-        document.body.appendChild(
-            container
-        );
-    }
-
-
-    return container;
-}
-
-
-function showToast(
-    message,
-    type = "info"
-) {
-
-    const container =
-        createToastContainer();
-
-
-    const toast =
-        createElement(
-            "div",
-            "toast"
-        );
-
-
-    toast.textContent =
-        message;
-
-
-    toast.style.padding =
-        "11px 15px";
-
-    toast.style.borderRadius =
-        "9px";
-
-    toast.style.border =
-        "1px solid rgba(255,255,255,0.08)";
-
-    toast.style.background =
-        "#0d121c";
-
-    toast.style.color =
-        "#d9e0ea";
-
-    toast.style.fontSize =
-        "9px";
-
-    toast.style.fontWeight =
-        "700";
-
-    toast.style.boxShadow =
-        "0 12px 35px rgba(0,0,0,0.35)";
-
-
-    if (type === "success") {
-
-        toast.style.borderColor =
-            "rgba(57,217,138,0.25)";
-    }
-
-
-    if (type === "danger") {
-
-        toast.style.borderColor =
-            "rgba(255,93,108,0.25)";
-    }
-
-
-    container.appendChild(
-        toast
-    );
-
-
-    setTimeout(
-        () => {
-
-            toast.style.opacity =
-                "0";
-
-            toast.style.transform =
-                "translateY(8px)";
-
-
-            setTimeout(
-                () => toast.remove(),
-                250
-            );
-
-        },
-        2600
-    );
-}
-
-
-/* =========================================================
-   COPY BUTTONS
-   ========================================================= */
-
-function setupCopyButtons() {
-
-    $$("[data-copy]")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                async () => {
-
-                    const value =
-                        button.dataset.copy;
-
-
-                    if (!value) {
-                        return;
-                    }
-
-
-                    try {
-
-                        await navigator.clipboard.writeText(
-                            value
-                        );
-
-                        showToast(
-                            "Copied successfully",
-                            "success"
-                        );
-
-                    } catch {
-
-                        showToast(
-                            "Copy failed",
-                            "danger"
-                        );
-                    }
-                }
-            );
-        });
-}
-
-
-/* =========================================================
-   CALCULATOR
-   ========================================================= */
-
-function setupCalculator() {
+/* ============================================================
+   RISK CALCULATOR
+   ============================================================ */
+
+function setupRiskCalculator() {
 
     const calculator =
         $("[data-calculator]");
-
 
     if (!calculator) {
         return;
@@ -886,92 +313,58 @@ function setupCalculator() {
 
 
     const balance =
-        calculator.querySelector(
-            "[data-balance]"
-        );
-
+        $("[data-balance]", calculator);
 
     const risk =
-        calculator.querySelector(
-            "[data-risk]"
-        );
-
+        $("[data-risk]", calculator);
 
     const stopLoss =
-        calculator.querySelector(
-            "[data-stop-loss]"
-        );
-
+        $("[data-stop-loss]", calculator);
 
     const result =
-        calculator.querySelector(
-            "[data-risk-result]"
-        );
+        $("[data-risk-result]", calculator);
 
 
     function calculate() {
 
-        const accountBalance =
-            parseFloat(
-                balance?.value
-            ) || 0;
-
+        const account =
+            number(balance?.value);
 
         const riskPercent =
-            parseFloat(
-                risk?.value
-            ) || 0;
-
+            number(risk?.value);
 
         const sl =
-            parseFloat(
-                stopLoss?.value
-            ) || 0;
+            number(stopLoss?.value);
 
 
-        const riskMoney =
-            accountBalance *
-            (riskPercent / 100);
+        const riskAmount =
+            account * (riskPercent / 100);
 
+
+        /*
+         * Risk amount is the maximum dollar loss.
+         * Stop-loss distance is displayed for reference.
+         */
 
         if (result) {
 
-            result.textContent =
-                `$${riskMoney.toFixed(2)}`;
+            result.value =
+                money(riskAmount);
         }
 
 
-        const lotResult =
-            calculator.querySelector(
-                "[data-lot-result]"
-            );
+        calculator.dataset.riskAmount =
+            String(round(riskAmount, 2));
 
-
-        if (lotResult) {
-
-            const estimatedLot =
-                sl > 0
-                    ? riskMoney / (sl * 100)
-                    : 0;
-
-
-            lotResult.textContent =
-                estimatedLot.toFixed(2);
-        }
+        calculator.dataset.stopLoss =
+            String(round(sl, 2));
     }
 
 
-    [
-        balance,
-        risk,
-        stopLoss
-    ]
-    .forEach(input => {
+    [balance, risk, stopLoss].forEach(input => {
 
-        input?.addEventListener(
-            "input",
-            calculate
-        );
+        on(input, "input", calculate);
+
     });
 
 
@@ -979,283 +372,513 @@ function setupCalculator() {
 }
 
 
-/* =========================================================
-   RISK BAR
-   ========================================================= */
+/* ============================================================
+   TRADE PLANNER
+   ============================================================ */
 
-function setupRiskMeters() {
+function setupTradePlanner() {
 
-    $$("[data-risk-meter]")
-        .forEach(meter => {
+    const calculateButton =
+        $("[data-calculate-trade]");
 
-            const value =
-                parseFloat(
-                    meter.dataset.riskMeter
-                ) || 0;
+    const clearButton =
+        $("[data-clear-trade]");
+
+    const entry =
+        $("[data-entry]");
+
+    const sl =
+        $("[data-sl]");
+
+    const tp =
+        $("[data-tp]");
+
+    const rr =
+        $("[data-rr]");
 
 
-            const fill =
-                meter.querySelector(
-                    ".risk-meter-fill"
-                );
+    if (!calculateButton) {
+        return;
+    }
 
 
-            if (!fill) {
-                return;
+    function calculateTrade() {
+
+        const entryPrice =
+            number(entry?.value);
+
+        const stopPrice =
+            number(sl?.value);
+
+        const targetPrice =
+            number(tp?.value);
+
+
+        if (
+            entryPrice <= 0 ||
+            stopPrice <= 0 ||
+            targetPrice <= 0
+        ) {
+
+            if (rr) {
+                rr.value = "Enter valid prices";
             }
 
-
-            const safeValue =
-                Math.min(
-                    Math.max(
-                        value,
-                        0
-                    ),
-                    100
-                );
+            return;
+        }
 
 
-            fill.style.width =
-                `${safeValue}%`;
-        });
+        const direction =
+            $("[data-trade-direction]")?.value ||
+            "BUY";
+
+
+        let riskDistance;
+        let rewardDistance;
+
+
+        if (direction === "SELL") {
+
+            riskDistance =
+                stopPrice - entryPrice;
+
+            rewardDistance =
+                entryPrice - targetPrice;
+
+        } else {
+
+            riskDistance =
+                entryPrice - stopPrice;
+
+            rewardDistance =
+                targetPrice - entryPrice;
+        }
+
+
+        if (
+            riskDistance <= 0 ||
+            rewardDistance <= 0
+        ) {
+
+            if (rr) {
+                rr.value = "Check BUY / SELL prices";
+            }
+
+            return;
+        }
+
+
+        const ratio =
+            rewardDistance / riskDistance;
+
+
+        if (rr) {
+            rr.value =
+                `1 : ${round(ratio, 2)}`;
+        }
+    }
+
+
+    on(
+        calculateButton,
+        "click",
+        calculateTrade
+    );
+
+
+    on(clearButton, "click", () => {
+
+        if (entry) entry.value = "";
+        if (sl) sl.value = "";
+        if (tp) tp.value = "";
+
+        if (rr) {
+            rr.value = "—";
+        }
+    });
+
+
+    [entry, sl, tp].forEach(input => {
+
+        on(input, "input", calculateTrade);
+
+    });
 }
 
 
-/* =========================================================
-   COUNTDOWN
-   ========================================================= */
+/* ============================================================
+   SYMBOL SELECTION
+   ============================================================ */
 
-function setupCountdowns() {
+function selectSymbol(symbol) {
 
-    $$("[data-countdown]")
-        .forEach(element => {
-
-            const seconds =
-                parseInt(
-                    element.dataset.countdown,
-                    10
-                );
+    GOLDX.selectedSymbol = symbol;
 
 
-            if (!Number.isFinite(seconds)) {
-                return;
-            }
+    const currentSymbol =
+        $("[data-current-symbol]");
+
+    if (currentSymbol) {
+        currentSymbol.textContent =
+            symbol;
+    }
 
 
-            let remaining =
-                seconds;
+    /*
+     * Update active quick-symbol button.
+     */
+
+    $$("[data-symbol]").forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.symbol === symbol
+        );
+
+    });
 
 
-            function render() {
+    /*
+     * Update visible live price from
+     * the existing market card.
+     */
 
-                const minutes =
-                    Math.floor(
-                        remaining / 60
-                    );
+    const source =
+        $(`[data-price="${symbol}"]`);
 
-
-                const secs =
-                    remaining % 60;
-
-
-                element.textContent =
-                    `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-            }
+    const livePrice =
+        $("[data-live-price]");
 
 
-            render();
-
-
-            const timer =
-                setInterval(
-                    () => {
-
-                        remaining--;
-
-                        render();
-
-
-                        if (remaining <= 0) {
-
-                            clearInterval(
-                                timer
-                            );
-
-                            element.textContent =
-                                "00:00";
-                        }
-
-                    },
-                    1000
-                );
-        });
+    if (source && livePrice) {
+        livePrice.textContent =
+            source.textContent;
+    }
 }
 
 
-/* =========================================================
+/* ============================================================
+   QUICK SYMBOL BUTTONS
+   ============================================================ */
+
+function setupButtons() {
+
+    $$("[data-symbol]").forEach(button => {
+
+        on(button, "click", () => {
+
+            const symbol =
+                button.dataset.symbol;
+
+            if (symbol) {
+                selectSymbol(symbol);
+            }
+
+        });
+
+    });
+
+
+    /*
+     * Default symbol.
+     */
+
+    selectSymbol("XAUUSD");
+}
+
+
+/* ============================================================
+   NOTIFICATIONS
+   ============================================================ */
+
+function setupNotifications() {
+
+    const button =
+        $("[data-notifications]");
+
+    if (!button) {
+        return;
+    }
+
+
+    on(button, "click", () => {
+
+        showNotification(
+            "GOLD X",
+            "Terminal is running normally."
+        );
+
+    });
+}
+
+
+function showNotification(title, message) {
+
+    GOLDX.notifications.push({
+        title,
+        message,
+        time: new Date()
+    });
+
+
+    const toast =
+        document.createElement("div");
+
+    toast.className =
+        "goldx-toast";
+
+
+    toast.innerHTML = `
+        <div class="goldx-toast-title">
+            ${escapeHTML(title)}
+        </div>
+
+        <div class="goldx-toast-message">
+            ${escapeHTML(message)}
+        </div>
+    `;
+
+
+    Object.assign(toast.style, {
+
+        position: "fixed",
+        right: "20px",
+        bottom: "20px",
+        zIndex: "99999",
+        minWidth: "250px",
+        maxWidth: "340px",
+        padding: "14px 16px",
+        border: "1px solid rgba(214,168,79,.25)",
+        borderRadius: "12px",
+        background: "rgba(10,14,21,.96)",
+        color: "#e7ebf2",
+        boxShadow: "0 15px 45px rgba(0,0,0,.45)",
+        backdropFilter: "blur(18px)",
+        opacity: "0",
+        transform: "translateY(10px)",
+        transition: "all .25s ease"
+    });
+
+
+    document.body.appendChild(toast);
+
+
+    requestAnimationFrame(() => {
+
+        toast.style.opacity = "1";
+        toast.style.transform =
+            "translateY(0)";
+
+    });
+
+
+    setTimeout(() => {
+
+        toast.style.opacity = "0";
+        toast.style.transform =
+            "translateY(10px)";
+
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+
+    }, 3000);
+}
+
+
+/* ============================================================
    WATCHLIST
-   ========================================================= */
+   ============================================================ */
 
 function setupWatchlist() {
 
-    $$("[data-watch-symbol]")
-        .forEach(button => {
+    const addButton =
+        $("[data-add-watchlist]");
 
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const symbol =
-                        button.dataset.watchSymbol;
+    if (!addButton) {
+        return;
+    }
 
 
-                    if (
-                        !GOLDX.symbols.includes(
-                            symbol
-                        )
-                    ) {
-                        return;
-                    }
+    on(addButton, "click", () => {
 
-
-                    currentSymbol =
-                        symbol;
-
-
-                    updateCurrentSymbol();
-
-
-                    showToast(
-                        `${symbol} loaded`,
-                        "success"
-                    );
-                }
-            );
-        });
-}
-
-
-/* =========================================================
-   LOCAL STORAGE SETTINGS
-   ========================================================= */
-
-function loadSettings() {
-
-    try {
-
-        const saved =
-            localStorage.getItem(
-                "goldx-settings"
+        const symbol =
+            prompt(
+                "Enter symbol:",
+                "XAUUSD"
             );
 
 
-        if (saved) {
-
-            const parsed =
-                JSON.parse(saved);
-
-
-            GOLDX.settings =
-                {
-                    ...GOLDX.settings,
-                    ...parsed
-                };
+        if (!symbol) {
+            return;
         }
 
-    } catch {
-        console.warn(
-            "Could not load GOLD X settings."
+
+        const clean =
+            symbol.trim().toUpperCase();
+
+
+        if (!clean) {
+            return;
+        }
+
+
+        if (GOLDX.watchlist.includes(clean)) {
+
+            showNotification(
+                "Watchlist",
+                `${clean} is already in your watchlist.`
+            );
+
+            return;
+        }
+
+
+        GOLDX.watchlist.push(clean);
+
+
+        showNotification(
+            "Watchlist",
+            `${clean} added successfully.`
         );
-    }
+    });
 }
 
 
-function saveSettings() {
-
-    try {
-
-        localStorage.setItem(
-            "goldx-settings",
-            JSON.stringify(
-                GOLDX.settings
-            )
-        );
-
-    } catch {
-        console.warn(
-            "Could not save GOLD X settings."
-        );
-    }
-}
-
-
-/* =========================================================
-   SETTINGS TOGGLES
-   ========================================================= */
+/* ============================================================
+   SETTINGS
+   ============================================================ */
 
 function setupSettings() {
 
-    $$("[data-setting]")
-        .forEach(input => {
+    const theme =
+        $("[data-theme]");
 
-            const setting =
-                input.dataset.setting;
-
-
-            if (
-                Object.prototype.hasOwnProperty.call(
-                    GOLDX.settings,
-                    setting
-                )
-            ) {
-
-                input.checked =
-                    Boolean(
-                        GOLDX.settings[
-                            setting
-                        ]
-                    );
-            }
+    const defaultSymbol =
+        $("[data-default-symbol]");
 
 
-            input.addEventListener(
-                "change",
-                () => {
+    on(theme, "change", () => {
 
-                    GOLDX.settings[
-                        setting
-                    ] =
-                        input.checked;
+        const value =
+            theme.value;
 
-
-                    saveSettings();
+        localStorage.setItem(
+            "goldx-theme",
+            value
+        );
 
 
-                    showToast(
-                        `${setting} ${input.checked ? "enabled" : "disabled"}`,
-                        "success"
-                    );
-                }
+        if (value === "light") {
+
+            document.body.classList.add(
+                "goldx-light"
             );
-        });
+
+        } else {
+
+            document.body.classList.remove(
+                "goldx-light"
+            );
+        }
+
+    });
+
+
+    on(defaultSymbol, "change", () => {
+
+        selectSymbol(
+            defaultSymbol.value
+        );
+
+        localStorage.setItem(
+            "goldx-symbol",
+            defaultSymbol.value
+        );
+
+    });
+
+
+    /*
+     * Restore preferences.
+     */
+
+    const savedSymbol =
+        localStorage.getItem(
+            "goldx-symbol"
+        );
+
+
+    if (
+        savedSymbol &&
+        defaultSymbol
+    ) {
+
+        defaultSymbol.value =
+            savedSymbol;
+
+        selectSymbol(savedSymbol);
+
+    }
+
+
+    const savedTheme =
+        localStorage.getItem(
+            "goldx-theme"
+        );
+
+
+    if (
+        savedTheme &&
+        theme
+    ) {
+
+        theme.value =
+            savedTheme;
+
+        if (savedTheme === "light") {
+            document.body.classList.add(
+                "goldx-light"
+            );
+        }
+    }
 }
 
 
-/* =========================================================
+/* ============================================================
    SCROLL REVEAL
-   ========================================================= */
+   ============================================================ */
 
 function setupRevealAnimations() {
 
     const elements =
-        $$(
-            ".reveal, .market-card, .panel, .signal-card"
+        $(
+            ".market-card, " +
+            ".signal-card, " +
+            ".stat-card, " +
+            ".indicator-card, " +
+            ".panel"
         );
+
+
+    if (!elements.length) {
+        return;
+    }
+
+
+    elements.forEach(element => {
+        element.classList.add("reveal");
+    });
 
 
     if (
         !("IntersectionObserver" in window)
     ) {
+
+        elements.forEach(element => {
+            element.classList.add("visible");
+        });
+
         return;
     }
 
@@ -1264,23 +887,22 @@ function setupRevealAnimations() {
         new IntersectionObserver(
             entries => {
 
-                entries.forEach(
-                    entry => {
+                entries.forEach(entry => {
 
-                        if (
-                            entry.isIntersecting
-                        ) {
+                    if (
+                        entry.isIntersecting
+                    ) {
 
-                            entry.target.classList.add(
-                                "visible"
-                            );
+                        entry.target.classList.add(
+                            "visible"
+                        );
 
-                            observer.unobserve(
-                                entry.target
-                            );
-                        }
+                        observer.unobserve(
+                            entry.target
+                        );
                     }
-                );
+
+                });
 
             },
             {
@@ -1289,307 +911,276 @@ function setupRevealAnimations() {
         );
 
 
-    elements.forEach(
-        element => {
-
-            element.classList.add(
-                "reveal"
-            );
-
-            observer.observe(
-                element
-            );
-        }
-    );
+    elements.forEach(element => {
+        observer.observe(element);
+    });
 }
 
 
-/* =========================================================
-   BACK TO TOP
-   ========================================================= */
+/* ============================================================
+   ESCAPE HTML
+   ============================================================ */
 
-function setupBackToTop() {
+function escapeHTML(value) {
 
-    const button =
-        $("[data-back-top]");
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
 
 
-    if (!button) {
+/* ============================================================
+   PREMIUM CSS PATCH
+   ============================================================ */
+
+function injectPremiumStyles() {
+
+    if ($("#goldx-runtime-styles")) {
         return;
     }
 
 
-    window.addEventListener(
-        "scroll",
-        () => {
+    const style =
+        document.createElement("style");
 
-            button.style.opacity =
-                window.scrollY > 500
-                    ? "1"
-                    : "0";
+    style.id =
+        "goldx-runtime-styles";
 
-            button.style.pointerEvents =
-                window.scrollY > 500
-                    ? "auto"
-                    : "none";
+
+    style.textContent = `
+
+        .goldx-ready {
+            opacity: 1 !important;
         }
-    );
 
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+        .text-green {
+            color: #39d98a !important;
         }
-    );
-}
 
+        .text-red {
+            color: #ff5d6c !important;
+        }
 
-/* =========================================================
-   KEYBOARD SHORTCUTS
-   ========================================================= */
+        .text-muted {
+            color: #7c8798 !important;
+        }
 
-function setupKeyboardShortcuts() {
+        .goldx-toast-title {
+            color: #f0ca73;
+            font-size: 11px;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
 
-    document.addEventListener(
-        "keydown",
-        event => {
+        .goldx-toast-message {
+            color: #aeb8c7;
+            font-size: 9px;
+            line-height: 1.5;
+        }
 
-            if (
-                event.ctrlKey &&
-                event.key.toLowerCase() === "k"
-            ) {
+        .mobile-open {
+            transform: translateX(0) !important;
+        }
 
-                event.preventDefault();
+        .mobile-visible {
+            display: block !important;
+            position: fixed;
+            inset: 64px 0 0 0;
+            background: rgba(0,0,0,.55);
+            z-index: 700;
+        }
 
+        .goldx-light {
+            background: #f4f6fa !important;
+            color: #151922 !important;
+        }
 
-                const search =
-                    $(
-                        '[data-search]'
-                    );
+        .goldx-light .panel,
+        .goldx-light .market-card,
+        .goldx-light .signal-card,
+        .goldx-light .stat-card {
+            background: #ffffff !important;
+            color: #151922 !important;
+        }
 
+        .goldx-light .sidebar,
+        .goldx-light .topbar {
+            background: #ffffff !important;
+        }
 
-                search?.focus();
+        @media (max-width: 900px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .25s ease;
             }
 
+            .content {
+                width: 100%;
+                margin-left: 0;
+                padding: 20px 16px 45px;
+            }
 
-            if (
-                event.key === "Escape"
-            ) {
+            .site-footer {
+                margin-left: 0;
+            }
 
-                $(".notification-panel")
-                    ?.classList.remove(
-                        "active"
-                    );
+            .mobile-menu-button {
+                display: grid;
+                place-items: center;
+                width: 34px;
+                height: 34px;
+            }
 
+            .top-center {
+                display: none;
+            }
 
-                $(".sidebar")
-                    ?.classList.remove(
-                        "mobile-open"
-                    );
+            .hero-section {
+                padding: 30px;
+            }
 
+            .hero-visual {
+                display: none;
+            }
 
-                $(".sidebar-overlay")
-                    ?.classList.remove(
-                        "active"
-                    );
+            .market-grid,
+            .signal-grid,
+            .stats-grid,
+            .indicator-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .terminal-grid,
+            .two-column-grid,
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .terminal-sidebar {
+                grid-row: auto;
             }
         }
-    );
-}
 
+        @media (max-width: 600px) {
 
-/* =========================================================
-   ONLINE STATUS
-   ========================================================= */
+            .brand-subtitle {
+                display: none;
+            }
 
-function setupOnlineStatus() {
+            .user-info {
+                display: none;
+            }
 
-    function update() {
+            .content {
+                padding: 14px 11px 35px;
+            }
 
-        const online =
-            navigator.onLine;
+            .hero-section {
+                min-height: 290px;
+                padding: 25px 20px;
+            }
 
+            .hero-content h1 {
+                font-size: 52px;
+            }
 
-        $$("[data-online-status]")
-            .forEach(element => {
+            .market-grid,
+            .signal-grid,
+            .stats-grid,
+            .indicator-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
 
-                element.textContent =
-                    online
-                        ? "ONLINE"
-                        : "OFFLINE";
+            .chart-container {
+                height: 480px;
+            }
 
+            .tradingview-widget-container {
+                height: 480px;
+            }
 
-                element.classList.toggle(
-                    "text-green",
-                    online
-                );
-
-
-                element.classList.toggle(
-                    "text-red",
-                    !online
-                );
-            });
-
-
-        if (!online) {
-
-            showToast(
-                "Internet connection lost",
-                "danger"
-            );
-
+            .hero-buttons {
+                flex-wrap: wrap;
+            }
         }
-    }
+    `;
 
 
-    window.addEventListener(
-        "online",
-        update
-    );
-
-
-    window.addEventListener(
-        "offline",
-        update
-    );
-
-
-    update();
+    document.head.appendChild(style);
 }
 
 
-/* =========================================================
-   PAGE LOADER
-   ========================================================= */
+/* ============================================================
+   STARTUP
+   ============================================================ */
 
-function hideLoader() {
+function startGoldX() {
 
-    const loader =
-        $(".page-loader");
+    injectPremiumStyles();
 
-
-    if (!loader) {
-        return;
-    }
-
-
-    loader.classList.add(
-        "loaded"
-    );
-
-
-    setTimeout(
-        () => loader.remove(),
-        700
-    );
+    initializeTerminal();
 }
 
 
-/* =========================================================
-   LIVE UPDATE LOOP
-   ========================================================= */
+/*
+ * DOMContentLoaded is the main startup point.
+ */
 
-function startLiveEngine() {
-
-    updatePriceElements();
-
-
-    if (
-        GOLDX.settings.autoRefresh
-    ) {
-
-        setInterval(
-            () => {
-
-                updatePriceElements();
-
-            },
-            2000
-        );
-    }
-}
-
-
-/* =========================================================
-   INIT
-   ========================================================= */
-
-function initGoldX() {
-
-    loadSettings();
-
-    setupSymbolSelectors();
-
-    setupMobileMenu();
-
-    setupNavigation();
-
-    setupSearch();
-
-    setupTabs();
-
-    setupNotifications();
-
-    setupCopyButtons();
-
-    setupCalculator();
-
-    setupRiskMeters();
-
-    setupCountdowns();
-
-    setupWatchlist();
-
-    setupSettings();
-
-    setupRevealAnimations();
-
-    setupBackToTop();
-
-    setupKeyboardShortcuts();
-
-    setupOnlineStatus();
-
-    updateClock();
-
-    setInterval(
-        updateClock,
-        1000
-    );
-
-    startLiveEngine();
-
-    hideLoader();
-
-
-    console.log(
-        `%c GOLD X Trading Terminal %c ${GOLDX.version} `,
-        "background:#d6a84f;color:#05070b;font-weight:bold;padding:5px 8px;",
-        "background:#111722;color:#d6a84f;padding:5px 8px;"
-    );
-}
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-if (
-    document.readyState === "loading"
-) {
+if (document.readyState === "loading") {
 
     document.addEventListener(
         "DOMContentLoaded",
-        initGoldX
+        startGoldX,
+        {
+            once: true
+        }
     );
 
 } else {
 
-    initGoldX();
+    startGoldX();
+
 }
+
+
+/* ============================================================
+   ERROR PROTECTION
+   ============================================================ */
+
+window.addEventListener(
+    "error",
+    event => {
+
+        console.error(
+            "GOLD X runtime error:",
+            event.error || event.message
+        );
+
+        /*
+         * Never allow a JS error to make the
+         * terminal permanently appear frozen.
+         */
+
+        GOLDX.ready = true;
+    }
+);
+
+
+/* ============================================================
+   FINAL
+   ============================================================ */
+
+console.log(
+    "%c GOLD X ",
+    "background:#d6a84f;color:#080b10;font-weight:900;padding:6px 10px;border-radius:6px;"
+);
+
+console.log(
+    "Premium trading terminal loaded."
+);
