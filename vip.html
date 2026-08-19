@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ishan Apex - VIP</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #050505;
+      color: white;
+      min-height: 100vh;
+      padding: 30px 15px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 35px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 0 25px rgba(255,255,255,0.05);
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .features {
+      list-style: none;
+      text-align: left;
+      margin: 25px 0;
+    }
+
+    .features li {
+      padding: 9px 0;
+      color: #ddd;
+    }
+
+    .buy-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #f0b90b;
+      color: #000;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .buy-btn:hover {
+      opacity: 0.85;
+    }
+
+    .forex {
+      background: #1677ff;
+      color: white;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 30px;
+      color: #aaa;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="title">🔥 Ishan Apex VIP</div>
+
+  <div class="subtitle">
+    Choose your premium membership
+  </div>
+
+  <div class="plans">
+
+    <!-- BINANCE VIP -->
+    <div class="card">
+
+      <h2>🟡 Binance VIP</h2>
+
+      <div class="price">$20</div>
+
+      <ul class="features">
+        <li>✓ Premium Binance Signals</li>
+        <li>✓ VIP Trading Education</li>
+        <li>✓ Market Analysis</li>
+        <li>✓ VIP Community Access</li>
+        <li>✓ Premium Updates</li>
+      </ul>
+
+      <button
+        class="buy-btn"
+        onclick="buyVIP('BINANCE')">
+        BUY BINANCE VIP
+      </button>
+
+    </div>
+
+
+    <!-- FOREX VIP -->
+    <div class="card">
+
+      <h2>🔵 Forex VIP</h2>
+
+      <div class="price">$30</div>
+
+      <ul class="features">
+        <li>✓ Premium Forex Signals</li>
+        <li>✓ XAUUSD Analysis</li>
+        <li>✓ Entry & Exit Levels</li>
+        <li>✓ VIP Community Access</li>
+        <li>✓ Premium Market Updates</li>
+      </ul>
+
+      <button
+        class="buy-btn forex"
+        onclick="buyVIP('FOREX')">
+        BUY FOREX VIP
+      </button>
+
+    </div>
+
+  </div>
+
+  <a class="back" href="index.html">
+    ← Back to Home
+  </a>
+
+</div>
+
+
+<script>
+
+async function buyVIP(plan) {
+
+  const button = event.target;
+
+  button.disabled = true;
+  button.innerText = "Loading...";
+
+  try {
+
+    const response = await fetch("/api/create-payment", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        plan: plan
+      })
+
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Payment creation failed"
+      );
+    }
+
+    if (data.checkoutUrl) {
+
+      window.location.href =
+        data.checkoutUrl;
+
+    } else {
+
+      alert("Payment link unavailable.");
+
+    }
+
+  } catch (error) {
+
+    alert(
+      "Payment system is not connected yet."
+    );
+
+    console.error(error);
+
+  } finally {
+
+    button.disabled = false;
+
+    if (plan === "BINANCE") {
+      button.innerText = "BUY BINANCE VIP";
+    } else {
+      button.innerText = "BUY FOREX VIP";
+    }
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
