@@ -1,4 +1,217 @@
 /* =========================================================
+   GOLD X — EMERGENCY MOBILE WIDTH REPAIR
+   ========================================================= */
+
+(function GOLDXMobileRepair() {
+
+    function repair() {
+
+        const mobile = window.innerWidth <= 900;
+
+        if (!mobile) return;
+
+        const selectors = [
+            "main",
+            "#main",
+            ".main",
+            ".content",
+            ".main-content",
+            ".page-content",
+            ".page-wrapper",
+            ".content-wrapper",
+            ".main-wrapper",
+            ".dashboard",
+            ".dashboard-content",
+            ".container",
+            ".container-fluid"
+        ];
+
+        selectors.forEach(selector => {
+
+            document.querySelectorAll(selector)
+                .forEach(el => {
+
+                    el.style.setProperty(
+                        "width",
+                        "100%",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "max-width",
+                        "100%",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "margin-left",
+                        "0",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "margin-right",
+                        "0",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "left",
+                        "0",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "right",
+                        "0",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "transform",
+                        "none",
+                        "important"
+                    );
+
+                    el.style.setProperty(
+                        "box-sizing",
+                        "border-box",
+                        "important"
+                    );
+                });
+        });
+
+
+        /* Fix every major section */
+
+        document.querySelectorAll(
+            "section, article, header, footer, .panel, " +
+            ".hero-section, .market-grid, .signal-grid, " +
+            ".stats-grid, .terminal-grid"
+        ).forEach(el => {
+
+            el.style.setProperty(
+                "max-width",
+                "100%",
+                "important"
+            );
+
+            el.style.setProperty(
+                "box-sizing",
+                "border-box",
+                "important"
+            );
+        });
+
+
+        /* Prevent horizontal overflow */
+
+        document.documentElement.style.setProperty(
+            "width",
+            "100%",
+            "important"
+        );
+
+        document.body.style.setProperty(
+            "width",
+            "100%",
+            "important"
+        );
+
+        document.documentElement.style.setProperty(
+            "max-width",
+            "100%",
+            "important"
+        );
+
+        document.body.style.setProperty(
+            "max-width",
+            "100%",
+            "important"
+        );
+
+        document.documentElement.style.setProperty(
+            "overflow-x",
+            "hidden",
+            "important"
+        );
+
+        document.body.style.setProperty(
+            "overflow-x",
+            "hidden",
+            "important"
+        );
+
+
+        /* TradingView */
+
+        document.querySelectorAll(
+            ".tradingview-widget-container, " +
+            ".tradingview-widget-container__widget, " +
+            ".chart-container"
+        ).forEach(el => {
+
+            el.style.setProperty(
+                "width",
+                "100%",
+                "important"
+            );
+
+            el.style.setProperty(
+                "max-width",
+                "100%",
+                "important"
+            );
+
+            el.style.setProperty(
+                "box-sizing",
+                "border-box",
+                "important"
+            );
+
+        });
+    }
+
+
+    /* Run immediately */
+
+    repair();
+
+
+    /* Run again after everything loads */
+
+    window.addEventListener(
+        "load",
+        repair
+    );
+
+
+    /* Run after resize */
+
+    window.addEventListener(
+        "resize",
+        repair
+    );
+
+
+    /* Run repeatedly for dynamically loaded content */
+
+    let count = 0;
+
+    const timer = setInterval(() => {
+
+        repair();
+
+        count++;
+
+        if (count >= 20) {
+            clearInterval(timer);
+        }
+
+    }, 500);
+
+})();
+/* =========================================================
    GOLD X — MOBILE LAYOUT FIX
    ========================================================= */
 
