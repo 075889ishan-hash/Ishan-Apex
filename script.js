@@ -1,3 +1,165 @@
+/* =========================================================
+   GOLD X — MOBILE LAYOUT FIX
+   ========================================================= */
+
+(function () {
+
+    const style = document.createElement("style");
+
+    style.id = "goldx-mobile-fix";
+
+    style.textContent = `
+
+        html,
+        body {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
+
+        @media (max-width: 1100px) {
+
+            .sidebar {
+                transform: translateX(-100%) !important;
+                width: 245px !important;
+            }
+
+            .content {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                padding: 20px 16px 50px !important;
+            }
+
+            .site-footer {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+
+            .mobile-menu-button {
+                display: grid !important;
+                place-items: center !important;
+            }
+
+            .hero-section {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .hero-content {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .hero-visual {
+                display: none !important;
+            }
+
+            .market-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            .signal-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            .indicator-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            .terminal-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .chart-container {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .tradingview-widget-container {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 10px !important;
+            }
+
+            .brand-name {
+                font-size: 13px !important;
+            }
+
+            .brand-subtitle {
+                display: none !important;
+            }
+
+            .user-info {
+                display: none !important;
+            }
+
+            .content {
+                padding:
+                    14px 10px 40px !important;
+            }
+
+            .hero-section {
+                min-height: 260px !important;
+                padding: 25px 18px !important;
+            }
+
+            .hero-content h1 {
+                font-size: 48px !important;
+            }
+
+            .market-grid,
+            .signal-grid,
+            .stats-grid,
+            .indicator-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .terminal-grid {
+                display: block !important;
+            }
+
+            .chart-container {
+                height: 500px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .tradingview-widget-container {
+                height: 500px !important;
+            }
+
+            .terminal-sidebar {
+                width: 100% !important;
+            }
+
+            .panel {
+                width: 100% !important;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+    `;
+
+    document.head.appendChild(style);
+
+})();
 /* ============================================================
    GOLD X — PREMIUM TRADING TERMINAL
    Clean replacement script
