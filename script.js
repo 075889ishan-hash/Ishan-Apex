@@ -1,8 +1,8 @@
 /* =========================================================
-   GOLD X — EMERGENCY MOBILE WIDTH REPAIR
+  Delta_ApeX  — EMERGENCY MOBILE WIDTH REPAIR
    ========================================================= */
 
-(function GOLDXMobileRepair() {
+(function Delta_ApeX MobileRepair() {
 
     function repair() {
 
