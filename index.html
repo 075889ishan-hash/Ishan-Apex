@@ -1993,3 +1993,516 @@ setInterval(
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DELTA_APEX | Premium Trading Terminal</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+
+    <div class="brand">
+      <div class="brand-logo">DA</div>
+
+      <div>
+        <h1>DELTA<span>_APEX</span></h1>
+        <small>Signal Group</small>
+        <p>FOREX • CRYPTO • TRADING</p>
+      </div>
+    </div>
+
+    <nav class="navbar">
+      <a class="active" href="#home">⌂ HOME</a>
+      <a href="#markets">◈ MARKETS</a>
+      <a href="#signals">⌁ SIGNALS</a>
+      <a href="#calculator">▣ CALCULATOR</a>
+      <a href="#vip">♛ VIP</a>
+      <a href="#education">▱ EDUCATION</a>
+      <a href="#about">ⓘ ABOUT</a>
+    </nav>
+
+    <div class="user-area">
+      <span class="notification">♧</span>
+      <div class="user">
+        <div class="avatar">IA</div>
+        <div>
+          <b>Ishan Apex</b>
+          <small>Premium Member</small>
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav">
+    <button onclick="toggleMenu()">☰</button>
+    <strong>DELTA<span>_APEX</span></strong>
+    <button onclick="toggleTheme()">◐</button>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="#home">HOME</a>
+    <a href="#markets">MARKETS</a>
+    <a href="#signals">SIGNALS</a>
+    <a href="#calculator">CALCULATOR</a>
+    <a href="#vip">VIP</a>
+    <a href="#education">EDUCATION</a>
+    <a href="#about">ABOUT</a>
+  </div>
+
+
+  <main id="home">
+
+    <!-- MARKET TICKERS -->
+    <section id="markets" class="ticker-grid">
+
+      <div class="ticker-card">
+        <div>
+          <span>◉ XAUUSD</span>
+          <strong id="goldPrice">2,385.42</strong>
+          <em class="green">+12.65 +0.53%</em>
+        </div>
+        <div class="mini-chart gold"></div>
+      </div>
+
+      <div class="ticker-card">
+        <div>
+          <span>◉ EURUSD</span>
+          <strong>1.08531</strong>
+          <em class="green">+0.00321 +0.30%</em>
+        </div>
+        <div class="mini-chart"></div>
+      </div>
+
+      <div class="ticker-card">
+        <div>
+          <span>◉ GBPUSD</span>
+          <strong>1.27064</strong>
+          <em class="red">-0.00125 -0.10%</em>
+        </div>
+        <div class="mini-chart red-chart"></div>
+      </div>
+
+      <div class="ticker-card">
+        <div>
+          <span>₿ BTCUSDT</span>
+          <strong>66,458.10</strong>
+          <em class="green">+1,236.45 +1.89%</em>
+        </div>
+        <div class="mini-chart"></div>
+      </div>
+
+      <div class="ticker-card">
+        <div>
+          <span>Ξ ETHUSDT</span>
+          <strong>3,276.45</strong>
+          <em class="green">+45.12 +1.39%</em>
+        </div>
+        <div class="mini-chart"></div>
+      </div>
+
+      <div class="ticker-card">
+        <div>
+          <span>◉ DEXEUSDT</span>
+          <strong>20.584</strong>
+          <em class="green">+1.125 +5.78%</em>
+        </div>
+        <div class="mini-chart"></div>
+      </div>
+
+    </section>
+
+
+    <!-- DASHBOARD -->
+    <section class="dashboard-grid">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+
+        <div class="side-item active">⌂ <span>Dashboard</span></div>
+        <div class="side-item">⌁ <span>Live Markets</span></div>
+        <div class="side-item">◉ <span>Signals</span></div>
+        <div class="side-item">▣ <span>Risk Calculator</span></div>
+        <div class="side-item">♛ <span>VIP Plans</span></div>
+        <div class="side-item">▦ <span>Economic Calendar</span></div>
+        <div class="side-item">▤ <span>News</span></div>
+        <div class="side-item">⌁ <span>Performance</span></div>
+        <div class="side-item">? <span>Help Center</span></div>
+        <div class="side-item">⚙ <span>Settings</span></div>
+
+        <div class="vip-box">
+          <h3>JOIN DELTA_APEX VIP</h3>
+          <div class="crown">♛</div>
+          <p>
+            Get Premium Signals<br>
+            Daily Support<br>
+            Exclusive Analysis
+          </p>
+          <button onclick="joinVIP()">JOIN NOW</button>
+        </div>
+
+      </aside>
+
+
+      <!-- CHART -->
+      <section class="chart-card">
+
+        <div class="chart-header">
+          <div>
+            <h2>XAUUSD</h2>
+            <p>Gold Spot / U.S. Dollar • 15M</p>
+            <span class="chart-price">2,385.42 +12.65 (+0.53%)</span>
+          </div>
+
+          <div class="chart-actions">
+            <button>15m</button>
+            <button>1H</button>
+            <button>4H</button>
+            <button>⚙</button>
+            <button>⌗</button>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <canvas id="priceChart"></canvas>
+        </div>
+
+        <div class="chart-tools">
+          <span>♧ Indicators</span>
+          <span>▥ Financials</span>
+          <span>⌘ Templates</span>
+          <span>◉ Alert</span>
+          <span>%</span>
+          <span>log</span>
+          <b>auto</b>
+        </div>
+
+      </section>
+
+
+      <!-- SIGNALS -->
+      <section id="signals" class="signals-card">
+
+        <div class="section-title">
+          <h2>LATEST SIGNALS</h2>
+          <a href="#">View All</a>
+        </div>
+
+        <div class="signal buy">
+          <div class="coin-icon">🪙</div>
+
+          <div class="signal-info">
+            <h3>XAUUSD <span>BUY</span></h3>
+            <p>Entry: <b>2382.00</b></p>
+            <p>SL: <b>2372.00</b> &nbsp; TP: <b>2400.00</b></p>
+          </div>
+
+          <div class="signal-arrow">↑</div>
+        </div>
+
+
+        <div class="signal sell">
+          <div class="coin-icon">🇬🇧</div>
+
+          <div class="signal-info">
+            <h3>GBPUSD <span>SELL</span></h3>
+            <p>Entry: <b>1.27100</b></p>
+            <p>SL: <b>1.27600</b> &nbsp; TP: <b>1.26000</b></p>
+          </div>
+
+          <div class="signal-arrow">↓</div>
+        </div>
+
+
+        <div class="signal buy">
+          <div class="coin-icon">₿</div>
+
+          <div class="signal-info">
+            <h3>BTCUSDT <span>BUY</span></h3>
+            <p>Entry: <b>66000</b></p>
+            <p>SL: <b>64800</b> &nbsp; TP: <b>68500</b></p>
+          </div>
+
+          <div class="signal-arrow">↑</div>
+        </div>
+
+      </section>
+
+    </section>
+
+
+    <!-- LOWER GRID -->
+    <section class="lower-grid">
+
+
+      <!-- RISK CALCULATOR -->
+      <section id="calculator" class="panel calculator">
+
+        <h2>RISK CALCULATOR</h2>
+
+        <div class="form-grid">
+
+          <div class="input-group">
+            <label>Account Balance ($)</label>
+            <input id="balance" type="number" value="1000">
+          </div>
+
+          <div class="input-group">
+            <label>Risk (%)</label>
+            <input id="risk" type="number" value="1" step="0.1">
+          </div>
+
+          <div class="input-group">
+            <label>Entry Price</label>
+            <input id="entry" type="number" value="2382">
+          </div>
+
+          <div class="input-group">
+            <label>Stop Loss</label>
+            <input id="stop" type="number" value="2372">
+          </div>
+
+          <div class="input-group">
+            <label>Take Profit</label>
+            <input id="takeProfit" type="number" value="2400">
+          </div>
+
+          <div class="input-group">
+            <label>Instrument</label>
+
+            <select id="instrument">
+              <option value="XAUUSD">XAUUSD</option>
+              <option value="EURUSD">EURUSD</option>
+              <option value="GBPUSD">GBPUSD</option>
+              <option value="BTCUSDT">BTCUSDT</option>
+              <option value="DEXEUSDT">DEXEUSDT</option>
+            </select>
+
+          </div>
+
+        </div>
+
+        <button class="calculate-btn" onclick="calculateRisk()">
+          CALCULATE
+        </button>
+
+      </section>
+
+
+      <!-- RESULTS -->
+      <section class="panel results">
+
+        <h2>CALCULATION RESULTS</h2>
+
+        <div class="result-row">
+          <span>Risk Amount</span>
+          <strong id="riskAmount">$10.00</strong>
+        </div>
+
+        <div class="result-row">
+          <span>Stop Loss Distance</span>
+          <strong id="slDistance">10.00</strong>
+        </div>
+
+        <div class="result-row">
+          <span>Position Size</span>
+          <strong id="positionSize">1.00</strong>
+        </div>
+
+        <div class="result-row">
+          <span>Take Profit Distance</span>
+          <strong id="tpDistance">18.00</strong>
+        </div>
+
+        <div class="result-row">
+          <span>Risk : Reward</span>
+          <strong class="green" id="riskReward">1 : 1.80</strong>
+        </div>
+
+        <div class="status">
+          <span>Status</span>
+          <b id="setupStatus">GOOD SETUP</b>
+        </div>
+
+      </section>
+
+
+      <!-- MARKET SESSIONS -->
+      <section class="panel sessions">
+
+        <h2>MARKET SESSIONS</h2>
+
+        <div class="session">
+          <div>
+            <h3>TOKYO</h3>
+            <p>05:00 AM - 02:00 PM</p>
+          </div>
+          <span class="open">OPEN</span>
+        </div>
+
+        <div class="session">
+          <div>
+            <h3>LONDON</h3>
+            <p>01:00 PM - 10:00 PM</p>
+          </div>
+          <span class="open">OPEN</span>
+        </div>
+
+        <div class="session">
+          <div>
+            <h3>NEW YORK</h3>
+            <p>06:00 PM - 03:00 AM</p>
+          </div>
+          <span class="open">OPEN</span>
+        </div>
+
+        <div class="local-time">
+          ◷ Sri Lanka Time:
+          <b id="localTime">--:--:--</b>
+        </div>
+
+      </section>
+
+
+      <!-- CALENDAR -->
+      <section class="panel calendar">
+
+        <div class="section-title">
+          <h2>ECONOMIC CALENDAR</h2>
+          <a href="#">View All</a>
+        </div>
+
+        <div class="event">
+          <div>
+            <strong>12:30 PM</strong>
+            <small>USD</small>
+          </div>
+
+          <p>Core Retail Sales m/m</p>
+
+          <span class="high">HIGH</span>
+        </div>
+
+        <div class="event">
+          <div>
+            <strong>02:00 PM</strong>
+            <small>GBP</small>
+          </div>
+
+          <p>CPI y/y</p>
+
+          <span class="high">HIGH</span>
+        </div>
+
+        <div class="event">
+          <div>
+            <strong>05:30 PM</strong>
+            <small>USD</small>
+          </div>
+
+          <p>Crude Oil Inventories</p>
+
+          <span class="medium">MEDIUM</span>
+        </div>
+
+        <button class="calendar-btn">VIEW CALENDAR</button>
+
+      </section>
+
+    </section>
+
+
+    <!-- VIP -->
+    <section id="vip" class="vip-section">
+
+      <div class="vip-content">
+
+        <span class="vip-label">PREMIUM ACCESS</span>
+
+        <h2>DELTA<span>_APEX</span> VIP</h2>
+
+        <p>
+          Premium market analysis, educational content,
+          trading setups and community access.
+        </p>
+
+        <button onclick="joinVIP()">JOIN DELTA_APEX VIP</button>
+
+      </div>
+
+      <div class="vip-crown">♛</div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+    <section id="education" class="features">
+
+      <div>
+        <b>◉ ACCURATE ANALYSIS</b>
+        <span>Technical market analysis</span>
+      </div>
+
+      <div>
+        <b>♜ RISK MANAGEMENT</b>
+        <span>Professional risk planning</span>
+      </div>
+
+      <div>
+        <b>◷ SUPPORT</b>
+        <span>Trading community support</span>
+      </div>
+
+      <div>
+        <b>♛ VIP COMMUNITY</b>
+        <span>Premium trader community</span>
+      </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about" class="about">
+
+      <h2>DELTA<span>_APEX</span></h2>
+
+      <p>
+        Premium Forex & Crypto Trading Community.
+        Use proper risk management and independent analysis
+        before making any trading decision.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <p>
+      © 2026 DELTA_Apex Signal Group.
+      All Rights Reserved.
+    </p>
+
+    <div>
+      ✈️ &nbsp; WhatsApp &nbsp; ▶️ &nbsp; Instagram
+    </div>
+
+  </footer>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
