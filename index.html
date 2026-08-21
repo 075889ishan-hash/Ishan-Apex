@@ -2,27 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#070a10">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ISHAN APEX — Premium Trading Terminal</title>
+<title>ISHAN APEX | Premium Trading Terminal</title>
 
 <style>
 :root{
-  --bg:#070a10;
-  --panel:#0d131d;
-  --panel2:#111925;
-  --gold:#e6b85c;
-  --green:#35dc8a;
-  --red:#ff5d6c;
+  --bg:#05070b;
+  --panel:#0b111a;
+  --panel2:#101824;
+  --gold:#e8bd5b;
+  --gold2:#ffd978;
+  --green:#28df8b;
+  --red:#ff5364;
+  --blue:#4da3ff;
   --text:#f5f7fb;
-  --muted:#7d899a;
+  --muted:#8994a5;
   --border:rgba(255,255,255,.08);
-  --sidebar:235px;
 }
 
 *{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 html{
@@ -30,153 +32,209 @@ html{
 }
 
 body{
-  margin:0;
   background:
-    radial-gradient(circle at 80% -10%,rgba(230,184,92,.1),transparent 30%),
+    radial-gradient(circle at 80% 0%,rgba(232,189,91,.12),transparent 28%),
+    radial-gradient(circle at 0% 50%,rgba(77,163,255,.05),transparent 30%),
     var(--bg);
   color:var(--text);
-  font-family:Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 a{
-  text-decoration:none;
   color:inherit;
+  text-decoration:none;
 }
 
-button,input{
+button,
+input,
+select{
   font:inherit;
 }
 
-/* TOP BAR */
+/* ================= HEADER ================= */
 
-.top{
-  height:64px;
+.header{
+  height:70px;
   position:fixed;
   top:0;
   left:0;
   right:0;
-  z-index:20;
+  z-index:1000;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 18px;
-  background:rgba(7,10,16,.94);
-  backdrop-filter:blur(16px);
+
+  padding:0 22px;
+
+  background:rgba(5,7,11,.94);
+  backdrop-filter:blur(18px);
+
   border-bottom:1px solid var(--border);
 }
 
-.brand{
+.logoArea{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
 }
 
 .logo{
-  width:39px;
-  height:39px;
-  border-radius:11px;
+  width:44px;
+  height:44px;
+
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#f5d47f,var(--gold));
-  color:#080a0e;
-  font-weight:900;
+
+  border-radius:13px;
+
+  background:linear-gradient(
+    135deg,
+    var(--gold2),
+    var(--gold)
+  );
+
+  color:#090b10;
+  font-weight:1000;
+  font-size:15px;
+
+  box-shadow:0 0 30px rgba(232,189,91,.15);
 }
 
-.brand b{
+.brandTitle{
+  font-size:16px;
+  font-weight:1000;
   letter-spacing:2px;
-  color:#f4cf78;
 }
 
-.brand small{
-  display:block;
+.brandTitle span{
+  color:var(--gold);
+}
+
+.brandSub{
+  margin-top:3px;
   color:var(--muted);
-  font-size:7px;
-  letter-spacing:1.7px;
-  margin-top:2px;
+  font-size:8px;
+  letter-spacing:2px;
 }
 
-.status{
-  font-size:9px;
+.marketStatus{
   color:var(--green);
-  font-weight:800;
-}
-
-.dot{
-  display:inline-block;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
-  margin-right:6px;
-}
-
-/* LAYOUT */
-
-.layout{
-  padding-top:64px;
-}
-
-.side{
-  position:fixed;
-  top:64px;
-  bottom:0;
-  width:var(--sidebar);
-  padding:18px 12px;
-  background:#090d14;
-  border-right:1px solid var(--border);
-}
-
-.side a{
-  display:block;
-  padding:12px;
-  border-radius:10px;
-  color:var(--muted);
   font-size:10px;
   font-weight:800;
-  margin:3px 0;
 }
 
-.side a:hover,
-.side a.active{
-  background:rgba(230,184,92,.09);
-  color:#f4cf78;
+.marketStatus span{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:7px;
+  box-shadow:0 0 12px var(--green);
 }
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  position:fixed;
+  top:70px;
+  left:0;
+  bottom:0;
+
+  width:230px;
+
+  padding:20px 12px;
+
+  background:#080c13;
+  border-right:1px solid var(--border);
+
+  z-index:50;
+}
+
+.navTitle{
+  color:#566174;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin:8px 12px 10px;
+}
+
+.nav{
+  display:block;
+  padding:13px 14px;
+  margin:4px 0;
+
+  border-radius:10px;
+
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+
+  transition:.2s;
+}
+
+.nav:hover,
+.nav.active{
+  background:rgba(232,189,91,.09);
+  color:var(--gold2);
+}
+
+/* ================= MAIN ================= */
 
 .main{
-  margin-left:var(--sidebar);
-  padding:28px;
-  max-width:1500px;
+  margin-left:230px;
+  padding:100px 28px 40px;
+  max-width:1600px;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 
 .hero{
-  padding:35px;
+  padding:40px;
+
   border:1px solid var(--border);
-  border-radius:20px;
+  border-radius:22px;
+
   background:
     linear-gradient(
       135deg,
-      rgba(230,184,92,.08),
+      rgba(232,189,91,.09),
       rgba(255,255,255,.015)
     );
-  display:flex;
-  justify-content:space-between;
-  gap:25px;
-  align-items:center;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  right:-100px;
+  top:-120px;
+
+  border-radius:50%;
+
+  background:rgba(232,189,91,.08);
+  filter:blur(50px);
 }
 
 .eyebrow{
-  font-size:8px;
-  letter-spacing:2px;
   color:var(--gold);
-  font-weight:900;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:3px;
 }
 
 .hero h1{
-  font-size:52px;
-  margin:10px 0 8px;
-  letter-spacing:-2px;
+  margin-top:12px;
+
+  font-size:54px;
+  line-height:1;
+
+  letter-spacing:-3px;
 }
 
 .hero h1 span{
@@ -184,324 +242,473 @@ button,input{
 }
 
 .hero p{
-  max-width:650px;
+  max-width:700px;
+  margin-top:15px;
+
   color:var(--muted);
-  line-height:1.7;
   font-size:12px;
+  line-height:1.8;
 }
 
-/* BUTTON */
+.btnRow{
+  display:flex;
+  gap:9px;
+  margin-top:22px;
+  flex-wrap:wrap;
+}
 
 .btn{
-  display:inline-block;
-  padding:12px 16px;
-  border-radius:10px;
   border:1px solid var(--border);
-  font-size:9px;
-  font-weight:900;
-  margin:5px 5px 0 0;
+  border-radius:10px;
+
+  padding:12px 17px;
+
   cursor:pointer;
+
+  font-size:9px;
+  font-weight:1000;
+
+  transition:.2s;
 }
 
-.primary{
-  background:linear-gradient(135deg,#f3ce76,var(--gold));
-  color:#080a0e;
+.btn:hover{
+  transform:translateY(-2px);
 }
 
-/* SECTION */
+.btnGold{
+  background:linear-gradient(
+    135deg,
+    var(--gold2),
+    var(--gold)
+  );
+
+  color:#090b10;
+}
+
+.btnDark{
+  background:#0d141e;
+  color:white;
+}
+
+/* ================= SECTION ================= */
 
 section{
-  margin-top:28px;
+  margin-top:30px;
 }
 
-.head{
+.sectionHeader{
   display:flex;
   justify-content:space-between;
   align-items:end;
-  margin-bottom:12px;
+
+  margin-bottom:13px;
 }
 
-.head h2{
-  margin:0;
-  font-size:18px;
+.sectionHeader h2{
+  font-size:20px;
 }
 
-.head p{
-  margin:4px 0 0;
+.sectionHeader p{
+  margin-top:4px;
   color:var(--muted);
   font-size:9px;
 }
 
-/* CARDS */
+/* ================= MARKET CARDS ================= */
 
-.grid{
+.marketGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.card,
-.panel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:15px;
+  gap:13px;
 }
 
 .card{
-  padding:16px;
+  background:var(--panel);
+
+  border:1px solid var(--border);
+  border-radius:17px;
+
+  padding:18px;
+
+  transition:.2s;
 }
 
-.topline{
+.card:hover{
+  border-color:rgba(232,189,91,.25);
+  transform:translateY(-2px);
+}
+
+.cardTop{
   display:flex;
   justify-content:space-between;
-  align-items:center;
 }
 
 .symbol{
-  font-weight:900;
-  font-size:12px;
+  font-weight:1000;
+  font-size:13px;
 }
 
-.name{
+.symbolName{
+  margin-top:4px;
   color:var(--muted);
   font-size:8px;
-  margin-top:4px;
 }
 
-.badge{
-  font-size:7px;
+.live{
   color:var(--green);
-  border:1px solid rgba(53,220,138,.2);
-  padding:5px 7px;
+  border:1px solid rgba(40,223,139,.2);
   border-radius:20px;
-}
+  padding:5px 8px;
 
-.price{
-  font-size:23px;
+  font-size:7px;
   font-weight:900;
-  margin-top:18px;
 }
 
-.change{
-  font-size:8px;
+.marketPrice{
+  margin-top:22px;
+  font-size:25px;
+  font-weight:1000;
+}
+
+.marketInfo{
   margin-top:5px;
-  color:var(--green);
+  color:var(--muted);
+  font-size:8px;
 }
 
-/* TRADINGVIEW */
+/* ================= CHART ================= */
 
-.chart{
-  height:500px;
+.chartBox{
+  height:580px;
+
   overflow:hidden;
+
+  background:#080c12;
+
+  border:1px solid var(--border);
+  border-radius:18px;
 }
 
-.chart iframe{
+.chartBox iframe{
   width:100%;
   height:100%;
   border:0;
 }
 
-/* SIGNALS */
+/* ================= ANALYSIS ================= */
 
-.signals{
+.analysisGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:13px;
 }
 
-.signal{
-  padding:18px;
-  border-radius:15px;
+.analysis{
+  padding:20px;
+
   border:1px solid var(--border);
+  border-radius:17px;
+
   background:var(--panel);
 }
 
-.signal.buy{
-  box-shadow:inset 3px 0 var(--green);
+.analysis h3{
+  font-size:14px;
 }
 
-.signal.sell{
-  box-shadow:inset 3px 0 var(--red);
+.direction{
+  margin:15px 0;
+
+  font-size:18px;
+  font-weight:1000;
 }
 
-.signal h3{
-  margin:0;
-  font-size:16px;
-}
-
-.signal .direction{
-  font-weight:900;
-  font-size:11px;
-  margin:12px 0;
-}
-
-.buy .direction{
+.buy{
   color:var(--green);
 }
 
-.sell .direction{
+.sell{
   color:var(--red);
 }
 
-.signal p{
-  font-size:9px;
+.wait{
+  color:var(--gold2);
+}
+
+.analysisText{
   color:var(--muted);
+  font-size:9px;
   line-height:1.7;
 }
 
-.levels{
+/* ================= CALCULATOR ================= */
+
+.calculator{
+  background:var(--panel);
+
+  border:1px solid var(--border);
+  border-radius:18px;
+
+  padding:20px;
+}
+
+.calcGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:7px;
-}
-
-.level{
-  background:var(--panel2);
-  padding:9px;
-  border-radius:8px;
-  font-size:8px;
-}
-
-.level b{
-  display:block;
-  color:var(--text);
-  margin-top:3px;
-}
-
-/* VIP */
-
-.vip{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
   gap:12px;
 }
 
-.vipbox{
-  padding:22px;
-  background:linear-gradient(145deg,#121a27,#0b1018);
-  border:1px solid rgba(230,184,92,.25);
-  border-radius:16px;
-}
+.field label{
+  display:block;
 
-.vipbox h3{
-  margin:0;
-  color:#f4cf78;
-}
+  margin-bottom:7px;
 
-.vipbox .cost{
-  font-size:28px;
-  font-weight:900;
-  margin:10px 0;
-}
-
-.vipbox li{
-  font-size:9px;
   color:var(--muted);
-  margin:8px 0;
+  font-size:8px;
+  font-weight:800;
 }
 
-/* CALCULATOR */
+.field input,
+.field select{
+  width:100%;
+  height:44px;
 
-.form{
-  padding:18px;
+  border:1px solid var(--border);
+  border-radius:10px;
+
+  background:#070c13;
+  color:white;
+
+  padding:0 12px;
+
+  outline:none;
 }
 
-.fields{
+.field input:focus,
+.field select:focus{
+  border-color:rgba(232,189,91,.6);
+}
+
+.calcButtons{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+/* ================= RESULTS ================= */
+
+.resultGrid{
+  margin-top:18px;
+
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
 
-.field label{
-  display:block;
+.resultBox{
+  background:var(--panel2);
+
+  border:1px solid var(--border);
+  border-radius:12px;
+
+  padding:15px;
+}
+
+.resultBox small{
   color:var(--muted);
   font-size:8px;
-  margin-bottom:6px;
 }
 
-.field input{
-  width:100%;
-  height:42px;
-  background:#080d14;
+.resultBox strong{
+  display:block;
+
+  margin-top:7px;
+
+  font-size:17px;
+}
+
+/* ================= RR ================= */
+
+.rrGood{
+  color:var(--green);
+}
+
+.rrBad{
+  color:var(--red);
+}
+
+/* ================= SESSIONS ================= */
+
+.sessionGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+
+.session{
+  padding:20px;
+
+  background:var(--panel);
+
   border:1px solid var(--border);
-  border-radius:9px;
-  color:var(--text);
-  padding:0 10px;
+  border-radius:17px;
 }
 
-.result{
-  margin-top:14px;
-  padding:14px;
-  border-radius:10px;
-  background:rgba(53,220,138,.07);
-  border:1px solid rgba(53,220,138,.15);
-  font-size:10px;
+.sessionName{
+  font-size:13px;
+  font-weight:1000;
 }
 
-.warn{
-  color:#ffcf6b;
-  font-size:8px;
-  margin-top:10px;
+.sessionTime{
+  margin-top:12px;
+
+  color:var(--muted);
+  font-size:9px;
 }
 
-/* FOOTER */
+.sessionStatus{
+  margin-top:15px;
+
+  font-size:12px;
+  font-weight:1000;
+}
+
+.open{
+  color:var(--green);
+}
+
+.closed{
+  color:var(--red);
+}
+
+/* ================= VIP ================= */
+
+.vipGrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
+
+.vip{
+  padding:25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #131c29,
+      #090e15
+    );
+
+  border:1px solid rgba(232,189,91,.2);
+  border-radius:18px;
+}
+
+.vip h3{
+  color:var(--gold2);
+}
+
+.vipPrice{
+  margin:10px 0 18px;
+
+  font-size:32px;
+  font-weight:1000;
+}
+
+.vip ul{
+  padding-left:17px;
+}
+
+.vip li{
+  margin:9px 0;
+
+  color:var(--muted);
+  font-size:9px;
+}
+
+/* ================= FOOTER ================= */
 
 footer{
-  text-align:center;
+  margin-top:45px;
+
   padding:30px;
+
+  border-top:1px solid var(--border);
+
+  text-align:center;
+
   color:var(--muted);
   font-size:8px;
-  border-top:1px solid var(--border);
-  margin-top:30px;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:900px){
 
-  .side{
+  .sidebar{
     display:none;
   }
 
   .main{
     margin-left:0;
-    padding:15px;
+    padding:90px 13px 30px;
   }
 
-  .grid,
-  .signals{
+  .marketGrid,
+  .analysisGrid,
+  .sessionGrid{
     grid-template-columns:1fr;
   }
 
-  .vip{
+  .vipGrid{
     grid-template-columns:1fr;
   }
 
-  .fields{
+  .calcGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .resultGrid{
     grid-template-columns:1fr 1fr;
   }
 
   .hero{
-    padding:22px;
+    padding:25px;
   }
 
   .hero h1{
     font-size:40px;
   }
 
-  .status{
+  .marketStatus{
     display:none;
   }
 }
 
 @media(max-width:520px){
 
-  .fields{
+  .header{
+    padding:0 13px;
+  }
+
+  .brandTitle{
+    font-size:13px;
+  }
+
+  .brandSub{
+    font-size:6px;
+  }
+
+  .calcGrid{
     grid-template-columns:1fr;
   }
 
-  .chart{
-    height:420px;
+  .resultGrid{
+    grid-template-columns:1fr;
+  }
+
+  .chartBox{
+    height:430px;
   }
 
   .hero h1{
@@ -513,765 +720,1273 @@ footer{
 
 <body>
 
-<header class="top">
+<!-- ================= HEADER ================= -->
 
-<div class="brand">
+<header class="header">
 
-<div class="logo">
-IA
-</div>
+  <div class="logoArea">
 
-<div>
-<b>ISHAN APEX</b>
-<small>PREMIUM TRADING TERMINAL</small>
-</div>
+    <div class="logo">
+      GX
+    </div>
 
-</div>
+    <div>
+      <div class="brandTitle">
+        GOLD <span>X</span>
+      </div>
 
-<div class="status">
-<span class="dot"></span>
-MARKETS LIVE
-</div>
+      <div class="brandSub">
+        PREMIUM TRADING TERMINAL
+      </div>
+    </div>
+
+  </div>
+
+  <div class="marketStatus">
+    <span></span>
+    MARKET TOOLS ONLINE
+  </div>
 
 </header>
 
 
-<div class="layout">
+<!-- ================= SIDEBAR ================= -->
 
-<aside class="side">
+<aside class="sidebar">
 
-<a class="active" href="#home">⌂ Dashboard</a>
+  <div class="navTitle">
+    TERMINAL
+  </div>
 
-<a href="#markets">
-◈ Live Markets
-</a>
+  <a class="nav active" href="#home">
+    ◈ Dashboard
+  </a>
 
-<a href="#terminal">
-▣ Trading Chart
-</a>
+  <a class="nav" href="#markets">
+    ◈ Markets
+  </a>
 
-<a href="#signals">
-⚡ VIP Signals
-</a>
+  <a class="nav" href="#chart">
+    ◈ Trading Chart
+  </a>
 
-<a href="#vip">
-◆ VIP Membership
-</a>
+  <a class="nav" href="#analysis">
+    ⚡ Market Analysis
+  </a>
 
-<a href="#calculator">
-◎ Risk Calculator
-</a>
+  <a class="nav" href="#calculator">
+    ◎ Risk Calculator
+  </a>
 
-<a href="#sessions">
-◷ Sessions
-</a>
+  <a class="nav" href="#sessions">
+    ◷ Market Sessions
+  </a>
+
+  <a class="nav" href="#vip">
+    ◆ VIP
+  </a>
 
 </aside>
 
 
+<!-- ================= MAIN ================= -->
+
 <main class="main">
 
 
-<!-- HERO -->
+<!-- ================= HERO ================= -->
 
 <section id="home" class="hero">
 
-<div>
+  <div>
 
-<div class="eyebrow">
-PROFESSIONAL MARKET INTELLIGENCE
-</div>
+    <div class="eyebrow">
+      PROFESSIONAL MARKET INTELLIGENCE
+    </div>
 
-<h1>
-ISHAN <span>APEX</span>
-</h1>
+    <h1>
+      GOLD <span>X</span>
+    </h1>
 
-<p>
-Premium market-analysis dashboard with live charts,
-educational trade ideas, risk tools and VIP access.
-</p>
+    <p>
+      A clean trading dashboard for market analysis,
+      charting, risk management and trading education.
+    </p>
 
-<a class="btn primary" href="#terminal">
-OPEN TERMINAL
-</a>
+    <div class="btnRow">
 
-<a class="btn" href="#signals">
-VIEW SIGNALS
-</a>
+      <a
+        class="btn btnGold"
+        href="#chart">
+        OPEN TRADING TERMINAL
+      </a>
 
-</div>
+      <a
+        class="btn btnDark"
+        href="#calculator">
+        RISK CALCULATOR
+      </a>
 
-<div style="font-size:55px">
-◉
-</div>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- MARKETS -->
+<!-- ================= MARKETS ================= -->
 
 <section id="markets">
 
-<div class="head">
+  <div class="sectionHeader">
 
-<div>
-<h2>Live Markets</h2>
-<p>TradingView market data</p>
-</div>
+    <div>
+      <h2>Market Watch</h2>
 
-</div>
+      <p>
+        Instruments available for analysis
+      </p>
+    </div>
 
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="topline">
-
-<div>
-
-<div class="symbol">
-XAUUSD
-</div>
-
-<div class="name">
-Gold / US Dollar
-</div>
-
-</div>
-
-<span class="badge">
-LIVE
-</span>
-
-</div>
-
-<div class="price">
-OPEN CHART
-</div>
-
-<div class="change">
-● TradingView feed
-</div>
-
-</div>
+  </div>
 
 
-
-<div class="card">
-
-<div class="topline">
-
-<div>
-
-<div class="symbol">
-BTCUSD
-</div>
-
-<div class="name">
-Bitcoin / US Dollar
-</div>
-
-</div>
-
-<span class="badge">
-LIVE
-</span>
-
-</div>
-
-<div class="price">
-OPEN CHART
-</div>
-
-<div class="change">
-● TradingView feed
-</div>
-
-</div>
+  <div class="marketGrid">
 
 
+    <div class="card">
 
-<div class="card">
+      <div class="cardTop">
 
-<div class="topline">
+        <div>
+          <div class="symbol">
+            XAUUSD
+          </div>
 
-<div>
+          <div class="symbolName">
+            Gold / US Dollar
+          </div>
+        </div>
 
-<div class="symbol">
-DEXEUSDT
-</div>
+        <div class="live">
+          CHART
+        </div>
 
-<div class="name">
-DeXe / Tether
-</div>
+      </div>
 
-</div>
+      <div class="marketPrice">
+        GOLD
+      </div>
 
-<span class="badge">
-WATCH
-</span>
+      <div class="marketInfo">
+        Open the live TradingView chart below
+      </div>
 
-</div>
+    </div>
 
-<div class="price">
-OPEN CHART
-</div>
 
-<div class="change">
-● Market watch
-</div>
+    <div class="card">
 
-</div>
+      <div class="cardTop">
 
-</div>
+        <div>
+          <div class="symbol">
+            BTCUSD
+          </div>
+
+          <div class="symbolName">
+            Bitcoin / US Dollar
+          </div>
+        </div>
+
+        <div class="live">
+          CHART
+        </div>
+
+      </div>
+
+      <div class="marketPrice">
+        BTC
+      </div>
+
+      <div class="marketInfo">
+        Use TradingView for live market data
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="cardTop">
+
+        <div>
+          <div class="symbol">
+            DEXEUSDT
+          </div>
+
+          <div class="symbolName">
+            DeXe / Tether
+          </div>
+        </div>
+
+        <div class="live">
+          WATCH
+        </div>
+
+      </div>
+
+      <div class="marketPrice">
+        DEXE
+      </div>
+
+      <div class="marketInfo">
+        High-volatility crypto asset
+      </div>
+
+    </div>
+
+
+  </div>
 
 </section>
 
 
-<!-- TRADINGVIEW -->
+<!-- ================= TRADINGVIEW ================= -->
 
-<section id="terminal">
+<section id="chart">
 
-<div class="head">
+  <div class="sectionHeader">
 
-<div>
+    <div>
 
-<h2>
-Trading Terminal
-</h2>
+      <h2>
+        Trading Terminal
+      </h2>
 
-<p>
-XAUUSD · 15 Minute · Live TradingView Chart
-</p>
+      <p>
+        XAUUSD · Live TradingView Chart
+      </p>
 
-</div>
+    </div>
 
-</div>
-
-
-<div class="panel chart">
-
-<iframe
-src="https://www.tradingview.com/widgetembed/?frameElementId=tradingview_chart&symbol=OANDA%3AXAUUSD&interval=15&hidesidetoolbar=0&symboledit=1&saveimage=0&theme=dark&style=1&timezone=Asia%2FColombo&withdateranges=1&hideideas=1&hidevolume=0&locale=en&enablepublishing=0&hidelegend=0&calendar=0"
-allowfullscreen>
-</iframe>
-
-</div>
-
-</section>
+  </div>
 
 
-<!-- SIGNALS -->
+  <div class="chartBox">
 
-<section id="signals">
+    <iframe
+      src="https://www.tradingview.com/widgetembed/?frameElementId=tradingview_chart&symbol=OANDA%3AXAUUSD&interval=15&hidesidetoolbar=0&symboledit=1&saveimage=0&theme=dark&style=1&timezone=Asia%2FColombo&withdateranges=1&hideideas=1&hidevolume=0&locale=en&enablepublishing=0&hidelegend=0&calendar=0"
+      allowfullscreen>
+    </iframe>
 
-<div class="head">
-
-<div>
-
-<h2>
-VIP Signal Board
-</h2>
-
-<p>
-Demo/analysis cards — verify market conditions before trading.
-</p>
-
-</div>
-
-</div>
-
-
-<div class="signals">
-
-
-<div class="signal buy">
-
-<h3>
-XAUUSD
-</h3>
-
-<div class="direction">
-▲ BUY IDEA
-</div>
-
-<div class="levels">
-
-<div class="level">
-ENTRY
-<b>Market</b>
-</div>
-
-<div class="level">
-TP
-<b>Set manually</b>
-</div>
-
-<div class="level">
-SL
-<b>Required</b>
-</div>
-
-</div>
-
-<p>
-Template only. Do not treat demo signals as guaranteed results.
-</p>
-
-</div>
-
-
-
-<div class="signal sell">
-
-<h3>
-GBPCHF
-</h3>
-
-<div class="direction">
-▼ SELL IDEA
-</div>
-
-<div class="levels">
-
-<div class="level">
-ENTRY
-<b>Market</b>
-</div>
-
-<div class="level">
-TP
-<b>Set manually</b>
-</div>
-
-<div class="level">
-SL
-<b>Required</b>
-</div>
-
-</div>
-
-<p>
-Confirm trend, structure and risk before entering.
-</p>
-
-</div>
-
-
-
-<div class="signal buy">
-
-<h3>
-DEXEUSDT
-</h3>
-
-<div class="direction">
-▲ WATCH / BUY BIAS
-</div>
-
-<div class="levels">
-
-<div class="level">
-ENTRY
-<b>Wait</b>
-</div>
-
-<div class="level">
-TP
-<b>Plan</b>
-</div>
-
-<div class="level">
-SL
-<b>Required</b>
-</div>
-
-</div>
-
-<p>
-Crypto is volatile. Never present projected returns as guaranteed.
-</p>
-
-</div>
-
-
-</div>
+  </div>
 
 </section>
 
 
-<!-- VIP -->
+<!-- ================= ANALYSIS ================= -->
 
-<section id="vip">
+<section id="analysis">
 
-<div class="head">
+  <div class="sectionHeader">
 
-<div>
+    <div>
 
-<h2>
-VIP Membership
-</h2>
+      <h2>
+        Market Analysis
+      </h2>
 
-<p>
-Connect your verified payment processor to the buttons.
-</p>
+      <p>
+        Educational bias — not guaranteed signals
+      </p>
 
-</div>
+    </div>
 
-</div>
-
-
-<div class="vip">
+  </div>
 
 
-<div class="vipbox">
-
-<h3>
-BINANCE VIP
-</h3>
-
-<div class="cost">
-$20
-</div>
-
-<ul>
-
-<li>
-VIP market-analysis access
-</li>
-
-<li>
-Premium signal dashboard
-</li>
-
-<li>
-Member updates
-</li>
-
-</ul>
-
-<a
-class="btn primary"
-href="https://www.binance.com/"
-target="_blank">
-
-OPEN BINANCE
-
-</a>
-
-</div>
+  <div class="analysisGrid">
 
 
+    <div class="analysis">
 
-<div class="vipbox">
+      <h3>
+        XAUUSD
+      </h3>
 
-<h3>
-FOREX VIP
-</h3>
+      <div class="direction wait">
+        WAIT / ANALYZE
+      </div>
 
-<div class="cost">
-$30
-</div>
+      <div class="analysisText">
+        Check higher-timeframe trend,
+        support/resistance and candle confirmation
+        before entering a trade.
+      </div>
 
-<ul>
-
-<li>
-Premium forex analysis
-</li>
-
-<li>
-Signal dashboard access
-</li>
-
-<li>
-Risk-management resources
-</li>
-
-</ul>
-
-<button
-class="btn primary"
-onclick="alert('Connect your verified payment processor here.')">
-
-JOIN FOREX VIP
-
-</button>
-
-</div>
+    </div>
 
 
-</div>
+    <div class="analysis">
+
+      <h3>
+        BTCUSD
+      </h3>
+
+      <div class="direction wait">
+        WAIT / ANALYZE
+      </div>
+
+      <div class="analysisText">
+        Crypto markets can move quickly.
+        Always use a defined stop loss
+        and controlled position size.
+      </div>
+
+    </div>
+
+
+    <div class="analysis">
+
+      <h3>
+        DEXEUSDT
+      </h3>
+
+      <div class="direction wait">
+        WATCH
+      </div>
+
+      <div class="analysisText">
+        Wait for confirmation instead of
+        entering only because price is moving.
+      </div>
+
+    </div>
+
+
+  </div>
 
 </section>
 
 
-<!-- CALCULATOR -->
+<!-- ================= CALCULATOR ================= -->
 
 <section id="calculator">
 
-<div class="head">
+  <div class="sectionHeader">
 
-<div>
+    <div>
 
-<h2>
-Risk Calculator
-</h2>
+      <h2>
+        Advanced Risk Calculator
+      </h2>
 
-<p>
-Simple position-risk estimate
-</p>
+      <p>
+        Calculate position size before entering a trade
+      </p>
 
-</div>
+    </div>
 
-</div>
-
-
-<div class="panel form">
-
-<div class="fields">
+  </div>
 
 
-<div class="field">
-
-<label>
-ACCOUNT BALANCE ($)
-</label>
-
-<input
-id="bal"
-type="number"
-value="1000">
-
-</div>
+  <div class="calculator">
 
 
-
-<div class="field">
-
-<label>
-RISK (%)
-</label>
-
-<input
-id="risk"
-type="number"
-value="1"
-step="0.1">
-
-</div>
+    <div class="calcGrid">
 
 
+      <div class="field">
 
-<div class="field">
+        <label>
+          ACCOUNT BALANCE ($)
+        </label>
 
-<label>
-STOP LOSS (POINTS)
-</label>
+        <input
+          id="balance"
+          type="number"
+          value="1000"
+          min="0"
+          step="0.01">
 
-<input
-id="sl"
-type="number"
-value="100">
-
-</div>
-
-
-
-<div class="field">
-
-<label>
-RISK AMOUNT
-</label>
-
-<input
-id="out"
-readonly>
-
-</div>
+      </div>
 
 
-</div>
+      <div class="field">
+
+        <label>
+          RISK (%)
+        </label>
+
+        <input
+          id="riskPercent"
+          type="number"
+          value="1"
+          min="0"
+          step="0.1">
+
+      </div>
 
 
-<button
-class="btn primary"
-onclick="calc()">
+      <div class="field">
 
-CALCULATE
+        <label>
+          TRADE
+        </label>
 
-</button>
+        <select id="asset">
+
+          <option value="XAU">
+            XAUUSD — Gold
+          </option>
+
+          <option value="FOREX">
+            FOREX
+          </option>
+
+          <option value="CRYPTO">
+            CRYPTO
+          </option>
+
+        </select>
+
+      </div>
 
 
-<div
-id="result"
-class="result">
+      <div class="field">
 
-Enter your values and calculate.
+        <label>
+          DIRECTION
+        </label>
 
-</div>
+        <select id="direction">
+
+          <option value="BUY">
+            BUY
+          </option>
+
+          <option value="SELL">
+            SELL
+          </option>
+
+        </select>
+
+      </div>
 
 
-<div class="warn">
+      <div class="field">
 
-Educational tool only.
-It does not guarantee profit or prevent losses.
+        <label>
+          ENTRY PRICE
+        </label>
 
-</div>
+        <input
+          id="entry"
+          type="number"
+          value="4400"
+          step="0.01">
 
-</div>
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          STOP LOSS
+        </label>
+
+        <input
+          id="stop"
+          type="number"
+          value="4390"
+          step="0.01">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          TAKE PROFIT
+        </label>
+
+        <input
+          id="takeProfit"
+          type="number"
+          value="4420"
+          step="0.01">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          CONTRACT SIZE
+        </label>
+
+        <input
+          id="contract"
+          type="number"
+          value="100"
+          step="1">
+
+      </div>
+
+
+    </div>
+
+
+    <div class="calcButtons">
+
+      <button
+        class="btn btnGold"
+        onclick="calculateRisk()">
+
+        CALCULATE
+
+      </button>
+
+
+      <button
+        class="btn btnDark"
+        onclick="resetCalculator()">
+
+        RESET
+
+      </button>
+
+    </div>
+
+
+    <div class="resultGrid">
+
+
+      <div class="resultBox">
+
+        <small>
+          MAX RISK
+        </small>
+
+        <strong id="riskAmount">
+          $0.00
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          PRICE DISTANCE
+        </small>
+
+        <strong id="priceDistance">
+          0.00
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          POSITION SIZE
+        </small>
+
+        <strong id="positionSize">
+          0.00
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          LOT SIZE
+        </small>
+
+        <strong id="lotSize">
+          0.00
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          POTENTIAL PROFIT
+        </small>
+
+        <strong
+          id="profit"
+          class="rrGood">
+
+          $0.00
+
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          RISK : REWARD
+        </small>
+
+        <strong id="rr">
+          0.00 : 1
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          RISK %
+        </small>
+
+        <strong id="riskDisplay">
+          0%
+        </strong>
+
+      </div>
+
+
+      <div class="resultBox">
+
+        <small>
+          TRADE STATUS
+        </small>
+
+        <strong id="tradeStatus">
+          READY
+        </strong>
+
+      </div>
+
+
+    </div>
+
+
+  </div>
 
 </section>
 
 
-<!-- SESSIONS -->
+<!-- ================= SESSIONS ================= -->
 
 <section id="sessions">
 
-<div class="head">
+  <div class="sectionHeader">
 
-<div>
+    <div>
 
-<h2>
-Market Sessions
-</h2>
+      <h2>
+        Market Sessions
+      </h2>
 
-<p>
-Approximate UTC session windows
-</p>
+      <p>
+        Session status based on Sri Lanka time
+      </p>
 
-</div>
+    </div>
 
-</div>
-
-
-<div class="grid">
+  </div>
 
 
-<div class="card">
-
-<b>
-Tokyo
-</b>
-
-<div
-class="price"
-id="tokyo">
-
-—
-
-</div>
-
-</div>
+  <div class="sessionGrid">
 
 
+    <div class="session">
 
-<div class="card">
+      <div class="sessionName">
+        TOKYO
+      </div>
 
-<b>
-London
-</b>
+      <div class="sessionTime">
+        05:30 AM – 02:30 PM
+      </div>
 
-<div
-class="price"
-id="london">
+      <div
+        id="tokyoStatus"
+        class="sessionStatus">
+        CHECKING...
+      </div>
 
-—
-
-</div>
-
-</div>
-
-
-
-<div class="card">
-
-<b>
-New York
-</b>
-
-<div
-class="price"
-id="ny">
-
-—
-
-</div>
-
-</div>
+    </div>
 
 
-</div>
+    <div class="session">
+
+      <div class="sessionName">
+        LONDON
+      </div>
+
+      <div class="sessionTime">
+        01:30 PM – 10:30 PM
+      </div>
+
+      <div
+        id="londonStatus"
+        class="sessionStatus">
+        CHECKING...
+      </div>
+
+    </div>
+
+
+    <div class="session">
+
+      <div class="sessionName">
+        NEW YORK
+      </div>
+
+      <div class="sessionTime">
+        06:30 PM – 03:30 AM
+      </div>
+
+      <div
+        id="newyorkStatus"
+        class="sessionStatus">
+        CHECKING...
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- ================= VIP ================= -->
+
+<section id="vip">
+
+  <div class="sectionHeader">
+
+    <div>
+
+      <h2>
+        VIP Membership
+      </h2>
+
+      <p>
+        Premium trading-analysis access
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="vipGrid">
+
+
+    <div class="vip">
+
+      <h3>
+        BINANCE VIP
+      </h3>
+
+      <div class="vipPrice">
+        $20
+      </div>
+
+      <ul>
+
+        <li>
+          Premium market analysis
+        </li>
+
+        <li>
+          Crypto trading education
+        </li>
+
+        <li>
+          VIP market updates
+        </li>
+
+        <li>
+          Risk-management resources
+        </li>
+
+      </ul>
+
+      <div class="btnRow">
+
+        <button
+          class="btn btnGold"
+          onclick="showContact()">
+
+          JOIN BINANCE VIP
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="vip">
+
+      <h3>
+        FOREX VIP
+      </h3>
+
+      <div class="vipPrice">
+        $30
+      </div>
+
+      <ul>
+
+        <li>
+          Forex market analysis
+        </li>
+
+        <li>
+          Gold trading analysis
+        </li>
+
+        <li>
+          Risk-management tools
+        </li>
+
+        <li>
+          Premium updates
+        </li>
+
+      </ul>
+
+      <div class="btnRow">
+
+        <button
+          class="btn btnGold"
+          onclick="showContact()">
+
+          JOIN FOREX VIP
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+  </div>
 
 </section>
 
 
 <footer>
 
-ISHAN APEX — Premium Trading Terminal
-<br><br>
-Market data powered by TradingView.
-Trading involves substantial risk. No profit is guaranteed.
+  GOLD X · Premium Trading Terminal
+
+  <br><br>
+
+  Educational tools only.
+  Trading involves risk. No profit is guaranteed.
 
 </footer>
 
-</main>
 
-</div>
+</main>
 
 
 <script>
 
-function calc(){
+/* =====================================================
+   RISK CALCULATOR
+===================================================== */
 
-const b =
-Number(document.getElementById("bal").value) || 0;
+function calculateRisk(){
 
-const r =
-Number(document.getElementById("risk").value) || 0;
+  const balance =
+    Number(document.getElementById("balance").value);
 
-const a =
-b * r / 100;
+  const riskPercent =
+    Number(document.getElementById("riskPercent").value);
 
-document.getElementById("out").value =
-"$" + a.toFixed(2);
+  const entry =
+    Number(document.getElementById("entry").value);
 
-document.getElementById("result").textContent =
-"Maximum planned risk: $" + a.toFixed(2);
+  const stop =
+    Number(document.getElementById("stop").value);
+
+  const tp =
+    Number(document.getElementById("takeProfit").value);
+
+  const contract =
+    Number(document.getElementById("contract").value);
+
+  const direction =
+    document.getElementById("direction").value;
+
+
+  if(
+    balance <= 0 ||
+    riskPercent <= 0 ||
+    entry <= 0 ||
+    stop <= 0 ||
+    tp <= 0 ||
+    contract <= 0
+  ){
+
+    alert("Please enter valid values.");
+
+    return;
+
+  }
+
+
+  /* Maximum dollar risk */
+
+  const riskAmount =
+    balance * (riskPercent / 100);
+
+
+  /* Price distance */
+
+  const stopDistance =
+    Math.abs(entry - stop);
+
+
+  const tpDistance =
+    Math.abs(tp - entry);
+
+
+  if(stopDistance === 0){
+
+    alert("Entry and Stop Loss cannot be the same.");
+
+    return;
+
+  }
+
+
+  /*
+    Position size calculation
+
+    Risk = Position Size × SL Distance × Contract Size
+
+    Position Size =
+    Risk / (SL Distance × Contract Size)
+  */
+
+  const positionSize =
+    riskAmount /
+    (stopDistance * contract);
+
+
+  /*
+    For XAUUSD:
+    1 standard lot = 100 oz
+
+    positionSize is expressed in lots
+    when contract size = 100.
+  */
+
+  const lots =
+    positionSize;
+
+
+  /* Potential profit */
+
+  const potentialProfit =
+    tpDistance *
+    contract *
+    positionSize;
+
+
+  /* Risk reward */
+
+  const rr =
+    tpDistance / stopDistance;
+
+
+  document.getElementById("riskAmount")
+    .innerText =
+    "$" + riskAmount.toFixed(2);
+
+
+  document.getElementById("priceDistance")
+    .innerText =
+    stopDistance.toFixed(2);
+
+
+  document.getElementById("positionSize")
+    .innerText =
+    positionSize.toFixed(4);
+
+
+  document.getElementById("lotSize")
+    .innerText =
+    lots.toFixed(2) + " lot";
+
+
+  document.getElementById("profit")
+    .innerText =
+    "$" + potentialProfit.toFixed(2);
+
+
+  document.getElementById("rr")
+    .innerText =
+    rr.toFixed(2) + " : 1";
+
+
+  document.getElementById("riskDisplay")
+    .innerText =
+    riskPercent.toFixed(2) + "%";
+
+
+  const status =
+    document.getElementById("tradeStatus");
+
+
+  if(rr >= 2){
+
+    status.innerText =
+      "GOOD R:R";
+
+    status.className =
+      "rrGood";
+
+  }
+  else if(rr >= 1){
+
+    status.innerText =
+      "ACCEPTABLE";
+
+    status.className =
+      "rrGood";
+
+  }
+  else{
+
+    status.innerText =
+      "LOW R:R";
+
+    status.className =
+      "rrBad";
+
+  }
 
 }
 
-calc();
 
+/* =====================================================
+   RESET
+===================================================== */
 
-function sessions(){
+function resetCalculator(){
 
-const h =
-new Date().getUTCHours();
+  document.getElementById("balance").value = 1000;
+  document.getElementById("riskPercent").value = 1;
+  document.getElementById("entry").value = 4400;
+  document.getElementById("stop").value = 4390;
+  document.getElementById("takeProfit").value = 4420;
+  document.getElementById("contract").value = 100;
 
-document.getElementById("tokyo").textContent =
-(h >= 0 && h < 9)
-? "OPEN"
-: "CLOSED";
-
-document.getElementById("london").textContent =
-(h >= 8 && h < 17)
-? "OPEN"
-: "CLOSED";
-
-document.getElementById("ny").textContent =
-(h >= 13 && h < 22)
-? "OPEN"
-: "CLOSED";
+  calculateRisk();
 
 }
 
-sessions();
+
+/* =====================================================
+   AUTO CALCULATE
+===================================================== */
+
+const calculatorInputs =
+  document.querySelectorAll(
+    "#calculator input, #calculator select"
+  );
+
+
+calculatorInputs.forEach(function(input){
+
+  input.addEventListener(
+    "input",
+    calculateRisk
+  );
+
+  input.addEventListener(
+    "change",
+    calculateRisk
+  );
+
+});
+
+
+/* =====================================================
+   MARKET SESSIONS
+===================================================== */
+
+function getSriLankaTime(){
+
+  const now =
+    new Date();
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-US",
+      {
+        timeZone:"Asia/Colombo",
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:false
+      }
+    ).formatToParts(now);
+
+  let hour = 0;
+  let minute = 0;
+
+  parts.forEach(function(part){
+
+    if(part.type === "hour")
+      hour = Number(part.value);
+
+    if(part.type === "minute")
+      minute = Number(part.value);
+
+  });
+
+  return hour * 60 + minute;
+
+}
+
+
+function sessionOpen(
+  start,
+  end,
+  current
+){
+
+  if(start < end){
+
+    return current >= start &&
+           current < end;
+
+  }
+
+  return current >= start ||
+         current < end;
+
+}
+
+
+function updateSessions(){
+
+  const current =
+    getSriLankaTime();
+
+
+  /*
+    Sri Lanka time
+  */
+
+  const tokyo =
+    sessionOpen(
+      5 * 60 + 30,
+      14 * 60 + 30,
+      current
+    );
+
+
+  const london =
+    sessionOpen(
+      13 * 60 + 30,
+      22 * 60 + 30,
+      current
+    );
+
+
+  const newyork =
+    sessionOpen(
+      18 * 60 + 30,
+      3 * 60 + 30,
+      current
+    );
+
+
+  updateSessionElement(
+    "tokyoStatus",
+    tokyo
+  );
+
+  updateSessionElement(
+    "londonStatus",
+    london
+  );
+
+  updateSessionElement(
+    "newyorkStatus",
+    newyork
+  );
+
+}
+
+
+function updateSessionElement(
+  id,
+  isOpen
+){
+
+  const el =
+    document.getElementById(id);
+
+
+  if(isOpen){
+
+    el.innerText =
+      "● OPEN NOW";
+
+    el.className =
+      "sessionStatus open";
+
+  }
+  else{
+
+    el.innerText =
+      "● CLOSED";
+
+    el.className =
+      "sessionStatus closed";
+
+  }
+
+}
+
+
+/* =====================================================
+   VIP CONTACT
+===================================================== */
+
+function showContact(){
+
+  alert(
+    "VIP access: Contact GOLD X administration to complete your membership."
+  );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+calculateRisk();
+
+updateSessions();
 
 setInterval(
-sessions,
-30000
+  updateSessions,
+  30000
 );
 
 </script>
